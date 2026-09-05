@@ -1,0 +1,11 @@
+@{
+    ViewBag.Title = "Đăng nhập";
+}
+<h2>Đăng nhập</h2>
+@if (ViewBag.Message != null) { <div class="error">@ViewBag.Message</div> }
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <label>Tên đăng nhập</label><input type="text" name="username" />
+    <label>Mật khẩu</label><input type="password" name="password" />
+    <button type="submit">Đăng nhập</button>
+}

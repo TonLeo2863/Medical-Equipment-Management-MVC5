@@ -1,0 +1,17 @@
+@model IEnumerable<MedicalEquipmentManagement.Models.Equipment>
+@{
+    ViewBag.Title = "Danh sách thiết bị";
+}
+<h2>Danh sách thiết bị</h2>
+<form method="get">
+    <input type="text" name="keyword" placeholder="Tên hoặc mã thiết bị" />
+    <button type="submit">Tìm kiếm</button>
+</form>
+<table>
+    <thead><tr><th>Mã</th><th>Tên</th><th>Trạng thái</th><th>Số lượng</th></tr></thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr><td>@item.EquipmentCode</td><td>@item.Name</td><td>@item.Status</td><td>@item.Quantity</td></tr>
+    }
+    </tbody>
+</table>
