@@ -1,9 +1,720 @@
-body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-.navbar { padding: 14px 24px; border-bottom: 1px solid #ddd; }
-.navbar a { margin-right: 18px; text-decoration: none; }
-.container { max-width: 1100px; margin: 0 auto; padding: 20px; }
-input, button { padding: 8px; margin: 5px 0; }
-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-th, td { border: 1px solid #ddd; padding: 8px; }
-.error { padding: 10px; border: 1px solid #c00; margin-bottom: 12px; }
-.btn { padding: 8px 12px; border: 1px solid #777; text-decoration: none; }
+﻿/* -----------------------------------------------------------------------------
+   1. BIEN MAU & TOKEN
+   Bang mau "clinical teal": trang - xam lanh - xanh y te. Chi 1 mau nhan chinh,
+   cong 2 mau tin hieu (vang: dang bao tri, do: sap den han).
+   -------------------------------------------------------------------------- */
+:root {
+    --ink: #14303d; /* Chu chinh */
+    --ink-soft: #55707c; /* Chu phu */
+    --line: #dbe4e9; /* Duong vien */
+    --surface: #f2f6f8; /* Nen trang */
+    --card: #ffffff; /* Nen the */
+    --brand: #0e6e82; /* Mau thuong hieu */
+    --brand-dark: #0a5566; /* Hover */
+    --brand-soft: #e3f0f3; /* Nen nhat cua brand */
+    --warn: #b4741f; /* Dang bao tri */
+    --alert: #b3453b; /* Sap den han bao tri */
+    --ok: #1c7a63; /* Dang su dung */
+    --radius: 10px;
+    --shadow: 0 1px 2px rgba(20, 48, 61, .06);
+}
+
+/* -----------------------------------------------------------------------------
+   2. RESET NHE & TYPOGRAPHY
+   -------------------------------------------------------------------------- */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    /* Segoe UI co san tren Windows - hien thi tieng Viet tot */
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--surface);
+    -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, h3, h4 {
+    margin: 0 0 .5em;
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: -.01em;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1.125rem;
+}
+
+p {
+    margin: 0 0 1em;
+}
+
+a {
+    color: var(--brand);
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+/* Focus ro rang cho ban phim (tieu chi accessibility) */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+}
+
+/* -----------------------------------------------------------------------------
+   3. LAYOUT CHUNG
+   .container duoc giu lai vi _Layout.cshtml va footer dang dung class nay.
+   -------------------------------------------------------------------------- */
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Vung noi dung chinh giua navbar va footer */
+main.container {
+    padding-top: 28px;
+    padding-bottom: 48px;
+    min-height: 60vh;
+}
+
+/* -----------------------------------------------------------------------------
+   4. NAVBAR (dung cho Views/Shared/_Navbar.cshtml)
+   -------------------------------------------------------------------------- */
+.navbar {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    padding: 0;
+}
+
+.navbar-inner {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 64px;
+    flex-wrap: wrap;
+}
+
+/* Logo + ten he thong */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink);
+    font-weight: 600;
+    margin-right: auto;
+}
+
+    .brand:hover {
+        text-decoration: none;
+    }
+
+.brand-mark {
+    width: 34px;
+    height: 34px;
+    flex: none;
+    border-radius: 8px;
+    background: var(--brand);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.brand-name {
+    font-size: .98rem;
+}
+
+.brand-sub {
+    font-size: .72rem;
+    color: var(--ink-soft);
+    font-weight: 400;
+}
+
+/* Danh sach menu */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .nav-links a {
+        display: block;
+        padding: 8px 12px;
+        border-radius: 8px;
+        color: var(--ink-soft);
+        font-size: .94rem;
+    }
+
+        .nav-links a:hover {
+            background: var(--brand-soft);
+            color: var(--brand-dark);
+            text-decoration: none;
+        }
+
+    /* Trang dang xem hien tai */
+    .nav-links a.is-active {
+        color: var(--brand-dark);
+        background: var(--brand-soft);
+        font-weight: 600;
+    }
+
+/* Ten nguoi dung dang dang nhap */
+.nav-user {
+    font-size: .88rem;
+    color: var(--ink-soft);
+    padding: 0 4px;
+}
+
+/* Nut mo menu tren mobile: lam bang checkbox, khong can JavaScript */
+.nav-toggle {
+    display: none;
+}
+
+.nav-toggle-label {
+    display: none;
+    cursor: pointer;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+}
+
+/* -----------------------------------------------------------------------------
+   5. NUT BAM
+   .btn duoc giu lai (View cu co the dang dung).
+   -------------------------------------------------------------------------- */
+.btn,
+button,
+input[type="submit"] {
+    display: inline-block;
+    font: inherit;
+    padding: 10px 18px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--card);
+    color: var(--ink);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+    .btn:hover,
+    button:hover,
+    input[type="submit"]:hover {
+        border-color: var(--brand);
+        color: var(--brand-dark);
+        text-decoration: none;
+    }
+
+/* Nut chinh */
+.btn-primary,
+button.btn-primary {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+    font-weight: 600;
+}
+
+    .btn-primary:hover,
+    button.btn-primary:hover {
+        background: var(--brand-dark);
+        border-color: var(--brand-dark);
+        color: #fff;
+    }
+
+/* Nut phu tren nen dam */
+.btn-ghost {
+    background: transparent;
+    border-color: rgba(255,255,255,.45);
+    color: #fff;
+}
+
+    .btn-ghost:hover {
+        background: rgba(255,255,255,.12);
+        border-color: #fff;
+        color: #fff;
+    }
+
+.btn-block {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+/* -----------------------------------------------------------------------------
+   6. HERO TRANG CHU
+   -------------------------------------------------------------------------- */
+.hero {
+    background: linear-gradient(135deg, #0e6e82 0%, #14485c 100%);
+    color: #fff;
+    border-radius: 14px;
+    padding: 44px 40px;
+    overflow: hidden;
+}
+
+.hero h1 {
+    color: #fff;
+    max-width: 18ch;
+    font-size: 2.1rem;
+}
+
+.hero p {
+    color: rgba(255,255,255,.88);
+    max-width: 58ch;
+}
+
+/* Duong nhip tim - chi tiet nhan dien cua he thong y te */
+.hero-pulse {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    height: 34px;
+    margin: 0 0 18px;
+    color: rgba(255,255,255,.75);
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+/* -----------------------------------------------------------------------------
+   7. TIEU DE TUNG KHU VUC
+   -------------------------------------------------------------------------- */
+.section {
+    margin-top: 40px;
+}
+
+.section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+    .section-head h2 {
+        margin: 0;
+    }
+
+    .section-head .section-note {
+        color: var(--ink-soft);
+        font-size: .88rem;
+    }
+
+/* -----------------------------------------------------------------------------
+   8. LUOI VA THE THONG KE
+   Vach mau ben trai the mang y nghia trang thai thiet bi, khong phai trang tri.
+   -------------------------------------------------------------------------- */
+.grid {
+    display: grid;
+    gap: 16px;
+}
+
+.grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.stat {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--brand);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+}
+
+.stat-total {
+    border-left-color: var(--brand);
+}
+
+.stat-ok {
+    border-left-color: var(--ok);
+}
+
+.stat-warn {
+    border-left-color: var(--warn);
+}
+
+.stat-alert {
+    border-left-color: var(--alert);
+}
+
+.stat-label {
+    color: var(--ink-soft);
+    font-size: .88rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.stat-hint {
+    font-size: .78rem;
+    color: var(--ink-soft);
+}
+
+/* -----------------------------------------------------------------------------
+   9. THE CHUC NANG
+   -------------------------------------------------------------------------- */
+.feature {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.feature-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--brand-soft);
+    color: var(--brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 6px;
+}
+
+.feature h3 {
+    margin: 0;
+}
+
+.feature p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: .94rem;
+}
+
+.feature-link {
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: .94rem;
+}
+
+/* Nhan cho chuc nang chua co Controller */
+.tag {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: .76rem;
+}
+
+/* -----------------------------------------------------------------------------
+   10. TRANG DANG NHAP
+   -------------------------------------------------------------------------- */
+.login-wrap {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    min-height: 460px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(20, 48, 61, .08);
+    margin: 10px auto 40px;
+    max-width: 960px;
+}
+
+/* Cot trai: minh hoa */
+.login-visual {
+    background: linear-gradient(135deg, #0e6e82 0%, #14485c 100%);
+    color: #fff;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+    .login-visual h2 {
+        color: #fff;
+        max-width: 16ch;
+    }
+
+    .login-visual p {
+        color: rgba(255,255,255,.85);
+        max-width: 42ch;
+        margin-bottom: 0;
+    }
+
+.login-visual-art {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    margin-bottom: 26px;
+    color: rgba(255,255,255,.9);
+}
+
+/* Cot phai: form */
+.login-form {
+    padding: 44px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+    .login-form h1 {
+        font-size: 1.6rem;
+        margin-bottom: 4px;
+    }
+
+.login-intro {
+    color: var(--ink-soft);
+    font-size: .94rem;
+    margin-bottom: 22px;
+}
+
+.field {
+    margin-bottom: 16px;
+}
+
+    .field label {
+        display: block;
+        font-size: .9rem;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+/* Cac o nhap lieu */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="search"],
+select,
+textarea {
+    font: inherit;
+    width: 100%;
+    max-width: 100%;
+    padding: 11px 13px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+}
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+        border-color: var(--brand);
+    }
+
+.login-note {
+    margin-top: 18px;
+    font-size: .84rem;
+    color: var(--ink-soft);
+}
+
+/* -----------------------------------------------------------------------------
+   11. THONG BAO LOI
+   .error duoc giu lai vi View Login cu dang dung class nay.
+   -------------------------------------------------------------------------- */
+.error,
+.alert-error {
+    background: #fdf1f0;
+    border: 1px solid #f0c9c5;
+    border-left: 4px solid var(--alert);
+    color: #8f332b;
+    border-radius: 8px;
+    padding: 11px 14px;
+    margin: 0 0 16px;
+    font-size: .92rem;
+}
+
+.validation-summary-errors ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.field-validation-error {
+    color: var(--alert);
+    font-size: .85rem;
+}
+
+.input-validation-error {
+    border-color: var(--alert) !important;
+}
+
+/* -----------------------------------------------------------------------------
+   12. BANG DU LIEU (giu cho Views/Equipment/Index.cshtml va cac View cu)
+   -------------------------------------------------------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 11px 14px;
+    text-align: left;
+}
+
+th {
+    background: var(--brand-soft);
+    color: var(--ink);
+    font-weight: 600;
+    font-size: .9rem;
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+tbody tr:hover {
+    background: #fafcfd;
+}
+
+/* -----------------------------------------------------------------------------
+   13. FOOTER
+   -------------------------------------------------------------------------- */
+.site-footer {
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    padding: 26px 0;
+    color: var(--ink-soft);
+    font-size: .88rem;
+}
+
+.footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 40px;
+    justify-content: space-between;
+}
+
+    .footer-inner strong {
+        color: var(--ink);
+        display: block;
+    }
+
+.footer-col p {
+    margin: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   14. RESPONSIVE
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .login-wrap {
+        grid-template-columns: 1fr;
+    }
+
+    .login-visual {
+        padding: 30px;
+    }
+
+    .login-visual-art {
+        max-width: 190px;
+        margin-bottom: 18px;
+    }
+
+    .login-form {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 720px) {
+    /* Menu thu gon tren mobile */
+    .nav-toggle-label {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 2px;
+        padding: 6px 0 12px;
+    }
+
+    /* Khi checkbox duoc tick thi hien menu */
+    .nav-toggle:checked ~ .nav-links {
+        display: flex;
+    }
+
+    .nav-user {
+        padding: 6px 12px;
+    }
+
+    .hero {
+        padding: 30px 22px;
+    }
+
+        .hero h1 {
+            font-size: 1.6rem;
+        }
+
+    .hero-actions .btn {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+}
+
+@media (max-width: 560px) {
+    .grid-4, .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    main.container {
+        padding-top: 20px;
+    }
+}
+
+/* Ton trong tuy chon giam chuyen dong cua nguoi dung */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}

@@ -1,17 +1,46 @@
+﻿@*
+    Views/Shared/_Layout.cshtml
+    Chi thay doi phan footer va bo cuc. Toan bo "moc" ma project dang dung
+    (@ViewBag.Title, _Navbar, @RenderBody, site.css, site.js, section scripts)
+    deu duoc giu nguyen.
+*@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
+    @* DO NOT CHANGE: charset utf-8 bat buoc de hien thi tieng Viet *@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title - Medical Equipment Management</title>
+    @* DO NOT CHANGE: duong dan CSS cua project *@
     <link rel="stylesheet" href="~/Content/site.css" />
 </head>
 <body>
+    @* DO NOT CHANGE: partial thanh dieu huong *@
     @Html.Partial("_Navbar")
+
     <main class="container">
+        @* DO NOT CHANGE: noi dung cua tung View duoc render tai day *@
         @RenderBody()
     </main>
-    <footer class="container"><hr/><p>&copy; 2026 - Medical Equipment Management</p></footer>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="footer-col">
+                <strong>Medical Equipment Management</strong>
+                <p>Quản lý thiết bị, kho, tình trạng và bảo trì tập trung.</p>
+            </div>
+            <div class="footer-col">
+                <strong>Đồ án môn Lập trình Web</strong>
+                <p>Nhóm thực hiện: [Điền tên nhóm / thành viên]</p>
+            </div>
+            <div class="footer-col">
+                <strong>Liên hệ</strong>
+                <p>&copy; @DateTime.Now.Year - Medical Equipment Management</p>
+            </div>
+        </div>
+    </footer>
+
+    @* DO NOT CHANGE: script cua project *@
     <script src="~/Scripts/site.js"></script>
     @RenderSection("scripts", required: false)
 </body>

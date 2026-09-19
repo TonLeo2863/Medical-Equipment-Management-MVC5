@@ -1,11 +1,68 @@
 @{
     ViewBag.Title = "Đăng nhập";
 }
-<h2>Đăng nhập</h2>
-@if (ViewBag.Message != null) { <div class="error">@ViewBag.Message</div> }
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    <label>Tên đăng nhập</label><input type="text" name="username" />
-    <label>Mật khẩu</label><input type="password" name="password" />
-    <button type="submit">Đăng nhập</button>
-}
+
+<div class="login-wrap">
+
+    @* Cot trai: minh hoa - chi la trang tri, khong anh huong backend *@
+    <div class="login-visual">
+        <svg class="login-visual-art" viewBox="0 0 260 150" fill="none" stroke="currentColor"
+             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            @* Man hinh theo doi benh nhan *@
+            <rect x="14" y="14" width="176" height="110" rx="10" />
+            <path d="M28 74h34l9-16 11 34 12-46 10 28 7-12h41" />
+            <path d="M102 124v14M70 138h64" />
+            @* Ong nghe *@
+            <path d="M208 30v22a20 20 0 0 1-40 0V30" />
+            <path d="M168 30h-6M208 30h6" />
+            <path d="M188 72v14a16 16 0 0 0 32 0v-6" />
+            <circle cx="220" cy="74" r="7" />
+        </svg>
+
+        <h2>Cổng quản trị thiết bị y tế</h2>
+        <p>
+            Đăng nhập để tra cứu danh mục thiết bị, theo dõi tình trạng sử dụng
+            và cập nhật lịch bảo trì của đơn vị.
+        </p>
+    </div>
+
+    @* Cot phai: form dang nhap *@
+    <div class="login-form">
+        <h1>Đăng nhập</h1>
+        <p class="login-intro">Dùng tài khoản được cấp bởi quản trị hệ thống.</p>
+
+        @* DO NOT CHANGE: hien thi thong bao loi tu Controller *@
+        @if (ViewBag.Message != null)
+        {
+            <div class="error">@ViewBag.Message</div>
+        }
+
+        @* DO NOT CHANGE: BeginForm khong tham so -> post ve dung Action Login hien tai *@
+        @using (Html.BeginForm())
+        {
+            @* DO NOT CHANGE: bat buoc vi Controller co [ValidateAntiForgeryToken] *@
+            @Html.AntiForgeryToken()
+
+            <div class="field">
+                <label for="username">Tên đăng nhập</label>
+                @* DO NOT CHANGE name="username" *@
+                <input type="text" id="username" name="username"
+                       placeholder="Nhập tên đăng nhập" autocomplete="username" required autofocus />
+            </div>
+
+            <div class="field">
+                <label for="password">Mật khẩu</label>
+                @* DO NOT CHANGE name="password" *@
+                <input type="password" id="password" name="password"
+                       placeholder="Nhập mật khẩu" autocomplete="current-password" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+        }
+
+        <p class="login-note">
+            Quên mật khẩu? Liên hệ quản trị viên hệ thống của đơn vị.
+        </p>
+    </div>
+
+</div>
