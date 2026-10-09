@@ -125,13 +125,21 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AssetTransfer.cs" />
+    <Compile Include="Models\CalibrationLog.cs" />
+    <Compile Include="Models\Contract.cs" />
     <Compile Include="Models\Department.cs" />
-    <Compile Include="Models\Equipment.cs" />
+    <Compile Include="Models\EquipmentAsset.cs" />
     <Compile Include="Models\EquipmentCategory.cs" />
+    <Compile Include="Models\EquipmentModel.cs" />
     <Compile Include="Models\InventoryTransaction.cs" />
     <Compile Include="Models\MaintenanceRecord.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\SparePart.cs" />
     <Compile Include="Models\Supplier.cs" />
+    <Compile Include="Models\UsageLog.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\WorkOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -186,7 +194,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Equipment\Index.cshtml" />
@@ -194,6 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

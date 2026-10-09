@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using MedicalEquipmentManagement.Models; // Add this if Equipment is in the same namespace
+// OR
+// using MedicalEquipmentManagement.Models.EquipmentNamespace; // Use the correct namespace if Equipment is in a sub-namespace
 
 namespace MedicalEquipmentManagement.Models
 {
@@ -11,6 +14,6 @@ namespace MedicalEquipmentManagement.Models
         public string Name { get; set; }
         [StringLength(500)]
         public string Description { get; set; }
-        public virtual ICollection<Equipment> Equipments { get; set; }
+        public virtual ICollection<EquipmentModel> EquipmentModels { get; set; }
     }
 }
