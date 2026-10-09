@@ -1,13 +1,25 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Error</title>
+    @* File nay khong dung _Layout nen can tu lien ket site.css *@
+    <link rel="stylesheet" href="~/Content/site.css" />
 </head>
-<body>
-    <hgroup>
-        <h1>Error.</h1>
-        <h2>An error occurred while processing your request.</h2>
-    </hgroup>
+<body class="error-page">
+    <div class="error-card">
+        <div class="error-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 8v5M12 16h.01" />
+            </svg>
+        </div>
+        <hgroup>
+            <h1>Error.</h1>
+            <h2>An error occurred while processing your request.</h2>
+        </hgroup>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Về trang chủ</a>
+    </div>
 </body>
 </html>
