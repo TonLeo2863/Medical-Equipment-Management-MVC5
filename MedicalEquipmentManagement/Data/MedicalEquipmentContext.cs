@@ -1,16 +1,12 @@
 ﻿using MedicalEquipmentManagement.Models;
 using System.Data.Entity;
 
-
-
 namespace MedicalEquipmentManagement.Data
 
 {
-
     public class MedicalEquipmentContext : DbContext
 
     {
-
         public MedicalEquipmentContext() : base("name=MedicalEquipmentConnection") { }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }

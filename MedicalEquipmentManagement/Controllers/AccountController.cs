@@ -8,7 +8,6 @@ namespace MedicalEquipmentManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(string username, string password)
         {
-            // TODO Member 1: authenticate against Users, store user in Session.
             if (username == "admin" && password == "admin")
             {
                 Session["UserName"] = username;

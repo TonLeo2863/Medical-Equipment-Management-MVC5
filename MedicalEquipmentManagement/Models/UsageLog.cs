@@ -5,20 +5,12 @@ namespace MedicalEquipmentManagement.Models
 {
     public class UsageLog
     {
-        [Key]
         public int LogId { get; set; }
-
         public int AssetId { get; set; }
-
         public int UserId { get; set; }
-
         public DateTime StartTime { get; set; }
-
         public DateTime? EndTime { get; set; }
-
         public string Notes { get; set; }
-
-        // Navigation properties
         public virtual EquipmentAsset EquipmentAsset { get; set; }
         public virtual User User { get; set; }
     }
