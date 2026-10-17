@@ -1,0 +1,82 @@
+@model MedicalEquipmentManagement.Models.MaintenanceRecord
+
+@{
+    ViewBag.Title = "Lập Phiếu Bảo Trì / Sửa Chữa Thiết Bị";
+}
+
+<div class="page-header">
+    <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+        ← Quay lại danh sách bảo trì
+    </a>
+    <h2>Lập Phiếu Bảo Trì / Sửa Chữa Thiết Bị</h2>
+    <h3>Ghi nhận thông tin bảo dưỡng, chi phí kỹ thuật và cập nhật trạng thái thiết bị</h3>
+</div>
+
+<div style="max-width: 720px; margin: 0 auto; background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 32px;">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "error" })
+
+        <div class="field">
+            <label for="AssetId"><strong>Chọn thiết bị y tế <span style="color: var(--color-danger);">*</span></strong></label>
+            @Html.DropDownList("AssetId", null, "-- Vui lòng chọn thiết bị --", new { @class = "search-input", style = "border-radius: var(--radius-sm); cursor: pointer;" })
+            @Html.ValidationMessageFor(m => m.AssetId, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="field">
+                @Html.LabelFor(m => m.MaintenanceType)
+                <select name="MaintenanceType" class="search-input" style="border-radius: var(--radius-sm); cursor: pointer;">
+                    <option value="Bảo dưỡng định kỳ" @(Model.MaintenanceType == "Bảo dưỡng định kỳ" ? "selected" : "")>Bảo dưỡng định kỳ</option>
+                    <option value="Sửa chữa sự cố" @(Model.MaintenanceType == "Sửa chữa sự cố" ? "selected" : "")>Sửa chữa sự cố</option>
+                    <option value="Hiệu chuẩn thiết bị" @(Model.MaintenanceType == "Hiệu chuẩn thiết bị" ? "selected" : "")>Hiệu chuẩn thiết bị</option>
+                    <option value="Thay thế linh kiện" @(Model.MaintenanceType == "Thay thế linh kiện" ? "selected" : "")>Thay thế linh kiện</option>
+                </select>
+                @Html.ValidationMessageFor(m => m.MaintenanceType, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(m => m.ResultStatus)
+                <select name="ResultStatus" class="search-input" style="border-radius: var(--radius-sm); cursor: pointer;">
+                    <option value="Hoàn thành" @(Model.ResultStatus == "Hoàn thành" ? "selected" : "")>Hoàn thành (Đưa vào hoạt động)</option>
+                    <option value="Đang xử lý" @(Model.ResultStatus == "Đang xử lý" ? "selected" : "")>Đang xử lý (Chuyển sang trạng thái Đang bảo trì)</option>
+                    <option value="Chờ linh kiện" @(Model.ResultStatus == "Chờ linh kiện" ? "selected" : "")>Chờ linh kiện (Chuyển sang trạng thái Đang bảo trì)</option>
+                    <option value="Không thể khắc phục" @(Model.ResultStatus == "Không thể khắc phục" ? "selected" : "")>Không thể khắc phục (Chờ thanh lý)</option>
+                </select>
+                @Html.ValidationMessageFor(m => m.ResultStatus, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="field">
+                @Html.LabelFor(m => m.MaintenanceDate)
+                @Html.TextBoxFor(m => m.MaintenanceDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "search-input", style = "border-radius: var(--radius-sm);" })
+                @Html.ValidationMessageFor(m => m.MaintenanceDate, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(m => m.NextMaintenanceDate)
+                @Html.TextBoxFor(m => m.NextMaintenanceDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "search-input", style = "border-radius: var(--radius-sm);" })
+                @Html.ValidationMessageFor(m => m.NextMaintenanceDate, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+            </div>
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.Cost)
+            @Html.TextBoxFor(m => m.Cost, new { type = "number", min = "0", step = "1000", placeholder = "Ví dụ: 500000 (để trống nếu bảo hành/miễn phí)", @class = "search-input", style = "border-radius: var(--radius-sm);" })
+            @Html.ValidationMessageFor(m => m.Cost, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.Description)
+            @Html.TextAreaFor(m => m.Description, new { rows = 4, placeholder = "Mô tả chi tiết hạng mục bảo dưỡng, lỗi phát hiện, linh kiện đã thay thế, kiểm tra an toàn điện...", @class = "search-input", style = "border-radius: var(--radius-sm); resize: vertical;" })
+            @Html.ValidationMessageFor(m => m.Description, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 32px; justify-content: flex-end;">
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy bỏ</a>
+            <button type="submit" class="btn btn-primary">Lưu phiếu bảo trì</button>
+        </div>
+    }
+</div>

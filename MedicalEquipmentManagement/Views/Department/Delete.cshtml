@@ -1,0 +1,60 @@
+@model MedicalEquipmentManagement.Models.Department
+
+@{
+    ViewBag.Title = "Xác nhận xóa Khoa / Phòng ban";
+    var deviceCount = Model.EquipmentAssets != null ? Model.EquipmentAssets.Count : 0;
+}
+
+<div class="page-header">
+    <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+        ← Quay lại danh sách
+    </a>
+    <h2 style="color: var(--color-danger);">Xác nhận xóa Khoa / Phòng ban</h2>
+    <h3>Vui lòng kiểm tra kỹ trước khi xóa khỏi hệ thống</h3>
+</div>
+
+<div style="max-width: 600px; margin: 0 auto; background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 32px;">
+    @if (deviceCount > 0)
+    {
+        <div class="error" style="margin-bottom: 24px;">
+            <strong>Cảnh báo không thể xóa:</strong> Khoa này hiện đang có <strong>@deviceCount thiết bị</strong> trực thuộc. Bạn phải điều chuyển các thiết bị này sang khoa khác trước khi có thể xóa phòng ban.
+        </div>
+    }
+    else
+    {
+        <p style="margin-bottom: 20px;">Bạn có chắc chắn muốn xóa khoa/phòng ban này khỏi hệ thống không?</p>
+    }
+
+    <div style="background: var(--color-surface-alt); border-radius: var(--radius-md); padding: 20px; margin-bottom: 24px; border: 1px solid var(--color-border-soft);">
+        <div style="margin-bottom: 10px;">
+            <span style="color: var(--color-text-secondary); font-size: 13px;">Mã khoa / phòng:</span>
+            <strong style="margin-left: 8px;">@Model.DepartmentCode</strong>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <span style="color: var(--color-text-secondary); font-size: 13px;">Tên khoa:</span>
+            <strong style="margin-left: 8px;">@Model.Name</strong>
+        </div>
+        <div>
+            <span style="color: var(--color-text-secondary); font-size: 13px;">Vị trí tòa nhà:</span>
+            <span style="margin-left: 8px;">@(string.IsNullOrEmpty(Model.Location) ? "Chưa cập nhật" : Model.Location)</span>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.DepartmentId)
+
+        <div style="display: flex; gap: 12px; justify-content: flex-end;">
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy bỏ</a>
+            @if (deviceCount == 0)
+            {
+                <button type="submit" class="btn" style="background: var(--color-danger); color: white;">Xác nhận xóa</button>
+            }
+            else
+            {
+                <button type="button" class="btn" style="background: #ccc; color: #666; cursor: not-allowed;" disabled>Bị khóa (còn thiết bị)</button>
+            }
+        </div>
+    }
+</div>

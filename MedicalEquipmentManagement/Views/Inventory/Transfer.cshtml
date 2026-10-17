@@ -1,0 +1,58 @@
+@model MedicalEquipmentManagement.Models.AssetTransfer
+
+@{
+    ViewBag.Title = "Phiếu Điều Chuyển Thiết Bị Y Tế";
+}
+
+<div class="page-header">
+    <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+        ← Quay lại kho & danh sách
+    </a>
+    <h2>Phiếu Điều Chuyển Thiết Bị Y Tế</h2>
+    <h3>Bàn giao, điều động thiết bị giữa các khoa phòng trong bệnh viện</h3>
+</div>
+
+<div style="max-width: 680px; margin: 0 auto; background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 32px;">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "error" })
+
+        <div class="field">
+            <label for="AssetId"><strong>Chọn thiết bị điều chuyển <span style="color: var(--color-danger);">*</span></strong></label>
+            @Html.DropDownList("AssetId", null, "-- Vui lòng chọn thiết bị --", new { @class = "search-input", style = "border-radius: var(--radius-sm); cursor: pointer;" })
+            @Html.ValidationMessageFor(m => m.AssetId, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="field">
+                <label for="FromDepartmentId">Từ khoa / phòng (hiện tại) <span style="color: var(--color-danger);">*</span></label>
+                @Html.DropDownList("FromDepartmentId", (SelectList)ViewBag.FromDepartmentList, "-- Chọn khoa xuất đi --", new { @class = "search-input", style = "border-radius: var(--radius-sm); cursor: pointer;" })
+                @Html.ValidationMessageFor(m => m.FromDepartmentId, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+            </div>
+
+            <div class="field">
+                <label for="ToDepartmentId">Đến khoa / phòng (tiếp nhận) <span style="color: var(--color-danger);">*</span></label>
+                @Html.DropDownList("ToDepartmentId", null, "-- Chọn khoa tiếp nhận --", new { @class = "search-input", style = "border-radius: var(--radius-sm); cursor: pointer;" })
+                @Html.ValidationMessageFor(m => m.ToDepartmentId, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+            </div>
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.TransferDate)
+            @Html.TextBoxFor(m => m.TransferDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "search-input", style = "border-radius: var(--radius-sm);" })
+            @Html.ValidationMessageFor(m => m.TransferDate, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.Reason)
+            @Html.TextAreaFor(m => m.Reason, new { rows = 3, placeholder = "Nhập lý do điều chuyển: Hỗ trợ ca mổ cấp cứu, thay thế thiết bị hỏng, điều động theo quyết định...", @class = "search-input", style = "border-radius: var(--radius-sm); resize: vertical;" })
+            @Html.ValidationMessageFor(m => m.Reason, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 32px; justify-content: flex-end;">
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy bỏ</a>
+            <button type="submit" class="btn btn-primary">Xác nhận điều chuyển</button>
+        </div>
+    }
+</div>

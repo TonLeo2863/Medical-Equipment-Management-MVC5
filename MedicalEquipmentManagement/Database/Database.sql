@@ -148,12 +148,27 @@ CREATE TABLE WorkOrders(
     CONSTRAINT FK_WorkOrders_Users FOREIGN KEY(ReportedBy) REFERENCES Users(UserId)
 );
 
--- Cập nhật bảng MaintenanceRecords để liên kết với WorkOrders (Nếu sửa chữa xuất phát từ báo hỏng)
-IF COL_LENGTH('dbo.MaintenanceRecords', 'TicketId') IS NULL
+IF COL_LENGTH('dbo.MaintenanceRecords', 'NextMaintenanceDate') IS NULL
 BEGIN
-    ALTER TABLE MaintenanceRecords ADD TicketId INT NULL;
-    ALTER TABLE MaintenanceRecords ADD CONSTRAINT FK_Maintenance_WorkOrders FOREIGN KEY(TicketId) REFERENCES WorkOrders(TicketId);
+    ALTER TABLE MaintenanceRecords ADD NextMaintenanceDate DATE NULL;
 END
+IF COL_LENGTH('dbo.MaintenanceRecords', 'Description') IS NULL
+BEGIN
+    ALTER TABLE MaintenanceRecords ADD Description NVARCHAR(500) NULL;
+END
+
+-- BẢNG NHẬT KÝ GIAO DỊCH KHO (Inventory Transactions)
+IF OBJECT_ID('dbo.InventoryTransactions','U') IS NULL
+CREATE TABLE InventoryTransactions(
+    TransactionId INT IDENTITY PRIMARY KEY,
+    EquipmentId INT NOT NULL,
+    DepartmentId INT NULL,
+    TransactionType NVARCHAR(50) NOT NULL,
+    Quantity INT NOT NULL DEFAULT 1,
+    TransactionDate DATETIME NOT NULL DEFAULT GETDATE(),
+    Note NVARCHAR(500) NULL
+);
+
 
 -- 12. BẢNG LỊCH SỬ LUÂN CHUYỂN THIẾT BỊ (Asset Transfers)
 IF OBJECT_ID('dbo.AssetTransfers','U') IS NULL

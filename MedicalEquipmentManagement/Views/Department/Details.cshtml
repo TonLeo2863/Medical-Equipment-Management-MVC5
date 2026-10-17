@@ -1,0 +1,125 @@
+@model MedicalEquipmentManagement.Models.Department
+
+@{
+    ViewBag.Title = "Chi tiết Khoa: " + Model.Name;
+    var devices = Model.EquipmentAssets != null ? Model.EquipmentAssets.ToList() : new List<MedicalEquipmentManagement.Models.EquipmentAsset>();
+}
+
+<div class="page-header">
+    <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+        ← Quay lại danh sách
+    </a>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <h2>@Model.Name (@Model.DepartmentCode)</h2>
+            <h3>Thông tin chi tiết khoa/phòng và danh sách thiết bị y tế trực thuộc</h3>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <a href="@Url.Action("Edit", new { id = Model.DepartmentId })" class="btn btn-primary">Chỉnh sửa thông tin</a>
+            <a href="@Url.Action("Transfer", "Inventory", new { fromDepartmentId = Model.DepartmentId })" class="btn btn-ghost">Điều chuyển máy</a>
+        </div>
+    </div>
+</div>
+
+<div class="grid" style="grid-template-columns: 1fr 2fr; gap: 24px; margin-bottom: 32px;">
+    <!-- Info Card -->
+    <div style="background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 24px;">
+        <h3 style="font-size: 17px; margin-bottom: 16px; border-bottom: 1px solid var(--color-border-soft); padding-bottom: 10px;">
+            Thông tin chung
+        </h3>
+        <div style="margin-bottom: 14px;">
+            <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase;">Mã khoa / phòng</div>
+            <div style="font-size: 16px; font-weight: 600; color: var(--color-accent);">@Model.DepartmentCode</div>
+        </div>
+        <div style="margin-bottom: 14px;">
+            <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase;">Tên khoa</div>
+            <div style="font-size: 15px; font-weight: 500;">@Model.Name</div>
+        </div>
+        <div style="margin-bottom: 14px;">
+            <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase;">Vị trí phòng / Tòa nhà</div>
+            <div style="font-size: 15px;">@(string.IsNullOrEmpty(Model.Location) ? "Chưa cập nhật" : Model.Location)</div>
+        </div>
+        <div style="margin-bottom: 14px;">
+            <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase;">Trạng thái</div>
+            <div>
+                @if (Model.IsActive)
+                {
+                    <span style="color: var(--color-success); font-weight: 600;">● Đang hoạt động</span>
+                }
+                else
+                {
+                    <span style="color: var(--color-text-tertiary); font-weight: 600;">○ Tạm ngưng</span>
+                }
+            </div>
+        </div>
+        <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--color-border-soft);">
+            <div style="font-size: 13px; color: var(--color-text-secondary);">Tổng số thiết bị quản lý: <strong>@devices.Count máy</strong></div>
+        </div>
+    </div>
+
+    <!-- Equipment List in this Department -->
+    <div class="table-card">
+        <div style="padding: 18px 24px; border-bottom: 1px solid var(--color-border-soft); display: flex; justify-content: space-between; align-items: center;">
+            <strong style="font-size: 16px;">Thiết bị y tế đang đặt tại khoa (@devices.Count)</strong>
+        </div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>MÃ TÀI SẢN</th>
+                    <th>DÒNG MÁY / THIẾT BỊ</th>
+                    <th>SERIAL NUMBER</th>
+                    <th>TRẠNG THÁI</th>
+                    <th style="text-align: right;">THAO TÁC</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!devices.Any())
+                {
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 36px; color: var(--color-text-tertiary);">
+                            Chưa có thiết bị nào được phân bổ cho khoa/phòng này.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var dev in devices)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("DeviceHistory", "Maintenance", new { id = dev.AssetId })" title="Xem lịch sử thiết bị" style="text-decoration: none;">
+                                    <strong style="color: var(--color-accent); text-decoration: underline;">@(string.IsNullOrEmpty(dev.AssetCode) ? "AST-" + dev.AssetId : dev.AssetCode)</strong>
+                                </a>
+                            </td>
+                            <td>
+                                @(dev.EquipmentModel != null ? dev.EquipmentModel.ModelName : "Chưa xác định")
+                            </td>
+                            <td>
+                                <code style="background: rgba(0,0,0,0.05); padding: 2px 6px; border-radius: 4px;">@dev.SerialNumber</code>
+                            </td>
+                            <td>
+                                @if (dev.Status == "Đang hoạt động")
+                                {
+                                    <span style="color: var(--color-success); font-weight: 500;">✓ Hoạt động</span>
+                                }
+                                else if (dev.Status == "Đang bảo trì")
+                                {
+                                    <span style="color: var(--color-warning); font-weight: 500;">⚠ Đang bảo trì</span>
+                                }
+                                else
+                                {
+                                    <span style="color: var(--color-text-secondary);">@dev.Status</span>
+                                }
+                            </td>
+                            <td style="text-align: right; white-space: nowrap;">
+                                <a href="@Url.Action("DeviceHistory", "Maintenance", new { id = dev.AssetId })" class="btn btn-ghost" style="padding: 4px 10px; font-size: 12px; font-weight: 500;">Lịch sử</a>
+                                <a href="@Url.Action("Create", "Maintenance", new { assetId = dev.AssetId })" class="btn btn-ghost" style="padding: 4px 10px; font-size: 12px;">Bảo trì</a>
+                                <a href="@Url.Action("Transfer", "Inventory", new { assetId = dev.AssetId })" class="btn btn-ghost" style="padding: 4px 10px; font-size: 12px;">Chuyển</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

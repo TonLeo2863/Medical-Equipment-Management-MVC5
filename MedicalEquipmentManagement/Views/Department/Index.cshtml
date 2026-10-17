@@ -1,0 +1,145 @@
+@model IEnumerable<MedicalEquipmentManagement.Models.Department>
+
+@{
+    ViewBag.Title = "Quản lý Khoa / Phòng ban";
+    var totalDepts = Model.Count();
+    var activeDepts = Model.Count(d => d.IsActive);
+    var totalDevicesInDepts = Model.Sum(d => d.EquipmentAssets != null ? d.EquipmentAssets.Count : 0);
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <h2>Danh sách Khoa / Phòng ban</h2>
+            <h3>Theo dõi cơ cấu tổ chức và trang thiết bị y tế theo từng vị trí</h3>
+        </div>
+        <div>
+            <a href="@Url.Action("Create")" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                Thêm khoa / phòng mới
+            </a>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div style="background: rgba(52, 199, 89, 0.12); color: #248a3d; border-radius: var(--radius-sm); padding: 12px 18px; margin-bottom: 20px; font-weight: 500;">
+        ✓ @TempData["Success"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="error">
+        ✕ @TempData["Error"]
+    </div>
+}
+
+<!-- Stat Cards -->
+<div class="grid grid-4" style="margin-bottom: 28px;">
+    <div class="stat stat-total">
+        <div class="stat-label">TỔNG SỐ PHÒNG BAN</div>
+        <div class="stat-value">@totalDepts</div>
+        <div class="stat-hint">Đã thiết lập trong hệ thống</div>
+    </div>
+    <div class="stat stat-ok">
+        <div class="stat-label">ĐANG HOẠT ĐỘNG</div>
+        <div class="stat-value">@activeDepts</div>
+        <div class="stat-hint">Sẵn sàng tiếp nhận thiết bị</div>
+    </div>
+    <div class="stat stat-warn">
+        <div class="stat-label">TẠM NGƯNG</div>
+        <div class="stat-value">@(totalDepts - activeDepts)</div>
+        <div class="stat-hint">Không tiếp nhận thiết bị mới</div>
+    </div>
+    <div class="stat stat-total">
+        <div class="stat-label">TỔNG MÁY PHÂN BỔ</div>
+        <div class="stat-value">@totalDevicesInDepts</div>
+        <div class="stat-hint">Thiết bị đang đặt tại khoa</div>
+    </div>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar-card">
+    <form method="get" action="@Url.Action("Index")" class="search-form">
+        <input type="text" name="keyword" value="@ViewBag.Keyword" placeholder="Tìm theo mã phòng, tên khoa hoặc vị trí tòa nhà..." class="search-input" />
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        @if (!string.IsNullOrWhiteSpace(ViewBag.Keyword as string))
+        {
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Xóa lọc</a>
+        }
+    </form>
+</div>
+
+<!-- Data Table -->
+<div class="table-card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 120px;">MÃ PHÒNG</th>
+                <th>TÊN KHOA / PHÒNG</th>
+                <th>VỊ TRÍ / TÒA NHÀ</th>
+                <th style="text-align: center; width: 140px;">SỐ THIẾT BỊ</th>
+                <th style="width: 140px;">TRẠNG THÁI</th>
+                <th style="text-align: right; width: 200px;">THAO TÁC</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 40px; color: var(--color-text-tertiary);">
+                        Không tìm thấy khoa/phòng ban nào phù hợp.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    var count = item.EquipmentAssets != null ? item.EquipmentAssets.Count : 0;
+                    <tr>
+                        <td>
+                            <strong style="color: var(--color-accent);">@item.DepartmentCode</strong>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Details", new { id = item.DepartmentId })" style="font-weight: 600; color: var(--color-text-primary);">
+                                @item.Name
+                            </a>
+                        </td>
+                        <td>
+                            @(string.IsNullOrEmpty(item.Location) ? "Chưa cập nhật" : item.Location)
+                        </td>
+                        <td style="text-align: center;">
+                            <span class="tag" style="background: var(--color-accent-soft); color: var(--color-accent); font-weight: 600;">
+                                @count máy
+                            </span>
+                        </td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-success); font-weight: 500;">
+                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-success);"></span>
+                                    Hoạt động
+                                </span>
+                            }
+                            else
+                            {
+                                <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-tertiary); font-weight: 500;">
+                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-text-tertiary);"></span>
+                                    Tạm ngưng
+                                </span>
+                            }
+                        </td>
+                        <td style="text-align: right;">
+                            <a href="@Url.Action("Details", new { id = item.DepartmentId })" class="btn btn-ghost" style="padding: 6px 12px; font-size: 12px;">Chi tiết</a>
+                            <a href="@Url.Action("Edit", new { id = item.DepartmentId })" class="btn btn-ghost" style="padding: 6px 12px; font-size: 12px;">Sửa</a>
+                            <a href="@Url.Action("Delete", new { id = item.DepartmentId })" class="btn btn-ghost" style="padding: 6px 12px; font-size: 12px; color: var(--color-danger);">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

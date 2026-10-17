@@ -1,0 +1,165 @@
+@model IEnumerable<MedicalEquipmentManagement.Models.MaintenanceRecord>
+
+@{
+    ViewBag.Title = "Thiết Bị Sắp Đến Hạn Bảo Trì / Hiệu Chuẩn";
+    DateTime today = ViewBag.Today ?? DateTime.Today;
+    int currentDays = ViewBag.Days ?? 30;
+
+    var overdueList = Model.Where(m => m.NextMaintenanceDate.HasValue && m.NextMaintenanceDate.Value < today).ToList();
+    var urgentList = Model.Where(m => m.NextMaintenanceDate.HasValue && m.NextMaintenanceDate.Value >= today && (m.NextMaintenanceDate.Value - today).Days <= 15).ToList();
+    var upcomingList = Model.Where(m => m.NextMaintenanceDate.HasValue && (m.NextMaintenanceDate.Value - today).Days > 15).ToList();
+}
+
+<div class="page-header">
+    <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+        ← Quay lại danh sách bảo trì
+    </a>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <h2>Cảnh Báo Thiết Bị Sắp Đến Hạn Bảo Trì / Hiệu Chuẩn</h2>
+            <h3 style="color: var(--color-text-secondary);">
+                Tự động rà soát và highlight màu đỏ các thiết bị sắp đến hạn trong vòng 15 - 30 ngày
+            </h3>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <a href="@Url.Action("Upcoming", new { days = 15 })" 
+               class="btn @(currentDays == 15 ? "btn-primary" : "btn-ghost")" 
+               style="@(currentDays == 15 ? "background: #ff3b30; border-color: #ff3b30;" : "color: #ff3b30; border: 1px solid rgba(255, 59, 48, 0.3);")">
+                🚨 Cảnh báo khẩn cấp (≤ 15 ngày)
+            </a>
+            <a href="@Url.Action("Upcoming", new { days = 30 })" 
+               class="btn @(currentDays == 30 ? "btn-primary" : "btn-ghost")">
+                📅 Xem tất cả (≤ 30 ngày)
+            </a>
+            <a href="@Url.Action("Create")" class="btn btn-primary" style="background: var(--color-accent);">
+                + Lập phiếu bảo dưỡng
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Stat Cards -->
+<div class="grid grid-4" style="margin-bottom: 28px;">
+    <div class="stat stat-alert" style="border-left: 4px solid #ff3b30;">
+        <div class="stat-label">ĐÃ QUÁ HẠN</div>
+        <div class="stat-value" style="color: #ff3b30;">@overdueList.Count</div>
+        <div class="stat-hint">Cần bảo dưỡng ngay lập tức</div>
+    </div>
+    <div class="stat stat-alert" style="border-left: 4px solid #ff9500; background: rgba(255, 149, 0, 0.05);">
+        <div class="stat-label">KHẨN CẤP (≤ 15 NGÀY)</div>
+        <div class="stat-value" style="color: #c47500;">@urgentList.Count</div>
+        <div class="stat-hint">Highlight đỏ cần lên lịch tuần này</div>
+    </div>
+    <div class="stat stat-warn">
+        <div class="stat-label">KẾ HOẠCH (16 - 30 NGÀY)</div>
+        <div class="stat-value">@upcomingList.Count</div>
+        <div class="stat-hint">Chuẩn bị vật tư thay thế</div>
+    </div>
+    <div class="stat stat-total">
+        <div class="stat-label">TỔNG THIẾT BỊ CẦN RÀ SOÁT</div>
+        <div class="stat-value">@Model.Count()</div>
+        <div class="stat-hint">Đang lọc theo mốc ≤ @currentDays ngày</div>
+    </div>
+</div>
+
+<!-- Table Card with Apple aesthetics and Red Highlights -->
+<div class="table-card">
+    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border-soft); display: flex; justify-content: space-between; align-items: center;">
+        <strong style="font-size: 16px;">
+            Danh sách thiết bị đến hạn bảo trì & hiệu chuẩn định kỳ (Hiện tại: @today.ToString("dd/MM/yyyy"))
+        </strong>
+        <span style="font-size: 13px; color: var(--color-text-secondary);">
+            <span style="display: inline-block; width: 12px; height: 12px; background: rgba(255, 59, 48, 0.2); border: 1px solid #ff3b30; border-radius: 3px; margin-right: 4px; vertical-align: middle;"></span>
+            Vùng viền đỏ: Cảnh báo quá hạn hoặc sắp đến hạn ≤ 15 ngày
+        </span>
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 140px;">HẠN BẢO DƯỠNG</th>
+                <th style="width: 170px;">MỨC ĐỘ CẢNH BÁO</th>
+                <th>MÃ THIẾT BỊ & MODEL</th>
+                <th>SỐ SERIAL</th>
+                <th>KHOA / PHÒNG SỬ DỤNG</th>
+                <th>LẦN BẢO DƯỠNG TRƯỚC</th>
+                <th style="text-align: right; width: 220px;">THAO TÁC</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 48px; color: var(--color-text-tertiary);">
+                        ✓ Hiện không có thiết bị nào bị quá hạn hoặc sắp đến hạn bảo trì trong vòng @currentDays ngày tới.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    var isOverdue = item.NextMaintenanceDate.HasValue && item.NextMaintenanceDate.Value < today;
+                    var daysDiff = item.NextMaintenanceDate.HasValue ? (item.NextMaintenanceDate.Value - today).Days : 0;
+                    var isUrgent = daysDiff <= 15; // Tiêu chí mở rộng: cảnh báo đỏ <= 15 ngày
+
+                    <tr style="@(isOverdue || isUrgent ? "background: rgba(255, 59, 48, 0.05); border-left: 4px solid #ff3b30;" : "")">
+                        <td>
+                            <strong style="font-size: 15px; color: @(isOverdue || isUrgent ? "#d70015" : "var(--color-warning)");">
+                                @(item.NextMaintenanceDate.HasValue ? item.NextMaintenanceDate.Value.ToString("dd/MM/yyyy") : "-")
+                            </strong>
+                        </td>
+                        <td>
+                            @if (isOverdue)
+                            {
+                                <span class="tag" style="background: rgba(255, 59, 48, 0.16); color: #d70015; font-weight: 700; border: 1px solid rgba(255, 59, 48, 0.3);">
+                                    🚨 QUÁ HẠN @Math.Abs(daysDiff) NGÀY
+                                </span>
+                            }
+                            else if (isUrgent)
+                            {
+                                <span class="tag" style="background: rgba(255, 59, 48, 0.12); color: #d70015; font-weight: 700; border: 1px solid rgba(255, 59, 48, 0.25);">
+                                    ⚠ KHẨN: CÒN @daysDiff NGÀY
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="tag" style="background: rgba(255, 149, 0, 0.14); color: #c47500; font-weight: 600;">
+                                    Còn @daysDiff ngày
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.EquipmentAsset != null)
+                            {
+                                <strong style="color: var(--color-text-primary);">
+                                    @(item.EquipmentAsset.EquipmentModel != null ? item.EquipmentAsset.EquipmentModel.ModelName : "Thiết bị")
+                                </strong>
+                                <div style="font-size: 12px; color: var(--color-text-secondary);">
+                                    Mã: @(string.IsNullOrEmpty(item.EquipmentAsset.AssetCode) ? "AST-" + item.EquipmentAsset.AssetId : item.EquipmentAsset.AssetCode)
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            <code style="background: rgba(0,0,0,0.06); padding: 3px 6px; border-radius: 4px; font-weight: 600;">@(item.EquipmentAsset != null ? item.EquipmentAsset.SerialNumber : "-")</code>
+                        </td>
+                        <td>
+                            @(item.EquipmentAsset != null && item.EquipmentAsset.Department != null ? item.EquipmentAsset.Department.Name : "Kho trung tâm")
+                        </td>
+                        <td>
+                            @item.MaintenanceDate.ToString("dd/MM/yyyy")
+                            <div style="font-size: 11px; color: var(--color-text-tertiary);">@item.MaintenanceType</div>
+                        </td>
+                        <td style="text-align: right;">
+                            <a href="@Url.Action("DeviceHistory", new { id = item.AssetId })" class="btn btn-ghost" style="padding: 5px 10px; font-size: 12px; margin-right: 4px;">
+                                Lịch sử máy
+                            </a>
+                            <a href="@Url.Action("Create", new { assetId = item.AssetId })" class="btn btn-primary" style="padding: 5px 12px; font-size: 12px; background: @(isOverdue || isUrgent ? "#ff3b30" : "var(--color-accent)");">
+                                Bảo dưỡng
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

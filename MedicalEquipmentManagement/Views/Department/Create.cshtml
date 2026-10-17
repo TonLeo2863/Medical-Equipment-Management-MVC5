@@ -1,0 +1,49 @@
+@model MedicalEquipmentManagement.Models.Department
+
+@{
+    ViewBag.Title = "Thêm mới Khoa / Phòng ban";
+}
+
+<div class="page-header">
+    <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+        ← Quay lại danh sách
+    </a>
+    <h2>Thêm mới Khoa / Phòng ban</h2>
+    <h3>Nhập thông tin khoa hoặc phòng chức năng tiếp nhận thiết bị y tế</h3>
+</div>
+
+<div style="max-width: 680px; margin: 0 auto; background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 32px;">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "error" })
+
+        <div class="field">
+            @Html.LabelFor(m => m.DepartmentCode)
+            @Html.TextBoxFor(m => m.DepartmentCode, new { placeholder = "Ví dụ: KCC, KCDHA, KXN...", @class = "search-input", style = "border-radius: var(--radius-sm);" })
+            @Html.ValidationMessageFor(m => m.DepartmentCode, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { placeholder = "Ví dụ: Khoa Cấp Cứu, Khoa Hồi Sức Tích Cực...", @class = "search-input", style = "border-radius: var(--radius-sm);" })
+            @Html.ValidationMessageFor(m => m.Name, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.Location)
+            @Html.TextBoxFor(m => m.Location, new { placeholder = "Ví dụ: Tầng 1 - Tòa nhà A, Phòng 102...", @class = "search-input", style = "border-radius: var(--radius-sm);" })
+            @Html.ValidationMessageFor(m => m.Location, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div class="field" style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+            @Html.CheckBoxFor(m => m.IsActive, new { id = "isActiveCheckbox", style = "width: 18px; height: 18px;" })
+            <label for="isActiveCheckbox" style="margin-bottom: 0; cursor: pointer;">Kích hoạt sẵn sàng hoạt động</label>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 32px; justify-content: flex-end;">
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy bỏ</a>
+            <button type="submit" class="btn btn-primary">Lưu khoa / phòng</button>
+        </div>
+    }
+</div>

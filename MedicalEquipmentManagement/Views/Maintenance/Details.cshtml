@@ -1,0 +1,124 @@
+@model MedicalEquipmentManagement.Models.MaintenanceRecord
+
+@{
+    ViewBag.Title = "Chi tiết Phiếu Bảo Trì #" + Model.MaintenanceId;
+}
+
+<div class="page-header">
+    <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+        ← Quay lại danh sách bảo trì
+    </a>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <h2>Phiếu Bảo Trì / Sửa Chữa #MC-@Model.MaintenanceId</h2>
+            <h3>Biên bản nghiệm thu kỹ thuật và tình trạng thiết bị y tế</h3>
+        </div>
+        <div>
+            @if (Model.EquipmentAsset != null)
+            {
+                <a href="@Url.Action("DeviceHistory", new { id = Model.AssetId })" class="btn btn-primary">
+                    Xem toàn bộ lịch sử máy
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="grid" style="grid-template-columns: 2fr 1fr; gap: 24px;">
+    <!-- Content card -->
+    <div style="background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 32px;">
+        <h3 style="font-size: 18px; margin-bottom: 20px; border-bottom: 1px solid var(--color-border-soft); padding-bottom: 10px;">
+            Nội dung kỹ thuật & Nhật ký xử lý
+        </h3>
+
+        <div style="margin-bottom: 24px;">
+            <div style="font-size: 13px; color: var(--color-text-secondary); text-transform: uppercase; margin-bottom: 6px;">Loại hình bảo trì</div>
+            <span class="tag" style="background: var(--color-accent-soft); color: var(--color-accent); font-size: 14px; padding: 6px 14px;">
+                @Model.MaintenanceType
+            </span>
+        </div>
+
+        <div style="margin-bottom: 24px;">
+            <div style="font-size: 13px; color: var(--color-text-secondary); text-transform: uppercase; margin-bottom: 6px;">Kết quả nghiệm thu</div>
+            @if (Model.ResultStatus == "Hoàn thành" || Model.ResultStatus == "Đạt")
+            {
+                <div style="color: var(--color-success); font-weight: 600; font-size: 16px;">
+                    ✓ @Model.ResultStatus - Đã bàn giao sử dụng bình thường
+                </div>
+            }
+            else if (Model.ResultStatus == "Đang xử lý" || Model.ResultStatus == "Chờ linh kiện")
+            {
+                <div style="color: var(--color-warning); font-weight: 600; font-size: 16px;">
+                    ⏳ @Model.ResultStatus - Thiết bị đang tạm dừng phục vụ
+                </div>
+            }
+            else
+            {
+                <div style="color: var(--color-danger); font-weight: 600; font-size: 16px;">
+                    ✕ @Model.ResultStatus
+                </div>
+            }
+        </div>
+
+        <div style="margin-bottom: 24px;">
+            <div style="font-size: 13px; color: var(--color-text-secondary); text-transform: uppercase; margin-bottom: 6px;">Chi tiết công việc / Hạng mục thực hiện</div>
+            <div style="background: var(--color-surface-alt); border-radius: var(--radius-md); padding: 18px; line-height: 1.7; border: 1px solid var(--color-border-soft);">
+                @(string.IsNullOrEmpty(Model.Description) ? "Không có ghi chú chi tiết" : Model.Description)
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding-top: 16px; border-top: 1px solid var(--color-border-soft);">
+            <div>
+                <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase;">Ngày thực hiện</div>
+                <strong style="font-size: 16px;">@Model.MaintenanceDate.ToString("dd/MM/yyyy")</strong>
+            </div>
+            <div>
+                <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase;">Hạn bảo dưỡng tiếp theo</div>
+                <strong style="font-size: 16px; color: var(--color-accent);">
+                    @(Model.NextMaintenanceDate.HasValue ? Model.NextMaintenanceDate.Value.ToString("dd/MM/yyyy") : "Chưa lên lịch")
+                </strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Machine & Cost Summary -->
+    <div>
+        <div style="background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 24px; margin-bottom: 24px;">
+            <h3 style="font-size: 16px; margin-bottom: 16px; border-bottom: 1px solid var(--color-border-soft); padding-bottom: 8px;">
+                Thiết bị liên quan
+            </h3>
+            @if (Model.EquipmentAsset != null)
+            {
+                <div style="margin-bottom: 12px;">
+                    <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase;">Mã tài sản</div>
+                    <strong>@(string.IsNullOrEmpty(Model.EquipmentAsset.AssetCode) ? "AST-" + Model.EquipmentAsset.AssetId : Model.EquipmentAsset.AssetCode)</strong>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase;">Dòng máy</div>
+                    <div style="font-weight: 600;">@(Model.EquipmentAsset.EquipmentModel != null ? Model.EquipmentAsset.EquipmentModel.ModelName : "Chưa xác định")</div>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase;">Số Serial</div>
+                    <code>@Model.EquipmentAsset.SerialNumber</code>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase;">Khoa / Vị trí</div>
+                    <div>@(Model.EquipmentAsset.Department != null ? Model.EquipmentAsset.Department.Name : "Kho trung tâm")</div>
+                </div>
+                <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--color-border-soft);">
+                    <a href="@Url.Action("Transfer", "Inventory", new { assetId = Model.AssetId })" class="btn btn-ghost btn-block" style="font-size: 13px;">
+                        Điều chuyển máy
+                    </a>
+                </div>
+            }
+        </div>
+
+        <div style="background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 24px;">
+            <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase; margin-bottom: 6px;">Chi phí thực hiện</div>
+            <div style="font-size: 26px; font-weight: 700; color: var(--color-accent); letter-spacing: -0.02em;">
+                @(Model.Cost.HasValue ? string.Format("{0:N0} đ", Model.Cost.Value) : "0 đ (Bảo hành)")
+            </div>
+            <div style="font-size: 12px; color: var(--color-text-tertiary); margin-top: 4px;">Đã bao gồm công kỹ thuật và vật tư phụ</div>
+        </div>
+    </div>
+</div>
