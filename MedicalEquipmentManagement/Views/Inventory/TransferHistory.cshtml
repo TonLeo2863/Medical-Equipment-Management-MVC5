@@ -1,0 +1,102 @@
+@model IEnumerable<MedicalEquipmentManagement.Models.AssetTransfer>
+
+@{
+    ViewBag.Title = "Lịch sử Luân chuyển Thiết bị";
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+                ← Quay lại quản lý kho
+            </a>
+            <h2>Lịch sử Luân chuyển Thiết bị</h2>
+            <h3>Theo dõi nhật ký điều động và quá trình luân chuyển tài sản y tế</h3>
+        </div>
+        <div>
+            <a href="@Url.Action("Transfer")" class="btn btn-primary">
+                + Tạo phiếu chuyển mới
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="toolbar-card">
+    <form method="get" action="@Url.Action("TransferHistory")" class="search-form" style="align-items: center;">
+        <div>
+            @Html.DropDownList("departmentId", (SelectList)ViewBag.DepartmentList, "-- Lọc theo Khoa / Phòng --", new { @class = "search-input", style = "padding: 10px 14px; border-radius: var(--radius-full); cursor: pointer;" })
+        </div>
+        <button type="submit" class="btn btn-primary">Lọc lịch sử</button>
+        @if (ViewBag.DepartmentList != null && Request.QueryString["departmentId"] != null)
+        {
+            <a href="@Url.Action("TransferHistory")" class="btn btn-ghost">Tất cả</a>
+        }
+    </form>
+</div>
+
+<!-- Data Table -->
+<div class="table-card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 130px;">MÃ PHIẾU</th>
+                <th style="width: 140px;">NGÀY CHUYỂN</th>
+                <th>THIẾT BỊ (MÃ & SERIAL)</th>
+                <th>KHOA CHUYỂN ĐI</th>
+                <th>KHOA TIẾP NHẬN</th>
+                <th>LÝ DO ĐIỀU CHUYỂN</th>
+                <th style="text-align: right; width: 130px;">TRẠNG THÁI</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 40px; color: var(--color-text-tertiary);">
+                        Chưa có lịch sử điều chuyển nào được ghi nhận.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>#TRF-@item.TransferId</strong>
+                        </td>
+                        <td>
+                            @item.TransferDate.ToString("dd/MM/yyyy HH:mm")
+                        </td>
+                        <td>
+                            @if (item.EquipmentAsset != null)
+                            {
+                                <strong>@(string.IsNullOrEmpty(item.EquipmentAsset.AssetCode) ? "AST-" + item.EquipmentAsset.AssetId : item.EquipmentAsset.AssetCode)</strong>
+                                <div><small>@(item.EquipmentAsset.EquipmentModel != null ? item.EquipmentAsset.EquipmentModel.ModelName : "") (SN: @item.EquipmentAsset.SerialNumber)</small></div>
+                            }
+                            else
+                            {
+                                <span>Mã máy #@item.AssetId</span>
+                            }
+                        </td>
+                        <td>
+                            @(item.FromDepartment != null ? item.FromDepartment.Name : "Kho trung tâm")
+                        </td>
+                        <td>
+                            <strong style="color: var(--color-accent);">@(item.ToDepartment != null ? item.ToDepartment.Name : "Không xác định")</strong>
+                        </td>
+                        <td>
+                            @(string.IsNullOrEmpty(item.Reason) ? "Không có ghi chú" : item.Reason)
+                        </td>
+                        <td style="text-align: right;">
+                            <span class="tag" style="background: rgba(52, 199, 89, 0.12); color: var(--color-success); font-weight: 600;">
+                                @(string.IsNullOrEmpty(item.Status) ? "Hoàn thành" : item.Status)
+                            </span>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
