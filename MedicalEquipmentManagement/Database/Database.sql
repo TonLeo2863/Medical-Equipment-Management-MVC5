@@ -115,6 +115,9 @@ CREATE TABLE MaintenanceRecords(
     MaintenanceDate DATE NOT NULL,
     Cost DECIMAL(18,2) NULL,
     ResultStatus NVARCHAR(100) NOT NULL,
+    NextMaintenanceDate DATE NULL,
+    Description NVARCHAR(500) NULL,
+    TicketId INT NULL,
     CONSTRAINT FK_Maintenance_Assets FOREIGN KEY(AssetId) REFERENCES EquipmentAssets(AssetId)
 );
 
@@ -155,6 +158,10 @@ END
 IF COL_LENGTH('dbo.MaintenanceRecords', 'Description') IS NULL
 BEGIN
     ALTER TABLE MaintenanceRecords ADD Description NVARCHAR(500) NULL;
+END
+IF COL_LENGTH('dbo.MaintenanceRecords', 'TicketId') IS NULL
+BEGIN
+    ALTER TABLE MaintenanceRecords ADD TicketId INT NULL;
 END
 
 -- BẢNG NHẬT KÝ GIAO DỊCH KHO (Inventory Transactions)
