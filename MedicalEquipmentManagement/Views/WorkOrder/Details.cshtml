@@ -1,0 +1,111 @@
+@model MedicalEquipmentManagement.Models.WorkOrder
+
+@{
+    ViewBag.Title = "Chi tiết Phiếu Báo Hỏng #WO-" + Model.WorkOrderId;
+}
+
+<div class="page-header">
+    <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+        ← Quay lại danh sách phiếu
+    </a>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <h2>Phiếu Báo Hỏng / Sự Cố #WO-@Model.WorkOrderId</h2>
+            <h3>Theo dõi quá trình khắc phục sự cố kỹ thuật</h3>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <a href="@Url.Action("Edit", new { id = Model.WorkOrderId })" class="btn btn-primary">
+                Cập nhật tiến độ
+            </a>
+            @if (Model.Status != "Đã xong")
+            {
+                <a href="@Url.Action("Create", "Maintenance", new { assetId = Model.AssetId })" class="btn btn-ghost" style="color: var(--color-accent);">
+                    + Lập biên bản sửa chữa
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="grid" style="grid-template-columns: 2fr 1fr; gap: 24px;">
+    <div style="background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 32px;">
+        <h3 style="font-size: 18px; margin-bottom: 20px; border-bottom: 1px solid var(--color-border-soft); padding-bottom: 10px;">
+            Mô tả sự cố & Hiện trạng thiết bị
+        </h3>
+
+        <div style="margin-bottom: 24px;">
+            <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase; margin-bottom: 6px;">Trạng thái xử lý</div>
+            @if (Model.Status == "Chờ xử lý")
+            {
+                <span class="tag" style="background: rgba(255, 59, 48, 0.12); color: var(--color-danger); font-size: 14px; padding: 6px 14px; font-weight: 600;">
+                    ● Chờ xử lý
+                </span>
+            }
+            else if (Model.Status == "Đang sửa")
+            {
+                <span class="tag" style="background: rgba(255, 149, 0, 0.14); color: #c47500; font-size: 14px; padding: 6px 14px; font-weight: 600;">
+                    ⏳ Đang sửa chữa
+                </span>
+            }
+            else
+            {
+                <span class="tag" style="background: rgba(52, 199, 89, 0.12); color: var(--color-success); font-size: 14px; padding: 6px 14px; font-weight: 600;">
+                    ✓ Đã xong (Sẵn sàng hoạt động)
+                </span>
+            }
+        </div>
+
+        <div style="margin-bottom: 24px;">
+            <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase; margin-bottom: 6px;">Nội dung sự cố được báo cáo</div>
+            <div style="background: var(--color-surface-alt); border-radius: var(--radius-md); padding: 18px; line-height: 1.7; border: 1px solid var(--color-border-soft);">
+                @Model.IssueDescription
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding-top: 16px; border-top: 1px solid var(--color-border-soft);">
+            <div>
+                <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase;">Thời điểm báo sự cố</div>
+                <strong style="font-size: 15px;">@Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</strong>
+            </div>
+            <div>
+                <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase;">Kỹ sư phụ trách</div>
+                <strong style="font-size: 15px; color: var(--color-accent);">
+                    @(Model.AssignedUser != null ? Model.AssignedUser.FullName : "Chưa phân công")
+                </strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Asset Card -->
+    <div>
+        <div style="background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 24px;">
+            <h3 style="font-size: 16px; margin-bottom: 16px; border-bottom: 1px solid var(--color-border-soft); padding-bottom: 8px;">
+                Thiết bị báo hỏng
+            </h3>
+            @if (Model.EquipmentAsset != null)
+            {
+                <div style="margin-bottom: 12px;">
+                    <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase;">Mã tài sản</div>
+                    <strong>@(string.IsNullOrEmpty(Model.EquipmentAsset.AssetCode) ? "AST-" + Model.EquipmentAsset.AssetId : Model.EquipmentAsset.AssetCode)</strong>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase;">Tên máy</div>
+                    <div style="font-weight: 600;">@(Model.EquipmentAsset.EquipmentModel != null ? Model.EquipmentAsset.EquipmentModel.ModelName : "Chưa xác định")</div>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase;">Số Serial</div>
+                    <code>@Model.EquipmentAsset.SerialNumber</code>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <div style="font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase;">Khoa báo sự cố</div>
+                    <div>@(Model.EquipmentAsset.Department != null ? Model.EquipmentAsset.Department.Name : "Kho trung tâm")</div>
+                </div>
+                <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--color-border-soft);">
+                    <a href="@Url.Action("DeviceHistory", "Maintenance", new { id = Model.AssetId })" class="btn btn-ghost btn-block" style="font-size: 13px;">
+                        Lịch sử bảo trì máy này
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

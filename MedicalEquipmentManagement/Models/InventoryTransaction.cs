@@ -4,6 +4,7 @@ namespace MedicalEquipmentManagement.Models
 {
     public class InventoryTransaction
     {
+        [Key]
         public int TransactionId { get; set; }
         public int EquipmentId { get; set; }
         public int? DepartmentId { get; set; }

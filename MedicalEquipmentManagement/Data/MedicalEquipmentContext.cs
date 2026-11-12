@@ -1,4 +1,4 @@
-﻿using MedicalEquipmentManagement.Models;
+using MedicalEquipmentManagement.Models;
 using System.Data.Entity;
 
 namespace MedicalEquipmentManagement.Data
@@ -20,6 +20,7 @@ namespace MedicalEquipmentManagement.Data
         public DbSet<CalibrationLog> CalibrationLogs { get; set; }
         public DbSet<WorkOrder> WorkOrders { get; set; }
         public DbSet<AssetTransfer> AssetTransfers { get; set; }
+        public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
         public DbSet<SparePart> SpareParts { get; set; }
         public DbSet<UsageLog> UsageLogs { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

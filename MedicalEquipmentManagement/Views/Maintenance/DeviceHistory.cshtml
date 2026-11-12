@@ -1,0 +1,236 @@
+@model IEnumerable<MedicalEquipmentManagement.Models.MaintenanceRecord>
+
+@{
+    var asset = ViewBag.Asset as MedicalEquipmentManagement.Models.EquipmentAsset;
+    var transferHistory = ViewBag.TransferHistory as List<MedicalEquipmentManagement.Models.AssetTransfer> ?? new List<MedicalEquipmentManagement.Models.AssetTransfer>();
+    var workOrders = ViewBag.WorkOrders as List<MedicalEquipmentManagement.Models.WorkOrder> ?? new List<MedicalEquipmentManagement.Models.WorkOrder>();
+
+    ViewBag.Title = "Lịch sử vòng đời thiết bị " + (asset != null ? asset.SerialNumber : "");
+    var totalCost = Model.Sum(m => m.Cost) ?? 0;
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+                ← Quay lại danh sách bảo trì
+            </a>
+            <h2>Lịch sử Vòng đời Thiết bị</h2>
+            <h3>Theo dõi toàn bộ quá trình điều chuyển phòng ban, sửa chữa và bảo dưỡng</h3>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            @if (asset != null)
+            {
+                <a href="@Url.Action("Transfer", "Inventory", new { assetId = asset.AssetId })" class="btn btn-ghost">
+                    Điều chuyển máy
+                </a>
+                <a href="@Url.Action("Create", "WorkOrder", new { assetId = asset.AssetId })" class="btn btn-ghost" style="color: var(--color-danger);">
+                    Báo hỏng
+                </a>
+                <a href="@Url.Action("Create", new { assetId = asset.AssetId })" class="btn btn-primary">
+                    + Thêm phiếu bảo trì
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+@if (asset != null)
+{
+    <!-- Asset Summary Card -->
+    <div style="background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 24px; margin-bottom: 28px;">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+            <div>
+                <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase;">Dòng máy / Model</div>
+                <div style="font-size: 16px; font-weight: 600;">@(asset.EquipmentModel != null ? asset.EquipmentModel.ModelName : "Chưa xác định")</div>
+                <div style="font-size: 12px; color: var(--color-text-tertiary);">Mã: @(string.IsNullOrEmpty(asset.AssetCode) ? "AST-" + asset.AssetId : asset.AssetCode)</div>
+            </div>
+            <div>
+                <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase;">Số Serial</div>
+                <code style="font-size: 15px; font-weight: 600; color: var(--color-accent);">@asset.SerialNumber</code>
+            </div>
+            <div>
+                <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase;">Khoa / Vị trí hiện tại</div>
+                <div style="font-size: 15px; font-weight: 600; color: var(--color-text-primary);">@(asset.Department != null ? asset.Department.Name : "Kho trung tâm")</div>
+                <div style="font-size: 12px; color: var(--color-text-tertiary);">@(asset.Department != null ? asset.Department.Location : "")</div>
+            </div>
+            <div>
+                <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase;">Trạng thái hiện tại</div>
+                <div>
+                    @if (asset.Status == "Đang hoạt động")
+                    {
+                        <span style="color: var(--color-success); font-weight: 600;">✓ Hoạt động</span>
+                    }
+                    else if (asset.Status == "Đang bảo trì")
+                    {
+                        <span style="color: var(--color-warning); font-weight: 600;">⏳ Đang bảo trì</span>
+                    }
+                    else
+                    {
+                        <span>@asset.Status</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Section 1: Lịch sử Điều chuyển phòng ban -->
+<div class="table-card" style="margin-bottom: 32px;">
+    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border-soft); display: flex; justify-content: space-between; align-items: center;">
+        <strong style="font-size: 16px;">1. Lịch sử Luân chuyển Kho & Phòng ban (@transferHistory.Count lượt)</strong>
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 140px;">NGÀY CHUYỂN</th>
+                <th>TỪ KHOA / PHÒNG</th>
+                <th>ĐẾN KHOA / PHÒNG</th>
+                <th>LÝ DO ĐIỀU CHUYỂN</th>
+                <th style="text-align: right; width: 130px;">TRẠNG THÁI</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!transferHistory.Any())
+            {
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 28px; color: var(--color-text-tertiary);">
+                        Thiết bị chưa từng điều chuyển phòng ban (vẫn ở vị trí ban đầu).
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var t in transferHistory)
+                {
+                    <tr>
+                        <td><strong>@t.TransferDate.ToString("dd/MM/yyyy HH:mm")</strong></td>
+                        <td>@(t.FromDepartment != null ? t.FromDepartment.Name : "Kho trung tâm")</td>
+                        <td><strong style="color: var(--color-accent);">@(t.ToDepartment != null ? t.ToDepartment.Name : "Không xác định")</strong></td>
+                        <td>@(string.IsNullOrEmpty(t.Reason) ? "Không ghi chú" : t.Reason)</td>
+                        <td style="text-align: right;">
+                            <span class="tag" style="background: rgba(52, 199, 89, 0.12); color: var(--color-success); font-weight: 600;">
+                                @(string.IsNullOrEmpty(t.Status) ? "Hoàn thành" : t.Status)
+                            </span>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Section 2: Lịch sử Bảo trì & Sửa chữa -->
+<div class="table-card" style="margin-bottom: 32px;">
+    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border-soft); display: flex; justify-content: space-between; align-items: center;">
+        <strong style="font-size: 16px;">2. Nhật ký Bảo trì, Hiệu chuẩn & Sửa chữa (@Model.Count() lượt)</strong>
+        <span style="font-size: 14px; color: var(--color-text-secondary);">
+            Tổng chi phí: <strong style="color: var(--color-accent);">@string.Format("{0:N0} đ", totalCost)</strong>
+        </span>
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 120px;">NGÀY</th>
+                <th>LOẠI BẢO TRÌ</th>
+                <th>CHI TIẾT NỘI DUNG</th>
+                <th>CHI PHÍ</th>
+                <th>KẾT QUẢ</th>
+                <th>HẠN KẾ TIẾP</th>
+                <th style="text-align: right; width: 120px;">CHI TIẾT</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 28px; color: var(--color-text-tertiary);">
+                        Thiết bị này chưa có biên bản bảo trì nào được ghi nhận.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td><strong>@item.MaintenanceDate.ToString("dd/MM/yyyy")</strong></td>
+                        <td><span class="tag">@item.MaintenanceType</span></td>
+                        <td>@(string.IsNullOrEmpty(item.Description) ? "Không có ghi chú" : item.Description)</td>
+                        <td>@(item.Cost.HasValue ? string.Format("{0:N0} đ", item.Cost.Value) : "Miễn phí")</td>
+                        <td>
+                            @if (item.ResultStatus == "Hoàn thành" || item.ResultStatus == "Đạt")
+                            {
+                                <span style="color: var(--color-success); font-weight: 600;">✓ @item.ResultStatus</span>
+                            }
+                            else
+                            {
+                                <span style="color: var(--color-warning); font-weight: 600;">@item.ResultStatus</span>
+                            }
+                        </td>
+                        <td>@(item.NextMaintenanceDate.HasValue ? item.NextMaintenanceDate.Value.ToString("dd/MM/yyyy") : "-")</td>
+                        <td style="text-align: right;">
+                            <a href="@Url.Action("Details", new { id = item.MaintenanceId })" class="btn btn-ghost" style="padding: 4px 10px; font-size: 12px;">Xem</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Section 3: Lịch sử Phiếu báo hỏng (Work Orders) -->
+<div class="table-card">
+    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border-soft); display: flex; justify-content: space-between; align-items: center;">
+        <strong style="font-size: 16px;">3. Danh sách Phiếu Báo Hỏng / Sự Cố (@workOrders.Count phiếu)</strong>
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 140px;">NGÀY BÁO</th>
+                <th>NỘI DUNG SỰ CỐ</th>
+                <th>KỸ SƯ TIẾP NHẬN</th>
+                <th style="width: 140px;">TRẠNG THÁI</th>
+                <th style="text-align: right; width: 120px;">CHI TIẾT</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!workOrders.Any())
+            {
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 28px; color: var(--color-text-tertiary);">
+                        Thiết bị chưa từng có phiếu báo hỏng hoặc sự cố.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var wo in workOrders)
+                {
+                    <tr>
+                        <td><strong>@wo.CreatedDate.ToString("dd/MM/yyyy HH:mm")</strong></td>
+                        <td>@wo.IssueDescription</td>
+                        <td>@(wo.AssignedUser != null ? wo.AssignedUser.FullName : "Chưa phân công")</td>
+                        <td>
+                            @if (wo.Status == "Chờ xử lý")
+                            {
+                                <span class="tag" style="background: rgba(255, 59, 48, 0.12); color: var(--color-danger); font-weight: 600;">● Chờ xử lý</span>
+                            }
+                            else if (wo.Status == "Đang sửa")
+                            {
+                                <span class="tag" style="background: rgba(255, 149, 0, 0.14); color: #c47500; font-weight: 600;">⏳ Đang sửa</span>
+                            }
+                            else
+                            {
+                                <span class="tag" style="background: rgba(52, 199, 89, 0.12); color: var(--color-success); font-weight: 600;">✓ Đã xong</span>
+                            }
+                        </td>
+                        <td style="text-align: right;">
+                            <a href="@Url.Action("Details", "WorkOrder", new { id = wo.WorkOrderId })" class="btn btn-ghost" style="padding: 4px 10px; font-size: 12px;">Xem</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

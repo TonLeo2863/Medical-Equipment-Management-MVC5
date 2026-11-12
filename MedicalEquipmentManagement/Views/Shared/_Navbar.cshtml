@@ -1,10 +1,9 @@
 @{
-    // Lay Controller/Action hien tai de to dam muc menu dang xem
     var currentController = ViewContext.RouteData.Values["controller"] as string;
     var currentAction = ViewContext.RouteData.Values["action"] as string;
-
-    // DO NOT CHANGE: dung dung key Session ma AccountController dang set
     var loggedInUser = Session["UserName"] as string;
+    var loggedInFullName = Session["FullName"] as string ?? loggedInUser;
+    var userRole = Session["RoleCode"] as string;
 }
 <nav class="navbar">
     <div class="navbar-inner">
@@ -16,12 +15,11 @@
                 </svg>
             </span>
             <span class="brand-text">
-                <span class="brand-name">Medical Equipment Management</span>
-                <span class="brand-sub">Quan ly trang thiet bi y te</span>
-            </span>
+                <span class="brand-name">Medical Equipment</span>
+             </span>
         </a>
 
-        @* Nut mo menu tren man hinh nho - thuan CSS, khong can JavaScript *@
+        @* Nút mở menu trên màn hình nhỏ *@
         <label class="nav-toggle-label" for="navToggle" title="Menu">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                 <path d="M4 7h16M4 12h16M4 17h16" />
@@ -35,21 +33,47 @@
                    class="@(currentController == "Home" && currentAction == "Index" ? "is-active" : "")">Trang chủ</a>
             </li>
             <li>
-                <a href="@Url.Action("Index", "Equipment")"
-                   class="@(currentController == "Equipment" ? "is-active" : "")">Thiết bị</a>
-            </li>
-            <li>
                 <a href="@Url.Action("About", "Home")"
                    class="@(currentController == "Home" && currentAction == "About" ? "is-active" : "")">Giới thiệu</a>
             </li>
+            <li>
+                <a href="@Url.Action("Index", "Equipment")"
+                   class="@(currentController == "Equipment" ? "is-active" : "")">Thiết bị</a>
+            </li>
+            @* Phân quyền hiển thị menu *@
+            @if (userRole == "ADMIN")
+            {
+                <li>
+                    <a href="@Url.Action("Index", "Department")"
+                       class="@(currentController == "Department" ? "is-active" : "")">Phòng ban</a>
+                </li>
+            }
 
-            @*
-                Danh khi tao CategoryController / SupplierController / MaintenanceController,
-                <li><a href="@Url.Action("Index", "Category")">Danh mục</a></li>
-                <li><a href="@Url.Action("Index", "Supplier")">Nhà cung cấp</a></li>
-                <li><a href="@Url.Action("Index", "Maintenance")">Bảo trì</a></li>
-            *@
+            @if (userRole == "ADMIN" || userRole == "MANAGER")
+            {
+                <li>
+                    <a href="@Url.Action("Index", "Inventory")"
+                       class="@(currentController == "Inventory" ? "is-active" : "")">Kho & Luân chuyển</a>
+                </li>
+            }
 
+            @if (userRole == "ADMIN" || userRole == "MANAGER" || userRole == "ENGINEER")
+            {
+                <li>
+                    <a href="@Url.Action("Index", "Maintenance")"
+                       class="@(currentController == "Maintenance" ? "is-active" : "")">Bảo trì</a>
+                </li>
+            }
+
+            @if (!string.IsNullOrEmpty(loggedInUser))
+            {
+                <li>
+                    <a href="@Url.Action("Index", "WorkOrder")"
+                       class="@(currentController == "WorkOrder" ? "is-active" : "")">Phiếu sửa chữa</a>
+                </li>
+            }
+
+            @* Hiển thị Đăng nhập / Đăng xuất & Xin chào, FullName (RoleCode) *@
             @if (string.IsNullOrEmpty(loggedInUser))
             {
                 <li>
@@ -59,8 +83,16 @@
             }
             else
             {
-                <li class="nav-user">Xin chào, <strong>@loggedInUser</strong></li>
-                <li><a href="@Url.Action("Logout", "Account")">Đăng xuất</a></li>
+                <li class="nav-user">
+                    <strong>@loggedInFullName</strong>
+                    @if (!string.IsNullOrEmpty(userRole))
+                    {
+                        <span>(@userRole)</span>
+                    }
+                </li>
+                <li>
+                    <a href="@Url.Action("Logout", "Account")">Đăng xuất</a>
+                </li>
             }
         </ul>
 

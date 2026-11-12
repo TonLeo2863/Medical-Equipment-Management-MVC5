@@ -4,6 +4,7 @@ namespace MedicalEquipmentManagement.Models
 {
     public class SparePart
     {
+        [Key]
         public int PartId { get; set; }
         public string PartName { get; set; }
         public int QuantityInStock { get; set; }

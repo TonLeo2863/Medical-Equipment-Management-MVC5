@@ -5,6 +5,7 @@ namespace MedicalEquipmentManagement.Models
 {
     public class UsageLog
     {
+        [Key]
         public int LogId { get; set; }
         public int AssetId { get; set; }
         public int UserId { get; set; }
