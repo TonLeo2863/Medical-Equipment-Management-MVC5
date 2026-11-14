@@ -1,0 +1,53 @@
+﻿@model MedicalEquipmentManagement.Models.EquipmentCategory
+
+@{
+    ViewBag.Title = "Chi tiết Danh mục - " + Model.Name;
+    var models = Model.EquipmentModels != null ? Model.EquipmentModels.ToList() : new List<MedicalEquipmentManagement.Models.EquipmentModel>();
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+            <h2>Chi tiết Danh mục: [@Model.CategoryCode] @Model.Name</h2>
+            <h3>Trạng thái: @(Model.IsActive ? "Đang sử dụng" : "Tạm ngưng")</h3>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <a href="@Url.Action("Edit", new { id = Model.CategoryId })" class="btn btn-primary">Sửa</a>
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Quay lại danh sách</a>
+        </div>
+    </div>
+</div>
+
+<div class="table-card">
+    <div style="padding: 10px 12px; border-bottom: 1px solid var(--color-border-soft); font-weight: 600;">
+        Danh sách Mẫu thiết bị thuộc danh mục (@models.Count mẫu)
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Mã Model</th>
+                <th>Tên mẫu thiết bị</th>
+                <th>Hãng sản xuất</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!models.Any())
+            {
+                <tr>
+                    <td colspan="3" style="text-align: center; padding: 20px;">Chưa có mẫu thiết bị nào thuộc danh mục này.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var m in models)
+                {
+                    <tr>
+                        <td><strong>@m.ModelCode</strong></td>
+                        <td>@m.ModelName</td>
+                        <td>@(m.ManufacturerSupplier != null ? m.ManufacturerSupplier.Name : "—")</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

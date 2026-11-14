@@ -1,0 +1,142 @@
+﻿@model MedicalEquipmentManagement.Models.EquipmentAsset
+@using MedicalEquipmentManagement.Models
+
+@{
+    ViewBag.Title = "Chi tiết Thiết bị " + Model.AssetCode;
+    var maintenances = Model.MaintenanceRecords != null
+        ? Model.MaintenanceRecords.OrderByDescending(m => m.MaintenanceDate).ToList()
+        : new List<MaintenanceRecord>();
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+            <h2>Chi tiết Thiết bị: @Model.AssetCode</h2>
+            <h3>Số Serial: <strong>@Model.SerialNumber</strong></h3>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <a href="@Url.Action("Edit", new { id = Model.AssetId })" class="btn btn-primary">Sửa thiết bị</a>
+            <a href="@Url.Action("Delete", new { id = Model.AssetId })" class="btn btn-ghost" style="color: var(--color-danger);">Xóa</a>
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Quay lại danh sách</a>
+        </div>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 20px;">
+    <!-- Thông tin thiết bị -->
+    <div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: 4px; padding: 20px;">
+        <h3 style="font-size: 15px; border-bottom: 1px solid var(--color-border); padding-bottom: 8px; margin-bottom: 14px;">
+            1. Thông tin Tài sản &amp; Mẫu máy
+        </h3>
+        <table class="data-table">
+            <tbody>
+                <tr>
+                    <th style="width: 150px;">Mã tài sản</th>
+                    <td><strong>@Model.AssetCode</strong></td>
+                </tr>
+                <tr>
+                    <th>Số Serial</th>
+                    <td><code>@Model.SerialNumber</code></td>
+                </tr>
+                <tr>
+                    <th>Mẫu thiết bị (Model)</th>
+                    <td>@(Model.EquipmentModel != null ? Model.EquipmentModel.ModelName + " (" + Model.EquipmentModel.ModelCode + ")" : "—")</td>
+                </tr>
+                <tr>
+                    <th>Danh mục loại</th>
+                    <td>@(Model.EquipmentModel != null && Model.EquipmentModel.Category != null ? Model.EquipmentModel.Category.Name : "—")</td>
+                </tr>
+                <tr>
+                    <th>Hãng sản xuất</th>
+                    <td>@(Model.EquipmentModel != null && Model.EquipmentModel.ManufacturerSupplier != null ? Model.EquipmentModel.ManufacturerSupplier.Name : "—")</td>
+                </tr>
+                <tr>
+                    <th>Khoa / Phòng</th>
+                    <td>@(Model.Department != null ? Model.Department.Name : "Kho dự trữ")</td>
+                </tr>
+                <tr>
+                    <th>Ngày mua</th>
+                    <td>@(Model.PurchaseDate.HasValue ? Model.PurchaseDate.Value.ToString("dd/MM/yyyy") : "—")</td>
+                </tr>
+                <tr>
+                    <th>Giá mua</th>
+                    <td>@(Model.PurchasePrice.HasValue ? string.Format("{0:N0} VNĐ", Model.PurchasePrice.Value) : "—")</td>
+                </tr>
+                <tr>
+                    <th>Trạng thái</th>
+                    <td><span class="tag">@Model.Status</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mã vạch Barcode & QR Code tự động sinh từ Số Serial -->
+    <div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: 4px; padding: 20px;">
+        <h3 style="font-size: 15px; border-bottom: 1px solid var(--color-border); padding-bottom: 8px; margin-bottom: 14px;">
+            2. Mã vạch (Barcode / QR Code) theo Số Serial
+        </h3>
+        <p style="font-size: 13px; color: var(--color-text-secondary);">
+            Tự động sinh dựa trên Số Serial: <strong>@Model.SerialNumber</strong>
+        </p>
+
+        <div style="border: 1px dashed var(--color-border); padding: 16px; text-align: center; background: #f8f9fa; border-radius: 4px;">
+            <div style="margin-bottom: 14px;">
+                <img src="@Url.Action("QrCode", new { id = Model.AssetId })"
+                     alt="QR Code @Model.SerialNumber"
+                     style="width: 130px; height: 130px; border: 1px solid var(--color-border); background: #fff; padding: 4px;" />
+                <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">QR Code (@Model.SerialNumber)</div>
+            </div>
+
+            <div>
+                <img src="@Url.Action("Barcode", new { id = Model.AssetId })"
+                     alt="Barcode @Model.SerialNumber"
+                     style="max-width: 280px; height: auto; border: 1px solid var(--color-border); background: #fff; padding: 6px;" />
+                <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">Barcode Code-128 (@Model.SerialNumber)</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 12px; display: flex; gap: 8px;">
+            <a href="@Url.Action("QrCode", new { id = Model.AssetId })" target="_blank" class="btn btn-ghost">Mở ảnh QR Code</a>
+            <a href="@Url.Action("Barcode", new { id = Model.AssetId })" target="_blank" class="btn btn-ghost">Mở ảnh Barcode</a>
+        </div>
+    </div>
+</div>
+
+<!-- Lịch sử bảo trì (để kiểm chứng ràng buộc khóa ngoại khi xóa) -->
+<div class="table-card">
+    <div style="padding: 10px 12px; border-bottom: 1px solid var(--color-border-soft); font-weight: 600;">
+        3. Lịch sử bảo trì của thiết bị (@maintenances.Count bản ghi)
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Ngày bảo trì</th>
+                <th>Loại bảo trì</th>
+                <th>Chi phí</th>
+                <th>Kết quả</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!maintenances.Any())
+            {
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 16px; color: var(--color-text-tertiary);">
+                        Thiết bị chưa có lịch sử bảo trì (Có thể xóa trực tiếp).
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var m in maintenances)
+                {
+                    <tr>
+                        <td>@m.MaintenanceDate.ToString("dd/MM/yyyy")</td>
+                        <td>@m.MaintenanceType</td>
+                        <td>@(m.Cost.HasValue ? string.Format("{0:N0} VNĐ", m.Cost.Value) : "0 VNĐ")</td>
+                        <td>@m.ResultStatus</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

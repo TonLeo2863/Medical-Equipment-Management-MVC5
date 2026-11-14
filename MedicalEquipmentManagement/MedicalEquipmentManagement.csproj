@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MedicalEquipmentManagement</RootNamespace>
     <AssemblyName>MedicalEquipmentManagement</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -110,6 +110,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.95.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.95.4\lib\net46\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.10.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="QRCoder, Version=1.4.3.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.4.3\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -120,6 +135,18 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\EquipmentModelController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Helpers\BarcodeQrHelper.cs" />
+    <Compile Include="Helpers\DbErrorHelper.cs" />
+    <Compile Include="Models\AssetStatus.cs" />
+    <Compile Include="ViewModels\EquipmentAssetIndexViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentAssetViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentImportViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentModelFormViewModel.cs" />
+    <Compile Include="ViewModels\EquipmentModelIndexViewModel.cs" />
+    <Compile Include="ViewModels\KeywordSearchViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Data\MedicalEquipmentContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -160,6 +187,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Database\01_CreateDatabase.sql" />
+    <Content Include="Database\02_Seed_Module2.sql" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -197,6 +225,26 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Equipment\Index.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Category\Create.cshtml" />
+    <Content Include="Views\Category\Edit.cshtml" />
+    <Content Include="Views\Category\Details.cshtml" />
+    <Content Include="Views\Category\Delete.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
+    <Content Include="Views\Supplier\Create.cshtml" />
+    <Content Include="Views\Supplier\Edit.cshtml" />
+    <Content Include="Views\Supplier\Details.cshtml" />
+    <Content Include="Views\Supplier\Delete.cshtml" />
+    <Content Include="Views\EquipmentModel\Index.cshtml" />
+    <Content Include="Views\EquipmentModel\Create.cshtml" />
+    <Content Include="Views\EquipmentModel\Edit.cshtml" />
+    <Content Include="Views\EquipmentModel\Details.cshtml" />
+    <Content Include="Views\EquipmentModel\Delete.cshtml" />
+    <Content Include="Views\Equipment\Create.cshtml" />
+    <Content Include="Views\Equipment\Edit.cshtml" />
+    <Content Include="Views\Equipment\Details.cshtml" />
+    <Content Include="Views\Equipment\Delete.cshtml" />
+    <Content Include="Views\Equipment\Import.cshtml" />
     <Content Include="Views\Shared\_Navbar.cshtml" />
   </ItemGroup>
   <ItemGroup>

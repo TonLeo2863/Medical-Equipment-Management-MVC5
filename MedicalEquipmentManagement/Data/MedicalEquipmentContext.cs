@@ -17,11 +17,9 @@ namespace MedicalEquipmentManagement.Data
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<EquipmentAsset> EquipmentAssets { get; set; }
         public DbSet<MaintenanceRecord> MaintenanceRecords { get; set; }
-        public DbSet<CalibrationLog> CalibrationLogs { get; set; }
         public DbSet<WorkOrder> WorkOrders { get; set; }
-        public DbSet<AssetTransfer> AssetTransfers { get; set; }
-        public DbSet<SparePart> SpareParts { get; set; }
-        public DbSet<UsageLog> UsageLogs { get; set; }
+        // Lưu ý: CalibrationLog / AssetTransfer / SparePart / UsageLog chưa có khóa chính ở nhánh develop
+        // (thuộc phạm vi Module 3) nên tạm thời chưa khai báo DbSet để EF khởi tạo được model.
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

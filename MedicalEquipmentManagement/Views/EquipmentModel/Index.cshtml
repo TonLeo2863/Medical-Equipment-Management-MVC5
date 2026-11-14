@@ -1,0 +1,79 @@
+﻿@model MedicalEquipmentManagement.ViewModels.EquipmentModelIndexViewModel
+
+@{
+    ViewBag.Title = "Quản lý Mẫu Thiết bị";
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+            <h2>Danh sách Mẫu Thiết bị (EquipmentModel)</h2>
+            <h3>CRUD thông tin mẫu máy, hãng sản xuất và phân loại theo Danh mục (Category)</h3>
+        </div>
+        <a href="@Url.Action("Create")" class="btn btn-primary">+ Thêm mẫu thiết bị</a>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert-success">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="error">@TempData["Error"]</div>
+}
+
+<div class="toolbar-card">
+    <form method="get" action="@Url.Action("Index")" class="search-form">
+        <input type="text" name="keyword" value="@Model.Keyword" placeholder="Tìm theo mã model, tên mẫu máy hoặc hãng SX..." class="search-input" style="min-width: 260px;" />
+        @Html.DropDownList("categoryId", Model.CategoryList, "-- Tất cả Danh mục --", new { @class = "search-input", style = "min-width: 200px;" })
+        <button type="submit" class="btn btn-primary">Tìm kiếm / Lọc</button>
+        @if (!string.IsNullOrWhiteSpace(Model.Keyword) || Model.CategoryId.HasValue)
+        {
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Đặt lại</a>
+        }
+    </form>
+</div>
+
+<div class="table-card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Mã Model</th>
+                <th>Tên mẫu thiết bị</th>
+                <th>Danh mục (Category)</th>
+                <th>Hãng sản xuất</th>
+                <th>Số thiết bị thực tế</th>
+                <th style="text-align: right;">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Items.Any())
+            {
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 24px;">Không tìm thấy mẫu thiết bị nào.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model.Items)
+                {
+                    int assetCount = item.EquipmentAssets != null ? item.EquipmentAssets.Count : 0;
+                    <tr>
+                        <td><strong>@item.ModelCode</strong></td>
+                        <td>@item.ModelName</td>
+                        <td>@(item.Category != null ? item.Category.Name : "—")</td>
+                        <td>@(item.ManufacturerSupplier != null ? item.ManufacturerSupplier.Name : "—")</td>
+                        <td>@assetCount thiết bị</td>
+                        <td style="text-align: right; white-space: nowrap;">
+                            <a href="@Url.Action("Details", new { id = item.ModelId })" class="btn btn-ghost" style="padding: 4px 8px;">Chi tiết</a>
+                            <a href="@Url.Action("Edit", new { id = item.ModelId })" class="btn btn-ghost" style="padding: 4px 8px;">Sửa</a>
+                            <a href="@Url.Action("Delete", new { id = item.ModelId })" class="btn btn-ghost" style="padding: 4px 8px; color: var(--color-danger);">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

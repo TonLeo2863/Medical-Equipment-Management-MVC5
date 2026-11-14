@@ -1,0 +1,64 @@
+﻿@model MedicalEquipmentManagement.Models.Supplier
+@using MedicalEquipmentManagement.Models
+
+@{
+    ViewBag.Title = "Chi tiết Nhà cung cấp";
+    var models = Model.ManufacturedModels != null ? Model.ManufacturedModels.ToList() : new List<EquipmentModel>();
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+            <h2>Chi tiết Nhà cung cấp: @Model.Name</h2>
+            <h3>Phân loại: @SupplierTypeConst.GetDisplayName(Model.SupplierType)</h3>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <a href="@Url.Action("Edit", new { id = Model.SupplierId })" class="btn btn-primary">Sửa</a>
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Quay lại danh sách</a>
+        </div>
+    </div>
+</div>
+
+<div class="table-card" style="margin-bottom: 20px;">
+    <table class="data-table">
+        <tbody>
+            <tr><th style="width: 180px;">Tên đơn vị</th><td><strong>@Model.Name</strong></td></tr>
+            <tr><th>Phân loại</th><td>@SupplierTypeConst.GetDisplayName(Model.SupplierType)</td></tr>
+            <tr><th>Số điện thoại</th><td>@(Model.Phone ?? "—")</td></tr>
+            <tr><th>Email</th><td>@(Model.Email ?? "—")</td></tr>
+            <tr><th>Trạng thái</th><td>@(Model.IsActive ? "Đang hợp tác" : "Tạm ngưng")</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="table-card">
+    <div style="padding: 10px 12px; border-bottom: 1px solid var(--color-border-soft); font-weight: 600;">
+        Danh sách Mẫu thiết bị thuộc hãng (@models.Count mẫu)
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Mã Model</th>
+                <th>Tên mẫu thiết bị</th>
+                <th>Danh mục</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!models.Any())
+            {
+                <tr><td colspan="3" style="text-align: center; padding: 16px;">Chưa có mẫu thiết bị nào.</td></tr>
+            }
+            else
+            {
+                foreach (var m in models)
+                {
+                    <tr>
+                        <td><strong>@m.ModelCode</strong></td>
+                        <td>@m.ModelName</td>
+                        <td>@(m.Category != null ? m.Category.Name : "—")</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

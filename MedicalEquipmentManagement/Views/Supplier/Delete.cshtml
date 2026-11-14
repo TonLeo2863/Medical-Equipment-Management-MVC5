@@ -1,0 +1,41 @@
+﻿@model MedicalEquipmentManagement.Models.Supplier
+@using MedicalEquipmentManagement.Models
+
+@{
+    ViewBag.Title = "Xóa Nhà cung cấp";
+    var modelCount = Model.ManufacturedModels != null ? Model.ManufacturedModels.Count : 0;
+}
+
+<div class="page-header">
+    <h2>Xác nhận xóa Nhà cung cấp: @Model.Name</h2>
+</div>
+
+<div style="max-width: 640px; background: #ffffff; border: 1px solid var(--color-border); border-radius: 4px; padding: 24px;">
+    @if (modelCount > 0)
+    {
+        <div class="error">
+            Đơn vị <strong>@Model.Name</strong> hiện đang gắn với <strong>@modelCount mẫu thiết bị</strong>. Không thể xóa khi còn mẫu thiết bị tham chiếu.
+        </div>
+    }
+    else
+    {
+        <p>Bạn có chắc chắn muốn xóa nhà cung cấp <strong>@Model.Name</strong>?</p>
+    }
+
+    <table class="data-table" style="margin-bottom: 20px;">
+        <tbody>
+            <tr><th style="width: 160px;">Tên đơn vị</th><td><strong>@Model.Name</strong></td></tr>
+            <tr><th>Phân loại</th><td>@SupplierTypeConst.GetDisplayName(Model.SupplierType)</td></tr>
+            <tr><th>Điện thoại / Email</th><td>@(Model.Phone ?? "—") / @(Model.Email ?? "—")</td></tr>
+        </tbody>
+    </table>
+
+    @using (Html.BeginForm("Delete", "Supplier", new { id = Model.SupplierId }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div style="display: flex; gap: 8px;">
+            <button type="submit" class="btn btn-primary" style="background: var(--color-danger); border-color: var(--color-danger);">Xác nhận xóa</button>
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy</a>
+        </div>
+    }
+</div>

@@ -1,0 +1,76 @@
+﻿@model MedicalEquipmentManagement.ViewModels.KeywordSearchViewModel<MedicalEquipmentManagement.Models.EquipmentCategory>
+
+@{
+    ViewBag.Title = "Quản lý Danh mục Thiết bị";
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+            <h2>Danh mục Loại Thiết bị (Category)</h2>
+            <h3>CRUD cơ bản các nhóm danh mục thiết bị y tế</h3>
+        </div>
+        <a href="@Url.Action("Create")" class="btn btn-primary">+ Thêm danh mục</a>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert-success">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="error">@TempData["Error"]</div>
+}
+
+<div class="toolbar-card">
+    <form method="get" action="@Url.Action("Index")" class="search-form">
+        <input type="text" name="keyword" value="@Model.Keyword" placeholder="Tìm theo mã hoặc tên danh mục..." class="search-input" style="min-width: 260px;" />
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        @if (!string.IsNullOrWhiteSpace(Model.Keyword))
+        {
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Đặt lại</a>
+        }
+    </form>
+</div>
+
+<div class="table-card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Mã danh mục</th>
+                <th>Tên danh mục thiết bị</th>
+                <th>Số mẫu thiết bị</th>
+                <th>Trạng thái</th>
+                <th style="text-align: right;">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Items.Any())
+            {
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 24px;">Chưa có danh mục nào.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model.Items)
+                {
+                    int modelCount = item.EquipmentModels != null ? item.EquipmentModels.Count : 0;
+                    <tr>
+                        <td><strong>@item.CategoryCode</strong></td>
+                        <td>@item.Name</td>
+                        <td>@modelCount mẫu</td>
+                        <td>@(item.IsActive ? "Đang sử dụng" : "Tạm ngưng")</td>
+                        <td style="text-align: right; white-space: nowrap;">
+                            <a href="@Url.Action("Details", new { id = item.CategoryId })" class="btn btn-ghost" style="padding: 4px 8px;">Chi tiết</a>
+                            <a href="@Url.Action("Edit", new { id = item.CategoryId })" class="btn btn-ghost" style="padding: 4px 8px;">Sửa</a>
+                            <a href="@Url.Action("Delete", new { id = item.CategoryId })" class="btn btn-ghost" style="padding: 4px 8px; color: var(--color-danger);">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
