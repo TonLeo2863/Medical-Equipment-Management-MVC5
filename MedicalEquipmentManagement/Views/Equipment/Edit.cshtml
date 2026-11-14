@@ -1,0 +1,66 @@
+﻿@model MedicalEquipmentManagement.ViewModels.EquipmentAssetViewModel
+
+@{
+    ViewBag.Title = "Cập nhật Tài sản Thiết bị";
+}
+
+<div class="page-header">
+    <h2>Cập nhật Tài sản Thiết bị: @Model.AssetCode</h2>
+    <h3>Chỉnh sửa thông tin thiết bị vật lý thông qua EquipmentAssetViewModel</h3>
+</div>
+
+<div style="max-width: 680px; background: #ffffff; border: 1px solid var(--color-border); border-radius: 4px; padding: 24px;">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.AssetId)
+        @Html.ValidationSummary(true, "", new { @class = "error" })
+
+        <div class="field">
+            @Html.LabelFor(m => m.AssetCode)
+            @Html.TextBoxFor(m => m.AssetCode, new { @class = "search-input" })
+            @Html.ValidationMessageFor(m => m.AssetCode, "", new { style = "color: var(--color-danger); font-size: 12px;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.SerialNumber)
+            @Html.TextBoxFor(m => m.SerialNumber, new { @class = "search-input" })
+            @Html.ValidationMessageFor(m => m.SerialNumber, "", new { style = "color: var(--color-danger); font-size: 12px;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.ModelId)
+            @Html.DropDownListFor(m => m.ModelId, Model.ModelList, "-- Chọn Mẫu thiết bị (Model) --", new { @class = "search-input" })
+            @Html.ValidationMessageFor(m => m.ModelId, "", new { style = "color: var(--color-danger); font-size: 12px;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.DepartmentId)
+            @Html.DropDownListFor(m => m.DepartmentId, Model.DepartmentList, "-- Kho dự trữ (Chưa phân bổ khoa) --", new { @class = "search-input" })
+            @Html.ValidationMessageFor(m => m.DepartmentId, "", new { style = "color: var(--color-danger); font-size: 12px;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.Status)
+            @Html.DropDownListFor(m => m.Status, Model.StatusList, new { @class = "search-input" })
+            @Html.ValidationMessageFor(m => m.Status, "", new { style = "color: var(--color-danger); font-size: 12px;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.PurchaseDate)
+            @Html.TextBoxFor(m => m.PurchaseDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "search-input" })
+            @Html.ValidationMessageFor(m => m.PurchaseDate, "", new { style = "color: var(--color-danger); font-size: 12px;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.PurchasePrice)
+            @Html.TextBoxFor(m => m.PurchasePrice, new { type = "number", step = "1000", min = "0", @class = "search-input" })
+            @Html.ValidationMessageFor(m => m.PurchasePrice, "", new { style = "color: var(--color-danger); font-size: 12px;" })
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-top: 20px;">
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy</a>
+        </div>
+    }
+</div>

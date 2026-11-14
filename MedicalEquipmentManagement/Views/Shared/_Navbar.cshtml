@@ -39,6 +39,18 @@
                    class="@(currentController == "Equipment" ? "is-active" : "")">Thiết bị</a>
             </li>
             <li>
+                <a href="@Url.Action("Index", "EquipmentModel")"
+                   class="@(currentController == "EquipmentModel" ? "is-active" : "")">Mẫu thiết bị</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Category")"
+                   class="@(currentController == "Category" ? "is-active" : "")">Danh mục</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Supplier")"
+                   class="@(currentController == "Supplier" ? "is-active" : "")">Nhà cung cấp</a>
+            </li>
+            <li>
                 <a href="@Url.Action("About", "Home")"
                    class="@(currentController == "Home" && currentAction == "About" ? "is-active" : "")">Giới thiệu</a>
             </li>

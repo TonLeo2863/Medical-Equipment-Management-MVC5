@@ -1,0 +1,42 @@
+﻿@model MedicalEquipmentManagement.Models.EquipmentModel
+
+@{
+    ViewBag.Title = "Xóa Mẫu thiết bị";
+    var assetCount = Model.EquipmentAssets != null ? Model.EquipmentAssets.Count : 0;
+}
+
+<div class="page-header">
+    <h2>Xác nhận xóa Mẫu thiết bị: [@Model.ModelCode] @Model.ModelName</h2>
+</div>
+
+<div style="max-width: 640px; background: #ffffff; border: 1px solid var(--color-border); border-radius: 4px; padding: 24px;">
+    @if (assetCount > 0)
+    {
+        <div class="error">
+            Mẫu thiết bị <strong>[@Model.ModelCode] @Model.ModelName</strong> hiện đang có <strong>@assetCount thiết bị thực tế</strong>. Không thể xóa khi còn thiết bị tham chiếu.
+        </div>
+    }
+    else
+    {
+        <p>Bạn có chắc chắn muốn xóa mẫu thiết bị <strong>[@Model.ModelCode] @Model.ModelName</strong>?</p>
+    }
+
+    <table class="data-table" style="margin-bottom: 20px;">
+        <tbody>
+            <tr><th style="width: 160px;">Mã Model</th><td><strong>@Model.ModelCode</strong></td></tr>
+            <tr><th>Tên mẫu thiết bị</th><td><strong>@Model.ModelName</strong></td></tr>
+            <tr><th>Danh mục loại</th><td>@(Model.Category != null ? Model.Category.Name : "—")</td></tr>
+            <tr><th>Hãng sản xuất</th><td>@(Model.ManufacturerSupplier != null ? Model.ManufacturerSupplier.Name : "—")</td></tr>
+            <tr><th>Số thiết bị thực tế</th><td>@assetCount thiết bị</td></tr>
+        </tbody>
+    </table>
+
+    @using (Html.BeginForm("Delete", "EquipmentModel", new { id = Model.ModelId }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div style="display: flex; gap: 8px;">
+            <button type="submit" class="btn btn-primary" style="background: var(--color-danger); border-color: var(--color-danger);">Xác nhận xóa</button>
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy</a>
+        </div>
+    }
+</div>

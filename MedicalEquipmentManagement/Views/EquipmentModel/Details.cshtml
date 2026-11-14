@@ -1,0 +1,57 @@
+﻿@model MedicalEquipmentManagement.Models.EquipmentModel
+
+@{
+    ViewBag.Title = "Chi tiết Mẫu thiết bị - " + Model.ModelName;
+    var assets = Model.EquipmentAssets != null ? Model.EquipmentAssets.OrderBy(a => a.AssetCode).ToList() : new List<MedicalEquipmentManagement.Models.EquipmentAsset>();
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+            <h2>Chi tiết Mẫu thiết bị: [@Model.ModelCode] @Model.ModelName</h2>
+            <h3>Danh mục: @(Model.Category != null ? Model.Category.Name : "—") | Hãng sản xuất: @(Model.ManufacturerSupplier != null ? Model.ManufacturerSupplier.Name : "—")</h3>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <a href="@Url.Action("Edit", new { id = Model.ModelId })" class="btn btn-primary">Sửa mẫu</a>
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Quay lại danh sách</a>
+        </div>
+    </div>
+</div>
+
+<div class="table-card">
+    <div style="padding: 10px 12px; border-bottom: 1px solid var(--color-border-soft); font-weight: 600;">
+        Danh sách Tài sản thực tế (EquipmentAsset) thuộc mẫu này (@assets.Count thiết bị)
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Mã tài sản</th>
+                <th>Số Serial</th>
+                <th>Khoa / Phòng</th>
+                <th>Ngày mua</th>
+                <th>Trạng thái</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!assets.Any())
+            {
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 20px;">Chưa có thiết bị thực tế nào thuộc mẫu này.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var a in assets)
+                {
+                    <tr>
+                        <td><strong>@a.AssetCode</strong></td>
+                        <td><code>@a.SerialNumber</code></td>
+                        <td>@(a.Department != null ? a.Department.Name : "Kho dự trữ")</td>
+                        <td>@(a.PurchaseDate.HasValue ? a.PurchaseDate.Value.ToString("dd/MM/yyyy") : "—")</td>
+                        <td><span class="tag">@a.Status</span></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

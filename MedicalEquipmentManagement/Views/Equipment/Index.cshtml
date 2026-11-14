@@ -1,17 +1,161 @@
-@model IEnumerable<MedicalEquipmentManagement.Models.Equipment>
-@{
-    ViewBag.Title = "Danh sách thiết bị";
+﻿@model MedicalEquipmentManagement.ViewModels.EquipmentAssetIndexViewModel
+@using MedicalEquipmentManagement.Models
+
+@helper SortLink(MedicalEquipmentManagement.ViewModels.EquipmentAssetIndexViewModel m, string key, string label, UrlHelper url)
+{
+    string nextDir = (m.SortBy == key && m.SortDir == "asc") ? "desc" : "asc";
+    string arrow = m.SortBy == key ? (m.SortDir == "asc" ? " ▲" : " ▼") : "";
+    <a href="@url.Action("Index", new { keyword = m.Keyword, departmentId = m.DepartmentId, status = m.Status, sortBy = key, sortDir = nextDir })" style="color: inherit; text-decoration: none;">@label@arrow</a>
 }
-<h2>Danh sách thiết bị</h2>
-<form method="get">
-    <input type="text" name="keyword" placeholder="Tên hoặc mã thiết bị" />
-    <button type="submit">Tìm kiếm</button>
-</form>
-<table>
-    <thead><tr><th>Mã</th><th>Tên</th><th>Trạng thái</th><th>Số lượng</th></tr></thead>
-    <tbody>
-    @foreach (var item in Model) {
-        <tr><td>@item.EquipmentCode</td><td>@item.Name</td><td>@item.Status</td><td>@item.Quantity</td></tr>
+
+@{
+    ViewBag.Title = "Danh sách Tài sản Thiết bị";
+    bool hasFilter = !string.IsNullOrWhiteSpace(Model.Keyword)
+        || Model.DepartmentId.HasValue
+        || !string.IsNullOrWhiteSpace(Model.Status);
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+            <h2>Danh sách Tài sản Thiết bị (EquipmentAsset)</h2>
+            <h3>Tìm kiếm theo Tên/Số Serial, Lọc theo Khoa/Trạng thái và Phân trang</h3>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <a href="@Url.Action("Import")" class="btn btn-ghost">Import Excel (.xlsx)</a>
+            <a href="@Url.Action("Create")" class="btn btn-primary">+ Thêm thiết bị mới</a>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert-success">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="error">@TempData["Error"]</div>
+}
+
+<!-- Thanh công cụ Tìm kiếm (Tên/Serial) & Lọc (Khoa/Trạng thái) -->
+<div class="toolbar-card">
+    <form method="get" action="@Url.Action("Index")" class="search-form">
+        <input type="text"
+               name="keyword"
+               value="@Model.Keyword"
+               placeholder="Tìm theo tên mẫu máy, mã tài sản hoặc số Serial..."
+               class="search-input"
+               style="min-width: 280px;" />
+
+        @Html.DropDownList("departmentId", Model.DepartmentList, "-- Tất cả Khoa / Phòng --", new { @class = "search-input", style = "min-width: 200px;" })
+
+        @Html.DropDownList("status", Model.StatusList, "-- Tất cả Trạng thái --", new { @class = "search-input", style = "min-width: 180px;" })
+
+        <input type="hidden" name="sortBy" value="@Model.SortBy" />
+        <input type="hidden" name="sortDir" value="@Model.SortDir" />
+
+        <button type="submit" class="btn btn-primary">Tìm kiếm / Lọc</button>
+
+        @if (hasFilter)
+        {
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Đặt lại</a>
+        }
+    </form>
+</div>
+
+<!-- Bảng danh sách thiết bị -->
+<div class="table-card">
+    <div style="padding: 10px 12px; border-bottom: 1px solid var(--color-border-soft); font-size: 13px; color: var(--color-text-secondary);">
+        Tổng số: <strong>@Model.TotalItems</strong> thiết bị (Trang <strong>@Model.Page</strong> / <strong>@Model.TotalPages</strong>)
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>@SortLink(Model, "code", "Mã tài sản", Url)</th>
+                <th>Số Serial (S/N)</th>
+                <th>@SortLink(Model, "name", "Tên mẫu thiết bị (Model)", Url)</th>
+                <th>Danh mục</th>
+                <th>Khoa / Phòng</th>
+                <th>@SortLink(Model, "price", "Giá mua", Url)</th>
+                <th>@SortLink(Model, "date", "Ngày mua", Url)</th>
+                <th>Trạng thái</th>
+                <th>Lịch sử bảo trì</th>
+                <th style="text-align: right;">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Items == null || !Model.Items.Any())
+            {
+                <tr>
+                    <td colspan="10" style="text-align: center; padding: 24px; color: var(--color-text-tertiary);">
+                        Không tìm thấy thiết bị nào phù hợp.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model.Items)
+                {
+                    int maintCount = item.MaintenanceRecords != null ? item.MaintenanceRecords.Count : 0;
+                    <tr>
+                        <td><strong>@item.AssetCode</strong></td>
+                        <td><code>@item.SerialNumber</code></td>
+                        <td>@(item.EquipmentModel != null ? item.EquipmentModel.ModelName : "—")</td>
+                        <td>@(item.EquipmentModel != null && item.EquipmentModel.Category != null ? item.EquipmentModel.Category.Name : "—")</td>
+                        <td>@(item.Department != null ? item.Department.Name : "Kho dự trữ")</td>
+                        <td>@(item.PurchasePrice.HasValue ? item.PurchasePrice.Value.ToString("N0") + " đ" : "—")</td>
+                        <td>@(item.PurchaseDate.HasValue ? item.PurchaseDate.Value.ToString("dd/MM/yyyy") : "—")</td>
+                        <td><span class="tag">@item.Status</span></td>
+                        <td>
+                            @if (maintCount > 0)
+                            {
+                                <span>@maintCount lần bảo trì</span>
+                            }
+                            else
+                            {
+                                <span style="color: var(--color-text-tertiary);">Chưa có</span>
+                            }
+                        </td>
+                        <td style="text-align: right; white-space: nowrap;">
+                            <a href="@Url.Action("Details", new { id = item.AssetId })" class="btn btn-ghost" style="padding: 4px 8px;">Chi tiết / QR</a>
+                            <a href="@Url.Action("Edit", new { id = item.AssetId })" class="btn btn-ghost" style="padding: 4px 8px;">Sửa</a>
+                            <a href="@Url.Action("Delete", new { id = item.AssetId })" class="btn btn-ghost" style="padding: 4px 8px; color: var(--color-danger);">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <!-- Phân trang (Pagination) -->
+    @if (Model.TotalPages > 1)
+    {
+        <div style="padding: 12px; border-top: 1px solid var(--color-border-soft); display: flex; justify-content: center; gap: 6px; flex-wrap: wrap;">
+            @if (Model.Page > 1)
+            {
+                <a class="btn btn-ghost"
+                   href="@Url.Action("Index", new { keyword = Model.Keyword, departmentId = Model.DepartmentId, status = Model.Status, sortBy = Model.SortBy, sortDir = Model.SortDir, page = Model.Page - 1 })">
+                    &laquo; Trước
+                </a>
+            }
+
+            @for (int p = 1; p <= Model.TotalPages; p++)
+            {
+                <a class="btn @(p == Model.Page ? "btn-primary" : "btn-ghost")"
+                   href="@Url.Action("Index", new { keyword = Model.Keyword, departmentId = Model.DepartmentId, status = Model.Status, sortBy = Model.SortBy, sortDir = Model.SortDir, page = p })">
+                    @p
+                </a>
+            }
+
+            @if (Model.Page < Model.TotalPages)
+            {
+                <a class="btn btn-ghost"
+                   href="@Url.Action("Index", new { keyword = Model.Keyword, departmentId = Model.DepartmentId, status = Model.Status, sortBy = Model.SortBy, sortDir = Model.SortDir, page = Model.Page + 1 })">
+                    Sau &raquo;
+                </a>
+            }
+        </div>
     }
-    </tbody>
-</table>
+</div>

@@ -1,0 +1,60 @@
+﻿@model MedicalEquipmentManagement.Models.Supplier
+@using MedicalEquipmentManagement.Models
+
+@{
+    ViewBag.Title = "Thêm Nhà cung cấp / Hãng sản xuất";
+}
+
+
+<div class="page-header">
+    <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+        ← Quay lại danh sách
+    </a>
+    <h2>Thêm mới Nhà cung cấp / Hãng sản xuất</h2>
+    <h3>Khai báo thông tin hãng sản xuất thiết bị y tế (Manufacturer) hoặc đơn vị cung ứng (Vendor)</h3>
+</div>
+
+<div style="max-width: 680px; margin: 0 auto; background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 32px;">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "error" })
+
+        <div class="field">
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { placeholder = "Ví dụ: GE Healthcare, Philips Healthcare, Công ty TBYT Phương Đông...", @class = "search-input", style = "border-radius: var(--radius-sm);" })
+            @Html.ValidationMessageFor(m => m.Name, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.SupplierType)
+            <select name="SupplierType" class="search-input" style="width: 100%; border-radius: var(--radius-sm);">
+                <option value="@SupplierTypeConst.Manufacturer" @(Model.SupplierType == SupplierTypeConst.Manufacturer ? "selected" : "")>Hãng sản xuất thiết bị gốc (Manufacturer)</option>
+                <option value="@SupplierTypeConst.Vendor" @(Model.SupplierType == SupplierTypeConst.Vendor ? "selected" : "")>Nhà phân phối / Đơn vị bảo trì (Vendor)</option>
+            </select>
+            @Html.ValidationMessageFor(m => m.SupplierType, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.Phone)
+            @Html.TextBoxFor(m => m.Phone, new { placeholder = "Ví dụ: 18001111 hoặc 02838889999", @class = "search-input", style = "border-radius: var(--radius-sm);" })
+            @Html.ValidationMessageFor(m => m.Phone, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { placeholder = "Ví dụ: contact@manufacturer.com", @class = "search-input", style = "border-radius: var(--radius-sm);" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div class="field" style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+            @Html.CheckBoxFor(m => m.IsActive, new { id = "isActiveCheckbox", style = "width: 18px; height: 18px;" })
+            <label for="isActiveCheckbox" style="margin-bottom: 0; cursor: pointer;">Đang hợp tác hoạt động</label>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 32px; justify-content: flex-end;">
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy bỏ</a>
+            <button type="submit" class="btn btn-primary">Lưu đơn vị</button>
+        </div>
+    }
+</div>
