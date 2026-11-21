@@ -1,0 +1,62 @@
+@model MedicalEquipmentManagement.Models.WorkOrder
+
+@{
+    ViewBag.Title = "Cập nhật Phiếu Báo Hỏng #WO-" + Model.WorkOrderId;
+}
+
+<div class="page-header">
+    <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+        ← Quay lại danh sách phiếu
+    </a>
+    <h2>Cập nhật Phiếu Báo Hỏng #WO-@Model.WorkOrderId</h2>
+    <h3>Chuyển đổi trạng thái xử lý và chỉ định kỹ sư thực hiện</h3>
+</div>
+
+<div style="max-width: 680px; margin: 0 auto; background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 32px;">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.WorkOrderId)
+        @Html.ValidationSummary(true, "", new { @class = "error" })
+
+        <div class="field">
+            <label for="AssetId"><strong>Thiết bị gặp sự cố</strong></label>
+            @Html.DropDownList("AssetId", null, new { @class = "search-input", style = "border-radius: var(--radius-sm); cursor: pointer;" })
+            @Html.ValidationMessageFor(m => m.AssetId, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.IssueDescription)
+            @Html.TextAreaFor(m => m.IssueDescription, new { rows = 4, @class = "search-input", style = "border-radius: var(--radius-sm); resize: vertical;" })
+            @Html.ValidationMessageFor(m => m.IssueDescription, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="field">
+                @Html.LabelFor(m => m.CreatedDate)
+                @Html.TextBoxFor(m => m.CreatedDate, "{0:yyyy-MM-ddTHH:mm}", new { type = "datetime-local", @class = "search-input", style = "border-radius: var(--radius-sm);" })
+                @Html.ValidationMessageFor(m => m.CreatedDate, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+            </div>
+
+            <div class="field">
+                @Html.LabelFor(m => m.Status)
+                <select name="Status" class="search-input" style="border-radius: var(--radius-sm); cursor: pointer;">
+                    <option value="Chờ xử lý" @(Model.Status == "Chờ xử lý" ? "selected" : "")>Chờ xử lý</option>
+                    <option value="Đang sửa" @(Model.Status == "Đang sửa" ? "selected" : "")>Đang sửa</option>
+                    <option value="Đã xong" @(Model.Status == "Đã xong" ? "selected" : "")>Đã xong</option>
+                </select>
+                @Html.ValidationMessageFor(m => m.Status, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+            </div>
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.AssignedToUserId)
+            @Html.DropDownList("AssignedToUserId", null, "-- Phân công kỹ sư (tùy chọn) --", new { @class = "search-input", style = "border-radius: var(--radius-sm); cursor: pointer;" })
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 32px; justify-content: flex-end;">
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy bỏ</a>
+            <button type="submit" class="btn btn-primary">Lưu cập nhật</button>
+        </div>
+    }
+</div>

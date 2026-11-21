@@ -1,0 +1,158 @@
+@model IEnumerable<MedicalEquipmentManagement.Models.WorkOrder>
+
+@{
+    ViewBag.Title = "Phiếu Báo Hỏng & Sửa Chữa (Work Orders)";
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <h2>Phiếu Báo Hỏng & Sửa Chữa (Work Orders)</h2>
+            <h3>Tiếp nhận sự cố, phân công kỹ thuật và theo dõi tiến độ khắc phục thiết bị y tế</h3>
+        </div>
+        <div>
+            <a href="@Url.Action("Create")" class="btn btn-primary">
+                + Báo hỏng thiết bị mới
+            </a>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div style="background: rgba(52, 199, 89, 0.12); color: #248a3d; border-radius: var(--radius-sm); padding: 12px 18px; margin-bottom: 20px; font-weight: 500;">
+        ✓ @TempData["Success"]
+    </div>
+}
+
+<!-- Stat Cards -->
+<div class="grid grid-4" style="margin-bottom: 28px;">
+    <div class="stat stat-total">
+        <div class="stat-label">TỔNG SỐ PHIẾU</div>
+        <div class="stat-value">@ViewBag.TotalOrders</div>
+        <div class="stat-hint">Tất cả sự cố đã tiếp nhận</div>
+    </div>
+    <div class="stat stat-alert">
+        <div class="stat-label">CHỜ XỬ LÝ</div>
+        <div class="stat-value">@ViewBag.PendingOrders</div>
+        <div class="stat-hint">Chưa có kỹ sư tiếp nhận</div>
+    </div>
+    <div class="stat stat-warn">
+        <div class="stat-label">ĐANG SỬA CHỮA</div>
+        <div class="stat-value">@ViewBag.InRepairOrders</div>
+        <div class="stat-hint">Đang thay thế / kiểm tra</div>
+    </div>
+    <div class="stat stat-ok">
+        <div class="stat-label">ĐÃ HOÀN TẤT</div>
+        <div class="stat-value">@ViewBag.CompletedOrders</div>
+        <div class="stat-hint">Đã đưa lại vào sử dụng</div>
+    </div>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar-card">
+    <form method="get" action="@Url.Action("Index")" class="search-form" style="align-items: center;">
+        <div style="flex: 1; min-width: 220px;">
+            <input type="text" name="keyword" value="@ViewBag.Keyword" placeholder="Tìm theo mô tả sự cố, số Serial máy..." class="search-input" />
+        </div>
+        <div>
+            <select name="status" class="search-input" style="padding: 10px 14px; border-radius: var(--radius-full); cursor: pointer;">
+                <option value="">-- Tất cả trạng thái --</option>
+                <option value="Chờ xử lý" @(ViewBag.CurrentStatus == "Chờ xử lý" ? "selected" : "")>Chờ xử lý</option>
+                <option value="Đang sửa" @(ViewBag.CurrentStatus == "Đang sửa" ? "selected" : "")>Đang sửa</option>
+                <option value="Đã xong" @(ViewBag.CurrentStatus == "Đã xong" ? "selected" : "")>Đã xong</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Lọc</button>
+        @if (!string.IsNullOrEmpty(ViewBag.CurrentStatus as string) || !string.IsNullOrEmpty(ViewBag.Keyword as string))
+        {
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Xóa lọc</a>
+        }
+    </form>
+</div>
+
+<!-- Data Table -->
+<div class="table-card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 110px;">MÃ PHIẾU</th>
+                <th style="width: 130px;">NGÀY BÁO</th>
+                <th>THIẾT BỊ & KHOA BÁO HỎNG</th>
+                <th>MÔ TẢ SỰ CỐ</th>
+                <th>KỸ SƯ PHỤ TRÁCH</th>
+                <th>TRẠNG THÁI</th>
+                <th style="text-align: right; width: 170px;">THAO TÁC</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 40px; color: var(--color-text-tertiary);">
+                        Không tìm thấy phiếu yêu cầu sửa chữa nào.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>#WO-@item.WorkOrderId</strong>
+                        </td>
+                        <td>
+                            @item.CreatedDate.ToString("dd/MM/yyyy HH:mm")
+                        </td>
+                        <td>
+                            @if (item.EquipmentAsset != null)
+                            {
+                                <strong>@(item.EquipmentAsset.EquipmentModel != null ? item.EquipmentAsset.EquipmentModel.ModelName : "Thiết bị")</strong>
+                                <div style="font-size: 11px; color: var(--color-text-tertiary);">
+                                    SN: <code>@item.EquipmentAsset.SerialNumber</code> | @(item.EquipmentAsset.Department != null ? item.EquipmentAsset.Department.Name : "Kho trung tâm")
+                                </div>
+                            }
+                            else
+                            {
+                                <span>Máy #@item.AssetId</span>
+                            }
+                        </td>
+                        <td>
+                            <div style="max-width: 300px; white-space: normal; line-height: 1.4;">
+                                @item.IssueDescription
+                            </div>
+                        </td>
+                        <td>
+                            @(item.AssignedUser != null ? item.AssignedUser.FullName : "Chưa phân công")
+                        </td>
+                        <td>
+                            @if (item.Status == "Chờ xử lý")
+                            {
+                                <span class="tag" style="background: rgba(255, 59, 48, 0.12); color: var(--color-danger); font-weight: 600;">
+                                    ● Chờ xử lý
+                                </span>
+                            }
+                            else if (item.Status == "Đang sửa")
+                            {
+                                <span class="tag" style="background: rgba(255, 149, 0, 0.14); color: #c47500; font-weight: 600;">
+                                    ⏳ Đang sửa
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="tag" style="background: rgba(52, 199, 89, 0.12); color: var(--color-success); font-weight: 600;">
+                                    ✓ Đã xong
+                                </span>
+                            }
+                        </td>
+                        <td style="text-align: right;">
+                            <a href="@Url.Action("Edit", new { id = item.WorkOrderId })" class="btn btn-ghost" style="padding: 6px 10px; font-size: 12px;">Cập nhật</a>
+                            <a href="@Url.Action("Details", new { id = item.WorkOrderId })" class="btn btn-ghost" style="padding: 6px 10px; font-size: 12px;">Chi tiết</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

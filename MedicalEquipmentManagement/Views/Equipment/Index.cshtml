@@ -1,17 +1,65 @@
-@model IEnumerable<MedicalEquipmentManagement.Models.Equipment>
+@model IEnumerable<MedicalEquipmentManagement.Models.EquipmentModel>
 @{
-    ViewBag.Title = "Danh sách thiết bị";
+    ViewBag.Title = "Danh mục Model Thiết bị";
 }
-<h2>Danh sách thiết bị</h2>
-<form method="get">
-    <input type="text" name="keyword" placeholder="Tên hoặc mã thiết bị" />
-    <button type="submit">Tìm kiếm</button>
-</form>
-<table>
-    <thead><tr><th>Mã</th><th>Tên</th><th>Trạng thái</th><th>Số lượng</th></tr></thead>
-    <tbody>
-    @foreach (var item in Model) {
-        <tr><td>@item.EquipmentCode</td><td>@item.Name</td><td>@item.Status</td><td>@item.Quantity</td></tr>
-    }
-    </tbody>
-</table>
+
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <div>
+        <h2 style="font-size: 24px; font-weight: 700; margin: 0; color: #1d1d1f;">Danh mục Model Thiết bị</h2>
+        <p style="color: #86868b; margin: 4px 0 0 0; font-size: 14px;">Quản lý các dòng model, thông số nhà sản xuất và danh mục trang thiết bị y tế</p>
+    </div>
+</div>
+
+<div class="glass-panel" style="background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border-radius: 16px; border: 1px solid rgba(0, 0, 0, 0.08); padding: 20px; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04); margin-bottom: 24px;">
+    <form method="get" class="form-inline" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <input type="text" name="keyword" value="@Request.QueryString["keyword"]" placeholder="Tìm theo tên model..." class="form-control" style="border-radius: 10px; border: 1px solid #d2d2d7; padding: 8px 14px; font-size: 14px; min-width: 280px;" />
+        <button type="submit" class="btn btn-primary" style="background: #0071e3; border: none; border-radius: 10px; padding: 8px 18px; font-weight: 500; font-size: 14px; color: #fff;">Tìm kiếm</button>
+        @if (!string.IsNullOrEmpty(Request.QueryString["keyword"]))
+        {
+            <a href="@Url.Action("Index")" class="btn btn-default" style="border-radius: 10px; padding: 8px 14px; font-size: 14px;">Đặt lại</a>
+        }
+    </form>
+</div>
+
+<div class="glass-panel" style="background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border-radius: 16px; border: 1px solid rgba(0, 0, 0, 0.08); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04); overflow: hidden;">
+    <table class="table" style="width: 100%; border-collapse: collapse; margin-bottom: 0;">
+        <thead>
+            <tr style="background: rgba(245, 245, 247, 0.8); border-bottom: 1px solid rgba(0, 0, 0, 0.06); text-align: left;">
+                <th style="padding: 14px 18px; font-weight: 600; font-size: 13px; color: #86868b; text-transform: uppercase;">ID</th>
+                <th style="padding: 14px 18px; font-weight: 600; font-size: 13px; color: #86868b; text-transform: uppercase;">Tên Model</th>
+                <th style="padding: 14px 18px; font-weight: 600; font-size: 13px; color: #86868b; text-transform: uppercase;">Hãng sản xuất</th>
+                <th style="padding: 14px 18px; font-weight: 600; font-size: 13px; color: #86868b; text-transform: uppercase;">Phân loại</th>
+                <th style="padding: 14px 18px; font-weight: 600; font-size: 13px; color: #86868b; text-transform: uppercase; text-align: center;">Số cá thể máy</th>
+            </tr>
+        </thead>
+        <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="5" style="text-align: center; padding: 40px; color: #86868b;">Không có dữ liệu model thiết bị nào phù hợp.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.04);">
+                    <td style="padding: 14px 18px; color: #86868b; font-size: 13px;">#@item.ModelId</td>
+                    <td style="padding: 14px 18px; font-weight: 600; color: #1d1d1f; font-size: 14px;">@item.ModelName</td>
+                    <td style="padding: 14px 18px; color: #515154; font-size: 14px;">@(string.IsNullOrEmpty(item.Manufacturer) ? "Chưa cập nhật" : item.Manufacturer)</td>
+                    <td style="padding: 14px 18px; font-size: 14px;">
+                        <span class="badge" style="background: rgba(0, 113, 227, 0.1); color: #0071e3; border-radius: 6px; padding: 4px 8px; font-weight: 500;">
+                            @(item.Category != null ? item.Category.Name : "Chưa phân loại")
+                        </span>
+                    </td>
+                    <td style="padding: 14px 18px; text-align: center; font-size: 14px;">
+                        <span class="badge" style="background: rgba(52, 199, 89, 0.1); color: #28cd41; border-radius: 6px; padding: 4px 8px; font-weight: 600;">
+                            @(item.EquipmentAssets != null ? item.EquipmentAssets.Count : 0) máy
+                        </span>
+                    </td>
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+</div>

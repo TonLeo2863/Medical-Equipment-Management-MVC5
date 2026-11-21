@@ -43,12 +43,22 @@
                    class="@(currentController == "Home" && currentAction == "About" ? "is-active" : "")">Giới thiệu</a>
             </li>
 
-            @*
-                Danh khi tao CategoryController / SupplierController / MaintenanceController,
-                <li><a href="@Url.Action("Index", "Category")">Danh mục</a></li>
-                <li><a href="@Url.Action("Index", "Supplier")">Nhà cung cấp</a></li>
-                <li><a href="@Url.Action("Index", "Maintenance")">Bảo trì</a></li>
-            *@
+            <li>
+                <a href="@Url.Action("Index", "Department")"
+                   class="@(currentController == "Department" ? "is-active" : "")">Phòng ban</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Inventory")"
+                   class="@(currentController == "Inventory" ? "is-active" : "")">Kho & Luân chuyển</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Maintenance")"
+                   class="@(currentController == "Maintenance" ? "is-active" : "")">Bảo trì</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "WorkOrder")"
+                   class="@(currentController == "WorkOrder" ? "is-active" : "")">Phiếu sửa chữa</a>
+            </li>
 
             @if (string.IsNullOrEmpty(loggedInUser))
             {

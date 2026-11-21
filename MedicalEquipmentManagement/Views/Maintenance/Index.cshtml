@@ -1,0 +1,177 @@
+@model IEnumerable<MedicalEquipmentManagement.Models.MaintenanceRecord>
+
+@{
+    ViewBag.Title = "Quản lý Bảo trì & Sửa chữa Thiết bị";
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <h2>Quản lý Bảo trì & Sửa chữa</h2>
+            <h3>Ghi nhận nhật ký bảo dưỡng định kỳ, kiểm định và khắc phục sự cố thiết bị y tế</h3>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <a href="@Url.Action("Upcoming")" class="btn" style="background: rgba(255, 149, 0, 0.12); color: var(--color-warning); font-weight: 600;">
+                ⚠ Sắp đến hạn (@ViewBag.UpcomingCount)
+            </a>
+            <a href="@Url.Action("Create")" class="btn btn-primary">
+                + Thêm phiếu bảo trì
+            </a>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div style="background: rgba(52, 199, 89, 0.12); color: #248a3d; border-radius: var(--radius-sm); padding: 12px 18px; margin-bottom: 20px; font-weight: 500;">
+        ✓ @TempData["Success"]
+    </div>
+}
+
+<!-- Stat Cards -->
+<div class="grid grid-4" style="margin-bottom: 28px;">
+    <div class="stat stat-total">
+        <div class="stat-label">TỔNG LƯỢT BẢO TRÌ</div>
+        <div class="stat-value">@ViewBag.TotalRecords</div>
+        <div class="stat-hint">Ghi nhận trong toàn viện</div>
+    </div>
+    <div class="stat stat-ok">
+        <div class="stat-label">ĐÃ HOÀN THÀNH / ĐẠT</div>
+        <div class="stat-value">@ViewBag.CompletedRecords</div>
+        <div class="stat-hint">Thiết bị hoạt động tốt</div>
+    </div>
+    <div class="stat stat-warn">
+        <div class="stat-label">ĐANG XỬ LÝ / CHỜ VẬT TƯ</div>
+        <div class="stat-value">@ViewBag.InProgressRecords</div>
+        <div class="stat-hint">Đang được kỹ sư xử lý</div>
+    </div>
+    <div class="stat stat-total">
+        <div class="stat-label">TỔNG CHI PHÍ BẢO TRÌ</div>
+        <div class="stat-value" style="font-size: 24px;">@string.Format("{0:N0} đ", ViewBag.TotalCost)</div>
+        <div class="stat-hint">Ngân sách đã giải ngân</div>
+    </div>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar-card">
+    <form method="get" action="@Url.Action("Index")" class="search-form" style="align-items: center;">
+        <div style="flex: 1; min-width: 220px;">
+            <input type="text" name="keyword" value="@ViewBag.Keyword" placeholder="Tìm theo Serial, nội dung sửa chữa..." class="search-input" />
+        </div>
+        <div>
+            <select name="type" class="search-input" style="padding: 10px 14px; border-radius: var(--radius-full); cursor: pointer;">
+                <option value="">-- Tất cả loại bảo trì --</option>
+                <option value="Bảo dưỡng định kỳ" @(ViewBag.CurrentType == "Bảo dưỡng định kỳ" ? "selected" : "")>Bảo dưỡng định kỳ</option>
+                <option value="Sửa chữa sự cố" @(ViewBag.CurrentType == "Sửa chữa sự cố" ? "selected" : "")>Sửa chữa sự cố</option>
+                <option value="Hiệu chuẩn thiết bị" @(ViewBag.CurrentType == "Hiệu chuẩn thiết bị" ? "selected" : "")>Hiệu chuẩn thiết bị</option>
+            </select>
+        </div>
+        <div>
+            <select name="resultStatus" class="search-input" style="padding: 10px 14px; border-radius: var(--radius-full); cursor: pointer;">
+                <option value="">-- Tất cả kết quả --</option>
+                <option value="Hoàn thành" @(ViewBag.CurrentResult == "Hoàn thành" ? "selected" : "")>Hoàn thành</option>
+                <option value="Đang xử lý" @(ViewBag.CurrentResult == "Đang xử lý" ? "selected" : "")>Đang xử lý</option>
+                <option value="Chờ linh kiện" @(ViewBag.CurrentResult == "Chờ linh kiện" ? "selected" : "")>Chờ linh kiện</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Lọc</button>
+        @if (!string.IsNullOrEmpty(ViewBag.CurrentResult as string) || !string.IsNullOrEmpty(ViewBag.CurrentType as string) || !string.IsNullOrEmpty(ViewBag.Keyword as string))
+        {
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Xóa lọc</a>
+        }
+    </form>
+</div>
+
+<!-- Table Card -->
+<div class="table-card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 110px;">MÃ PHIẾU</th>
+                <th style="width: 120px;">NGÀY BẢO TRÌ</th>
+                <th>THIẾT BỊ & KHOA PHÒNG</th>
+                <th>LOẠI BẢO TRÌ</th>
+                <th>CHI PHÍ</th>
+                <th>KẾT QUẢ</th>
+                <th>HẠN TIẾP THEO</th>
+                <th style="text-align: right; width: 180px;">THAO TÁC</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="8" style="text-align: center; padding: 40px; color: var(--color-text-tertiary);">
+                        Không có bản ghi bảo trì nào phù hợp.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <strong>#MC-@item.MaintenanceId</strong>
+                        </td>
+                        <td>
+                            @item.MaintenanceDate.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @if (item.EquipmentAsset != null)
+                            {
+                                <a href="@Url.Action("DeviceHistory", new { id = item.AssetId })" style="font-weight: 600;">
+                                    @(item.EquipmentAsset.EquipmentModel != null ? item.EquipmentAsset.EquipmentModel.ModelName : "Thiết bị")
+                                </a>
+                                <div style="font-size: 11px; color: var(--color-text-tertiary);">
+                                    SN: <code>@item.EquipmentAsset.SerialNumber</code> | @(item.EquipmentAsset.Department != null ? item.EquipmentAsset.Department.Name : "Chưa giao khoa")
+                                </div>
+                            }
+                            else
+                            {
+                                <span>Máy #@item.AssetId</span>
+                            }
+                        </td>
+                        <td>
+                            <span class="tag">@item.MaintenanceType</span>
+                        </td>
+                        <td>
+                            @(item.Cost.HasValue ? string.Format("{0:N0} đ", item.Cost.Value) : "Miễn phí")
+                        </td>
+                        <td>
+                            @if (item.ResultStatus == "Hoàn thành" || item.ResultStatus == "Đạt")
+                            {
+                                <span style="color: var(--color-success); font-weight: 600;">✓ @item.ResultStatus</span>
+                            }
+                            else if (item.ResultStatus == "Đang xử lý" || item.ResultStatus == "Chờ linh kiện")
+                            {
+                                <span style="color: var(--color-warning); font-weight: 600;">⏳ @item.ResultStatus</span>
+                            }
+                            else
+                            {
+                                <span style="color: var(--color-danger); font-weight: 600;">✕ @item.ResultStatus</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.NextMaintenanceDate.HasValue)
+                            {
+                                var isOverdue = item.NextMaintenanceDate.Value < DateTime.Today;
+                                <span style="@(isOverdue ? "color: var(--color-danger); font-weight: 600;" : "")">
+                                    @item.NextMaintenanceDate.Value.ToString("dd/MM/yyyy")
+                                </span>
+                            }
+                            else
+                            {
+                                <span style="color: var(--color-text-tertiary);">-</span>
+                            }
+                        </td>
+                        <td style="text-align: right;">
+                            <a href="@Url.Action("Details", new { id = item.MaintenanceId })" class="btn btn-ghost" style="padding: 6px 12px; font-size: 12px;">Chi tiết</a>
+                            <a href="@Url.Action("DeviceHistory", new { id = item.AssetId })" class="btn btn-ghost" style="padding: 6px 12px; font-size: 12px;">Lịch sử máy</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
