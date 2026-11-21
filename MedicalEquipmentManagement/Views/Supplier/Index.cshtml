@@ -1,0 +1,80 @@
+﻿@model MedicalEquipmentManagement.ViewModels.KeywordSearchViewModel<MedicalEquipmentManagement.Models.Supplier>
+@using MedicalEquipmentManagement.Models
+
+@{
+    ViewBag.Title = "Quản lý Nhà cung cấp";
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+            <h2>Danh sách Nhà cung cấp &amp; Hãng sản xuất (Supplier)</h2>
+            <h3>CRUD cơ bản thông tin Nhà cung cấp và Hãng sản xuất thiết bị</h3>
+        </div>
+        <a href="@Url.Action("Create")" class="btn btn-primary">+ Thêm nhà cung cấp</a>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert-success">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="error">@TempData["Error"]</div>
+}
+
+<div class="toolbar-card">
+    <form method="get" action="@Url.Action("Index")" class="search-form">
+        <input type="text" name="keyword" value="@Model.Keyword" placeholder="Tìm theo tên, số điện thoại hoặc email..." class="search-input" style="min-width: 280px;" />
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        @if (!string.IsNullOrWhiteSpace(Model.Keyword))
+        {
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Đặt lại</a>
+        }
+    </form>
+</div>
+
+<div class="table-card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Tên đơn vị</th>
+                <th>Phân loại</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Trạng thái</th>
+                <th style="text-align: right;">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Items.Any())
+            {
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 24px; color: var(--color-text-tertiary);">
+                        Chưa có nhà cung cấp nào.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td><strong>@item.Name</strong></td>
+                        <td><span class="tag">@SupplierTypeConst.GetDisplayName(item.SupplierType)</span></td>
+                        <td>@(string.IsNullOrEmpty(item.Phone) ? "—" : item.Phone)</td>
+                        <td>@(string.IsNullOrEmpty(item.Email) ? "—" : item.Email)</td>
+                        <td>@(item.IsActive ? "Đang hợp tác" : "Tạm ngưng")</td>
+                        <td style="text-align: right; white-space: nowrap;">
+                            <a href="@Url.Action("Details", new { id = item.SupplierId })" class="btn btn-ghost" style="padding: 4px 8px;">Chi tiết</a>
+                            <a href="@Url.Action("Edit", new { id = item.SupplierId })" class="btn btn-ghost" style="padding: 4px 8px;">Sửa</a>
+                            <a href="@Url.Action("Delete", new { id = item.SupplierId })" class="btn btn-ghost" style="padding: 4px 8px; color: var(--color-danger);">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

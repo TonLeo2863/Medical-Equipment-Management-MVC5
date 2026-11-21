@@ -1,0 +1,107 @@
+﻿@model MedicalEquipmentManagement.ViewModels.EquipmentImportViewModel
+
+@{
+    ViewBag.Title = "Import Thiết bị từ Excel";
+}
+
+<div class="page-header">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+            <h2>Import danh sách Thiết bị từ file Excel (.xlsx)</h2>
+            <h3>Phần mở rộng Module 2: Nhập nhanh nhiều tài sản thiết bị từ bảng tính Excel</h3>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <a href="@Url.Action("DownloadImportTemplate")" class="btn btn-ghost">Tải file Excel mẫu (.xlsx)</a>
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Quay lại danh sách</a>
+        </div>
+    </div>
+</div>
+
+@Html.ValidationSummary(false, "", new { @class = "error" })
+
+<div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: 4px; padding: 20px; margin-bottom: 20px;">
+    @using (Html.BeginForm("Import", "Equipment", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="field">
+            <label for="excelFile">Chọn file Excel (.xlsx):</label>
+            <input type="file" id="excelFile" name="excelFile" accept=".xlsx" class="search-input" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Tiến hành Import</button>
+    }
+</div>
+
+@if (Model.HasProcessed)
+{
+    <div class="table-card" style="margin-bottom: 20px;">
+        <div style="padding: 10px 12px; border-bottom: 1px solid var(--color-border-soft);">
+            Kết quả xử lý file <strong>@Model.FileName</strong>:
+            Tổng số dòng đọc: <strong>@Model.TotalRowsRead</strong> |
+            Thành công: <strong style="color: var(--color-success);">@Model.ImportedCount</strong> |
+            Bỏ qua / Lỗi: <strong style="color: var(--color-danger);">@Model.SkippedOrErrorCount</strong>
+        </div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Dòng</th>
+                    <th>Mã tài sản</th>
+                    <th>Số Serial</th>
+                    <th>Mã Model</th>
+                    <th>Mã Khoa</th>
+                    <th>Kết quả</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model.RowResults)
+                {
+                    <tr>
+                        <td>#@r.RowNumber</td>
+                        <td>@r.AssetCode</td>
+                        <td>@r.SerialNumber</td>
+                        <td>@r.ModelCode</td>
+                        <td>@r.DepartmentCode</td>
+                        <td style="color: @(r.IsSuccess ? "var(--color-success)" : "var(--color-danger)");">
+                            @r.Message
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<div class="table-card">
+    <div style="padding: 10px 12px; border-bottom: 1px solid var(--color-border-soft); font-weight: 600;">
+        Bảng tra cứu Mã Model &amp; Mã Khoa hợp lệ khi điền file Excel
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; padding: 12px;">
+        <div>
+            <strong>Danh sách Mã Model (Cột 3):</strong>
+            <table class="data-table" style="margin-top: 6px;">
+                <thead>
+                    <tr><th>Mã Model</th><th>Tên mẫu thiết bị</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model.AvailableModels)
+                    {
+                        <tr><td><code>@m.ModelCode</code></td><td>@m.ModelName</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <strong>Danh sách Mã Khoa (Cột 4):</strong>
+            <table class="data-table" style="margin-top: 6px;">
+                <thead>
+                    <tr><th>Mã Khoa</th><th>Tên Khoa / Phòng</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var d in Model.AvailableDepartments)
+                    {
+                        <tr><td><code>@d.DepartmentCode</code></td><td>@d.Name</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

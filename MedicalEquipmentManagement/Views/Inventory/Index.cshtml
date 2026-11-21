@@ -119,9 +119,9 @@
                         </td>
                         <td>
                             <strong>@(item.EquipmentModel != null ? item.EquipmentModel.ModelName : "Chưa xác định")</strong>
-                            @if (item.EquipmentModel != null && !string.IsNullOrEmpty(item.EquipmentModel.Manufacturer))
+                            @if (item.EquipmentModel != null && item.EquipmentModel.ManufacturerSupplier != null)
                             {
-                                <div style="font-size: 11px; color: var(--color-text-tertiary);">Hãng: @item.EquipmentModel.Manufacturer</div>
+                                <div style="font-size: 11px; color: var(--color-text-tertiary);">Hãng: @item.EquipmentModel.ManufacturerSupplier.Name</div>
                             }
                         </td>
                         <td>

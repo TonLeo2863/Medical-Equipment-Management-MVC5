@@ -1,0 +1,48 @@
+﻿@model MedicalEquipmentManagement.Models.EquipmentCategory
+
+@{
+    ViewBag.Title = "Xóa Danh mục Thiết bị";
+    var modelCount = Model.EquipmentModels != null ? Model.EquipmentModels.Count : 0;
+}
+
+
+<div class="page-header">
+    <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+        ← Quay lại danh sách
+    </a>
+    <h2>Xác nhận xóa Danh mục Thiết bị</h2>
+    <h3>Kiểm tra ràng buộc dữ liệu trước khi xóa danh mục khỏi hệ thống</h3>
+</div>
+
+<div style="max-width: 680px; margin: 0 auto; background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 32px;">
+    @if (modelCount > 0)
+    {
+        <div class="error" style="margin-bottom: 24px;">
+            <strong>⚠ Cảnh báo ràng buộc dữ liệu:</strong> Danh mục <strong>@Model.Name (@Model.CategoryCode)</strong> hiện đang có <strong>@modelCount mẫu thiết bị</strong> trực thuộc. Hệ thống sẽ chặn xóa để bảo vệ toàn vẹn dữ liệu.
+        </div>
+    }
+    else
+    {
+        <div style="background: rgba(255, 149, 0, 0.12); color: #b25000; padding: 14px 18px; border-radius: var(--radius-sm); margin-bottom: 24px; font-size: 14px;">
+            Bạn có chắc chắn muốn xóa vĩnh viễn danh mục <strong>[@Model.CategoryCode] @Model.Name</strong>?
+        </div>
+    }
+
+    <div style="display: grid; grid-template-columns: 180px 1fr; row-gap: 12px; font-size: 14px; margin-bottom: 28px;">
+        <div style="color: var(--color-text-secondary);">Mã danh mục:</div>
+        <div><strong>@Model.CategoryCode</strong></div>
+        <div style="color: var(--color-text-secondary);">Tên danh mục:</div>
+        <div><strong>@Model.Name</strong></div>
+        <div style="color: var(--color-text-secondary);">Số mẫu thiết bị:</div>
+        <div>@modelCount mẫu máy</div>
+    </div>
+
+    @using (Html.BeginForm("Delete", "Category", new { id = Model.CategoryId }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div style="display: flex; justify-content: flex-end; gap: 12px;">
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy bỏ</a>
+            <button type="submit" class="btn btn-primary" style="background: var(--color-danger);">Xác nhận xóa</button>
+        </div>
+    }
+</div>

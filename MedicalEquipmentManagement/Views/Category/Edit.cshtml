@@ -1,0 +1,45 @@
+﻿@model MedicalEquipmentManagement.Models.EquipmentCategory
+
+@{
+    ViewBag.Title = "Chỉnh sửa Danh mục Thiết bị";
+}
+
+
+<div class="page-header">
+    <a href="@Url.Action("Index")" class="btn btn-ghost" style="margin-bottom: 12px; padding: 6px 14px; font-size: 13px;">
+        ← Quay lại danh sách danh mục
+    </a>
+    <h2>Chỉnh sửa Danh mục: @Model.Name</h2>
+    <h3>Cập nhật mã phân loại hoặc trạng thái sử dụng của danh mục thiết bị</h3>
+</div>
+
+<div style="max-width: 680px; margin: 0 auto; background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 36px 32px;">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.CategoryId)
+        @Html.ValidationSummary(true, "", new { @class = "error" })
+
+        <div class="field">
+            @Html.LabelFor(m => m.CategoryCode)
+            @Html.TextBoxFor(m => m.CategoryCode, new { @class = "search-input", style = "border-radius: var(--radius-sm);" })
+            @Html.ValidationMessageFor(m => m.CategoryCode, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div class="field">
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { @class = "search-input", style = "border-radius: var(--radius-sm);" })
+            @Html.ValidationMessageFor(m => m.Name, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
+        </div>
+
+        <div class="field" style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+            @Html.CheckBoxFor(m => m.IsActive, new { id = "isActiveCheckbox", style = "width: 18px; height: 18px;" })
+            <label for="isActiveCheckbox" style="margin-bottom: 0; cursor: pointer;">Đang hoạt động</label>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 32px; justify-content: flex-end;">
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy bỏ</a>
+            <button type="submit" class="btn btn-primary">Cập nhật danh mục</button>
+        </div>
+    }
+</div>

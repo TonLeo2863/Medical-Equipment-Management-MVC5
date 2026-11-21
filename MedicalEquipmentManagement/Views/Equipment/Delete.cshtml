@@ -1,0 +1,66 @@
+﻿@model MedicalEquipmentManagement.Models.EquipmentAsset
+
+@{
+    ViewBag.Title = "Xóa Thiết bị " + Model.AssetCode;
+    int maintCount = Model.MaintenanceRecords != null ? Model.MaintenanceRecords.Count : 0;
+}
+
+<div class="page-header">
+    <h2>Xác nhận xóa Thiết bị: @Model.AssetCode</h2>
+    <h3>Kiểm tra ràng buộc dữ liệu lịch sử bảo trì trước khi xóa</h3>
+</div>
+
+<div style="max-width: 680px; background: #ffffff; border: 1px solid var(--color-border); border-radius: 4px; padding: 24px;">
+    @if (maintCount > 0)
+    {
+        <div class="error">
+            <strong>Cảnh báo ràng buộc khóa ngoại (Cascade Delete bị chặn):</strong><br />
+            Thiết bị <strong>@Model.AssetCode</strong> (Số Serial: <strong>@Model.SerialNumber</strong>) hiện đang có <strong>@maintCount bản ghi lịch sử bảo trì</strong> trong cơ sở dữ liệu.
+            Nếu bạn nhấn nút Xóa bên dưới, hệ thống sẽ bắt lỗi khóa ngoại và hiển thị thông báo chặn xóa thân thiện.
+        </div>
+    }
+    else
+    {
+        <p>Bạn có chắc chắn muốn xóa thiết bị dưới đây khỏi hệ thống không?</p>
+    }
+
+    <table class="data-table" style="margin-bottom: 20px;">
+        <tbody>
+            <tr>
+                <th style="width: 160px;">Mã tài sản</th>
+                <td><strong>@Model.AssetCode</strong></td>
+            </tr>
+            <tr>
+                <th>Số Serial</th>
+                <td><code>@Model.SerialNumber</code></td>
+            </tr>
+            <tr>
+                <th>Mẫu thiết bị</th>
+                <td>@(Model.EquipmentModel != null ? Model.EquipmentModel.ModelName : "—")</td>
+            </tr>
+            <tr>
+                <th>Khoa / Phòng</th>
+                <td>@(Model.Department != null ? Model.Department.Name : "Kho dự trữ")</td>
+            </tr>
+            <tr>
+                <th>Trạng thái</th>
+                <td>@Model.Status</td>
+            </tr>
+            <tr>
+                <th>Số lần bảo trì</th>
+                <td>@maintCount bản ghi</td>
+            </tr>
+        </tbody>
+    </table>
+
+    @using (Html.BeginForm("Delete", "Equipment", new { id = Model.AssetId }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div style="display: flex; gap: 8px;">
+            <button type="submit" class="btn btn-primary" style="background: var(--color-danger); border-color: var(--color-danger);">
+                Xác nhận Xóa thiết bị
+            </button>
+            <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy / Quay lại</a>
+        </div>
+    }
+</div>
