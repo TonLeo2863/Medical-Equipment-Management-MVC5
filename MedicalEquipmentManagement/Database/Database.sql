@@ -237,111 +237,212 @@ CREATE TABLE UsageLogs(
 -- PHẦN 2: DỮ LIỆU MẪU (SAMPLE DATA)
 -- ==========================================
 
--- Chèn Role
-INSERT INTO Roles (RoleCode, RoleName, Description) VALUES 
-('ADMIN', N'Quản trị hệ thống', N'Toàn quyền'),
-('MANAGER', N'Trưởng khoa/Phòng vật tư', N'Quản lý thiết bị và duyệt luân chuyển'),
-('ENGINEER', N'Kỹ sư y sinh', N'Cập nhật bảo trì, sửa chữa'),
-('STAFF', N'Nhân viên y tế', N'Xem thiết bị tại khoa');
+-- Preserve existing demo and application data. Serialize concurrent seed executions.
+SET XACT_ABORT ON;
+BEGIN TRANSACTION;
+DECLARE @SeedLock INT;
+EXEC @SeedLock = sys.sp_getapplock
+    @Resource = N'MedicalEquipmentDemoSeed', @LockMode = 'Exclusive', @LockTimeout = 15000;
+IF @SeedLock < 0
+    THROW 51001, 'Could not acquire the demo seed lock.', 1;
 
-UPDATE Users 
-SET PasswordHash = '202cb962ac59075b964b07152d234b70'
-WHERE PasswordHash = 'hash_123';
--- Chèn User (PasswordHash minh họa là '123' đã mã hóa giả lập)
-INSERT INTO Users (Username, PasswordHash, FullName, RoleId, Email) VALUES 
-('admin', 'hash_123', N'Quản trị viên', 1, 'admin@hospital.vn'),
-('truongkhoa', 'hash_123', N'BS. Nguyễn Văn A', 2, 'khoa_a@hospital.vn'),
-('kysu1', 'hash_123', N'KS. Trần Văn B', 3, 'kysu@hospital.vn');
-
--- Chèn Phòng ban
-INSERT INTO Departments (DepartmentCode, Name, Location) VALUES 
-('KCC', N'Khoa Cấp Cứu', N'Tầng 1 - Tòa A'),
-('KCDHA', N'Khoa Chẩn đoán hình ảnh', N'Tầng 1 - Tòa B'),
-('KXN', N'Khoa Xét nghiệm', N'Tầng 2 - Tòa B');
-
--- Chèn Nhà cung cấp & Hãng SX
-INSERT INTO Suppliers (Name, SupplierType, Phone, Email) VALUES 
-('Philips Healthcare', 'Manufacturer', '18001111', 'contact@philips.com'),
-('Siemens Healthineers', 'Manufacturer', '18002222', 'contact@siemens.com'),
-('Công ty TNHH TBYT Phương Đông', 'Vendor', '02833334444', 'sales@phuongdong.vn');
-
--- Chèn Danh mục
-INSERT INTO EquipmentCategories (CategoryCode, Name) VALUES 
-('XQ', N'Hệ thống X-Quang'),
-('SA', N'Máy Siêu Âm'),
-('MON', N'Monitor theo dõi bệnh nhân');
-
--- Chèn Model
-INSERT INTO EquipmentModels (ModelCode, Name, CategoryId, ManufacturerId) VALUES 
-('PH-EPIQ7', 'Philips EPIQ 7 Ultrasound', 2, 1),
-('SM-SOMATOM', 'Siemens SOMATOM CT Scanner', 1, 2),
-('PH-MX40', 'Philips IntelliVue MX40', 3, 1);
-
--- Chèn Hợp đồng
-INSERT INTO Contracts (ContractNumber, SupplierId, StartDate, EndDate, ContractType) VALUES 
-('HD-2023-001', 3, '2023-01-01', '2026-12-31', N'Bảo trì toàn diện');
-
--- Chèn Thiết bị vật lý (Assets)
-INSERT INTO EquipmentAssets (AssetCode, SerialNumber, ModelId, DepartmentId, ContractId, PurchaseDate, PurchasePrice, Status) VALUES 
-('SA-001', 'SN-PH7-9901', 1, 2, 1, '2023-02-15', 1500000000, N'Đang hoạt động'),
-('SA-002', 'SN-PH7-9902', 1, 2, 1, '2023-02-15', 1500000000, N'Đang hoạt động'),
-('CT-001', 'SN-SM-CT881', 2, 2, 1, '2022-10-10', 8500000000, N'Đang hoạt động'),
-('MON-001', 'SN-MX40-111', 3, 1, NULL, '2024-01-05', 120000000, N'Đang bảo trì');
-
--- Chèn Lịch sử Bảo trì
-INSERT INTO MaintenanceRecords (AssetId, MaintenanceType, MaintenanceDate, Cost, ResultStatus) VALUES 
-(4, N'Sửa chữa đột xuất', '2024-03-10', 5500000, N'Đang chờ linh kiện'),
-(1, N'Bảo dưỡng định kỳ', '2024-02-15', 0, N'Đạt yêu cầu (Thuộc HĐ)');
-
--- Chèn Nhật ký Kiểm định
-INSERT INTO CalibrationLogs (AssetId, CalibrationDate, NextCalibrationDate, PerformedBy, CertificateNumber, Result) VALUES 
-(1, '2023-02-20', '2024-02-20', N'Viện Trang thiết bị và Công trình y tế', 'KD-23-0012', N'Đạt'),
-(3, '2022-10-15', '2023-10-15', N'Trung tâm Kiểm định An toàn Bức xạ', 'BX-22-0991', N'Đạt');
-GO
-INSERT INTO Users (Username, PasswordHash, FullName, RoleId, Email) 
-VALUES ('bs_cuong', 'hash_123', N'BS. Lê Văn Cường', 4, 'bs_cuong@hospital.vn');
-
--- Chèn Linh kiện (Spare Parts)
-INSERT INTO SpareParts (PartCode, PartName, ModelId, StockQuantity, Unit, UnitPrice) VALUES 
-('SP-SPO2-01', N'Cáp đo SpO2 dùng nhiều lần', 3, 50, N'Sợi', 1500000),
-('SP-CT-TUBE', N'Bóng phát tia X cho CT Somatom', 2, 1, N'Cái', 2500000000),
-('SP-ULTRA-PR', N'Đầu dò siêu âm Convex', 1, 3, N'Cái', 120000000);
-
--- Chèn Phiếu sự cố (Work Orders)
--- VD: Bác sĩ Cường ở khoa Cấp Cứu báo hỏng Monitor
-INSERT INTO WorkOrders (TicketCode, AssetId, ReportedBy, ReportedDate, IssueDescription, UrgencyLevel, Status) VALUES 
-('WO-2024-001', 4, 4, '2024-03-09 08:30:00', N'Máy Monitor mất tín hiệu đo SpO2, màn hình thỉnh thoảng chớp nháy.', N'Cao', N'Đã hoàn thành');
-
--- Cập nhật lại MaintenanceRecord cũ (AssetId = 4) để liên kết với WorkOrder vừa tạo
-UPDATE MaintenanceRecords 
-SET TicketId = (SELECT TicketId FROM WorkOrders WHERE TicketCode = 'WO-2024-001')
-WHERE AssetId = 4 AND MaintenanceType = N'Sửa chữa đột xuất';
-
--- Chèn Chi tiết sử dụng linh kiện cho lần sửa chữa Monitor trên
--- Kỹ sư thay 1 Cáp SpO2
-INSERT INTO Maintenance_SpareParts (MaintenanceId, PartId, QuantityUsed, Note) VALUES 
-(
-    (SELECT MaintenanceId FROM MaintenanceRecords WHERE TicketId = (SELECT TicketId FROM WorkOrders WHERE TicketCode = 'WO-2024-001')), 
-    (SELECT PartId FROM SpareParts WHERE PartCode = 'SP-SPO2-01'), 
-    1, 
-    N'Thay cáp SpO2 mới do đứt ngầm'
+INSERT INTO dbo.Roles (RoleCode, RoleName, Description)
+SELECT sample.RoleCode, sample.RoleName, sample.Description
+FROM (VALUES
+    ('ADMIN', N'Quản trị hệ thống', N'Toàn quyền'),
+    ('MANAGER', N'Trưởng khoa/Phòng vật tư', N'Quản lý thiết bị và duyệt luân chuyển'),
+    ('ENGINEER', N'Kỹ sư y sinh', N'Cập nhật bảo trì, sửa chữa'),
+    ('STAFF', N'Nhân viên y tế', N'Xem thiết bị tại khoa')
+) AS sample (RoleCode, RoleName, Description)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.Roles AS existing
+    WHERE existing.RoleCode = sample.RoleCode
 );
 
--- Trừ đi số lượng trong kho
-UPDATE SpareParts SET StockQuantity = StockQuantity - 1 WHERE PartCode = 'SP-SPO2-01';
+INSERT INTO dbo.Users (Username, PasswordHash, FullName, RoleId, Email)
+SELECT sample.Username, sample.PasswordHash, sample.FullName, sample.RoleId, sample.Email
+FROM (VALUES
+    ('admin', 'hash_123', N'Quản trị viên', (SELECT RoleId FROM dbo.Roles WHERE RoleCode = 'ADMIN'), 'admin@hospital.vn'),
+    ('truongkhoa', 'hash_123', N'BS. Nguyễn Văn A', (SELECT RoleId FROM dbo.Roles WHERE RoleCode = 'MANAGER'), 'khoa_a@hospital.vn'),
+    ('kysu1', 'hash_123', N'KS. Trần Văn B', (SELECT RoleId FROM dbo.Roles WHERE RoleCode = 'ENGINEER'), 'kysu@hospital.vn')
+) AS sample (Username, PasswordHash, FullName, RoleId, Email)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.Users AS existing
+    WHERE existing.Username = sample.Username
+);
 
--- Chèn Lịch sử luân chuyển (Asset Transfers)
--- Chuyển một máy Siêu âm (AssetId = 2) từ Khoa CĐHA sang Khoa Cấp Cứu
-INSERT INTO AssetTransfers (AssetId, FromDepartmentId, ToDepartmentId, RequestedBy, ApprovedBy, Reason, Status) VALUES 
-(2, 2, 1, 2, 1, N'Tăng cường máy siêu âm cho khoa Cấp Cứu mùa dịch bệnh', N'Đã chuyển');
+INSERT INTO dbo.Users (Username, PasswordHash, FullName, RoleId, Email)
+SELECT sample.Username, sample.PasswordHash, sample.FullName, sample.RoleId, sample.Email
+FROM (VALUES
+    ('bs_cuong', 'hash_123', N'BS. Lê Văn Cường', (SELECT RoleId FROM dbo.Roles WHERE RoleCode = 'STAFF'), 'bs_cuong@hospital.vn')
+) AS sample (Username, PasswordHash, FullName, RoleId, Email)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.Users AS existing
+    WHERE existing.Username = sample.Username
+);
 
--- Cập nhật lại vị trí hiện tại của thiết bị sau khi chuyển
-UPDATE EquipmentAssets SET DepartmentId = 1 WHERE AssetId = 2;
+INSERT INTO dbo.Departments (DepartmentCode, Name, Location)
+SELECT sample.DepartmentCode, sample.Name, sample.Location
+FROM (VALUES
+    ('KCC', N'Khoa Cấp Cứu', N'Tầng 1 - Tòa A'),
+    ('KCDHA', N'Khoa Chẩn đoán hình ảnh', N'Tầng 1 - Tòa B'),
+    ('KXN', N'Khoa Xét nghiệm', N'Tầng 2 - Tòa B')
+) AS sample (DepartmentCode, Name, Location)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.Departments AS existing
+    WHERE existing.DepartmentCode = sample.DepartmentCode
+);
 
--- Chèn Nhật ký công suất sử dụng (Usage Logs)
--- Ghi nhận số ca chụp CT trong 1 ngày để theo dõi khấu hao bóng X-Quang
-INSERT INTO UsageLogs (AssetId, LogDate, UsageCount, Unit, RecordedBy) VALUES 
-(3, '2024-03-01', 85, N'Ca chụp', 2),
-(3, '2024-03-02', 90, N'Ca chụp', 2),
-(3, '2024-03-03', 110, N'Ca chụp', 2);
+INSERT INTO dbo.Suppliers (Name, SupplierType, Phone, Email)
+SELECT sample.Name, sample.SupplierType, sample.Phone, sample.Email
+FROM (VALUES
+    ('Philips Healthcare', 'Manufacturer', '18001111', 'contact@philips.com'),
+    ('Siemens Healthineers', 'Manufacturer', '18002222', 'contact@siemens.com'),
+    (N'Công ty TNHH TBYT Phương Đông', 'Vendor', '02833334444', 'sales@phuongdong.vn')
+) AS sample (Name, SupplierType, Phone, Email)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.Suppliers AS existing
+    WHERE existing.Email = sample.Email
+);
+
+INSERT INTO dbo.EquipmentCategories (CategoryCode, Name)
+SELECT sample.CategoryCode, sample.Name
+FROM (VALUES
+    ('XQ', N'Hệ thống X-Quang'),
+    ('SA', N'Máy Siêu Âm'),
+    ('MON', N'Monitor theo dõi bệnh nhân')
+) AS sample (CategoryCode, Name)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.EquipmentCategories AS existing
+    WHERE existing.CategoryCode = sample.CategoryCode
+);
+
+INSERT INTO dbo.EquipmentModels (ModelCode, Name, CategoryId, ManufacturerId)
+SELECT sample.ModelCode, sample.Name, sample.CategoryId, sample.ManufacturerId
+FROM (VALUES
+    ('PH-EPIQ7', 'Philips EPIQ 7 Ultrasound', (SELECT CategoryId FROM dbo.EquipmentCategories WHERE CategoryCode = 'SA'), (SELECT MIN(SupplierId) FROM dbo.Suppliers WHERE Email = 'contact@philips.com')),
+    ('SM-SOMATOM', 'Siemens SOMATOM CT Scanner', (SELECT CategoryId FROM dbo.EquipmentCategories WHERE CategoryCode = 'XQ'), (SELECT MIN(SupplierId) FROM dbo.Suppliers WHERE Email = 'contact@siemens.com')),
+    ('PH-MX40', 'Philips IntelliVue MX40', (SELECT CategoryId FROM dbo.EquipmentCategories WHERE CategoryCode = 'MON'), (SELECT MIN(SupplierId) FROM dbo.Suppliers WHERE Email = 'contact@philips.com'))
+) AS sample (ModelCode, Name, CategoryId, ManufacturerId)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.EquipmentModels AS existing
+    WHERE existing.ModelCode = sample.ModelCode
+);
+
+INSERT INTO dbo.Contracts (ContractNumber, SupplierId, StartDate, EndDate, ContractType)
+SELECT sample.ContractNumber, sample.SupplierId, sample.StartDate, sample.EndDate, sample.ContractType
+FROM (VALUES
+    ('HD-2023-001', (SELECT MIN(SupplierId) FROM dbo.Suppliers WHERE Email = 'sales@phuongdong.vn'), '2023-01-01', '2026-12-31', N'Bảo trì toàn diện')
+) AS sample (ContractNumber, SupplierId, StartDate, EndDate, ContractType)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.Contracts AS existing
+    WHERE existing.ContractNumber = sample.ContractNumber
+);
+
+INSERT INTO dbo.EquipmentAssets (AssetCode, SerialNumber, ModelId, DepartmentId, ContractId, PurchaseDate, PurchasePrice, Status)
+SELECT sample.AssetCode, sample.SerialNumber, sample.ModelId, sample.DepartmentId, sample.ContractId, sample.PurchaseDate, sample.PurchasePrice, sample.Status
+FROM (VALUES
+    ('SA-001', 'SN-PH7-9901', (SELECT ModelId FROM dbo.EquipmentModels WHERE ModelCode = 'PH-EPIQ7'), (SELECT DepartmentId FROM dbo.Departments WHERE DepartmentCode = 'KCDHA'), (SELECT ContractId FROM dbo.Contracts WHERE ContractNumber = 'HD-2023-001'), '2023-02-15', 1500000000, N'Đang hoạt động'),
+    ('SA-002', 'SN-PH7-9902', (SELECT ModelId FROM dbo.EquipmentModels WHERE ModelCode = 'PH-EPIQ7'), (SELECT DepartmentId FROM dbo.Departments WHERE DepartmentCode = 'KCC'), (SELECT ContractId FROM dbo.Contracts WHERE ContractNumber = 'HD-2023-001'), '2023-02-15', 1500000000, N'Đang hoạt động'),
+    ('CT-001', 'SN-SM-CT881', (SELECT ModelId FROM dbo.EquipmentModels WHERE ModelCode = 'SM-SOMATOM'), (SELECT DepartmentId FROM dbo.Departments WHERE DepartmentCode = 'KCDHA'), (SELECT ContractId FROM dbo.Contracts WHERE ContractNumber = 'HD-2023-001'), '2022-10-10', 8500000000, N'Đang hoạt động'),
+    ('MON-001', 'SN-MX40-111', (SELECT ModelId FROM dbo.EquipmentModels WHERE ModelCode = 'PH-MX40'), (SELECT DepartmentId FROM dbo.Departments WHERE DepartmentCode = 'KCC'), NULL, '2024-01-05', 120000000, N'Đang bảo trì')
+) AS sample (AssetCode, SerialNumber, ModelId, DepartmentId, ContractId, PurchaseDate, PurchasePrice, Status)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.EquipmentAssets AS existing
+    WHERE existing.AssetCode = sample.AssetCode
+);
+
+INSERT INTO dbo.WorkOrders (TicketCode, AssetId, ReportedBy, ReportedDate, IssueDescription, UrgencyLevel, Status)
+SELECT sample.TicketCode, sample.AssetId, sample.ReportedBy, sample.ReportedDate, sample.IssueDescription, sample.UrgencyLevel, sample.Status
+FROM (VALUES
+    ('WO-2024-001', (SELECT AssetId FROM dbo.EquipmentAssets WHERE AssetCode = 'MON-001'), (SELECT UserId FROM dbo.Users WHERE Username = 'bs_cuong'), '2024-03-09 08:30:00', N'Máy Monitor mất tín hiệu đo SpO2, màn hình thỉnh thoảng chớp nháy.', N'Cao', N'Đã hoàn thành')
+) AS sample (TicketCode, AssetId, ReportedBy, ReportedDate, IssueDescription, UrgencyLevel, Status)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.WorkOrders AS existing
+    WHERE existing.TicketCode = sample.TicketCode
+);
+
+INSERT INTO dbo.MaintenanceRecords (AssetId, MaintenanceType, MaintenanceDate, Cost, ResultStatus, TicketId)
+SELECT sample.AssetId, sample.MaintenanceType, sample.MaintenanceDate, sample.Cost, sample.ResultStatus, sample.TicketId
+FROM (VALUES
+    ((SELECT AssetId FROM dbo.EquipmentAssets WHERE AssetCode = 'MON-001'), N'Sửa chữa đột xuất', '2024-03-10', 5500000, N'Đang chờ linh kiện', (SELECT TicketId FROM dbo.WorkOrders WHERE TicketCode = 'WO-2024-001')),
+    ((SELECT AssetId FROM dbo.EquipmentAssets WHERE AssetCode = 'SA-001'), N'Bảo dưỡng định kỳ', '2024-02-15', 0, N'Đạt yêu cầu (Thuộc HĐ)', NULL)
+) AS sample (AssetId, MaintenanceType, MaintenanceDate, Cost, ResultStatus, TicketId)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.MaintenanceRecords AS existing
+    WHERE existing.AssetId = sample.AssetId
+      AND existing.MaintenanceType = sample.MaintenanceType
+      AND existing.MaintenanceDate = sample.MaintenanceDate
+);
+
+INSERT INTO dbo.CalibrationLogs (AssetId, CalibrationDate, NextCalibrationDate, PerformedBy, CertificateNumber, Result)
+SELECT sample.AssetId, sample.CalibrationDate, sample.NextCalibrationDate, sample.PerformedBy, sample.CertificateNumber, sample.Result
+FROM (VALUES
+    ((SELECT AssetId FROM dbo.EquipmentAssets WHERE AssetCode = 'SA-001'), '2023-02-20', '2024-02-20', N'Viện Trang thiết bị và Công trình y tế', 'KD-23-0012', N'Đạt'),
+    ((SELECT AssetId FROM dbo.EquipmentAssets WHERE AssetCode = 'CT-001'), '2022-10-15', '2023-10-15', N'Trung tâm Kiểm định An toàn Bức xạ', 'BX-22-0991', N'Đạt')
+) AS sample (AssetId, CalibrationDate, NextCalibrationDate, PerformedBy, CertificateNumber, Result)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.CalibrationLogs AS existing
+    WHERE existing.AssetId = sample.AssetId
+      AND existing.CertificateNumber = sample.CertificateNumber
+);
+
+INSERT INTO dbo.SpareParts (PartCode, PartName, ModelId, StockQuantity, Unit, UnitPrice)
+SELECT sample.PartCode, sample.PartName, sample.ModelId, sample.StockQuantity, sample.Unit, sample.UnitPrice
+FROM (VALUES
+    ('SP-SPO2-01', N'Cáp đo SpO2 dùng nhiều lần', (SELECT ModelId FROM dbo.EquipmentModels WHERE ModelCode = 'PH-MX40'), 49, N'Sợi', 1500000),
+    ('SP-CT-TUBE', N'Bóng phát tia X cho CT Somatom', (SELECT ModelId FROM dbo.EquipmentModels WHERE ModelCode = 'SM-SOMATOM'), 1, N'Cái', 2500000000),
+    ('SP-ULTRA-PR', N'Đầu dò siêu âm Convex', (SELECT ModelId FROM dbo.EquipmentModels WHERE ModelCode = 'PH-EPIQ7'), 3, N'Cái', 120000000)
+) AS sample (PartCode, PartName, ModelId, StockQuantity, Unit, UnitPrice)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.SpareParts AS existing
+    WHERE existing.PartCode = sample.PartCode
+);
+
+INSERT INTO dbo.AssetTransfers (AssetId, FromDepartmentId, ToDepartmentId, RequestedBy, ApprovedBy, Reason, Status, TransferDate)
+SELECT sample.AssetId, sample.FromDepartmentId, sample.ToDepartmentId, sample.RequestedBy, sample.ApprovedBy, sample.Reason, sample.Status, sample.TransferDate
+FROM (VALUES
+    ((SELECT AssetId FROM dbo.EquipmentAssets WHERE AssetCode = 'SA-002'), (SELECT DepartmentId FROM dbo.Departments WHERE DepartmentCode = 'KCDHA'), (SELECT DepartmentId FROM dbo.Departments WHERE DepartmentCode = 'KCC'), (SELECT UserId FROM dbo.Users WHERE Username = 'truongkhoa'), (SELECT UserId FROM dbo.Users WHERE Username = 'admin'), N'Tăng cường máy siêu âm cho khoa Cấp Cứu mùa dịch bệnh', N'Đã chuyển', '20240216')
+) AS sample (AssetId, FromDepartmentId, ToDepartmentId, RequestedBy, ApprovedBy, Reason, Status, TransferDate)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.AssetTransfers AS existing
+    WHERE existing.AssetId = sample.AssetId
+      AND existing.FromDepartmentId = sample.FromDepartmentId
+      AND existing.ToDepartmentId = sample.ToDepartmentId
+      AND existing.Reason = sample.Reason
+);
+
+INSERT INTO dbo.UsageLogs (AssetId, LogDate, UsageCount, Unit, RecordedBy)
+SELECT sample.AssetId, sample.LogDate, sample.UsageCount, sample.Unit, sample.RecordedBy
+FROM (VALUES
+    ((SELECT AssetId FROM dbo.EquipmentAssets WHERE AssetCode = 'CT-001'), '2024-03-01', 85, N'Ca chụp', (SELECT UserId FROM dbo.Users WHERE Username = 'truongkhoa')),
+    ((SELECT AssetId FROM dbo.EquipmentAssets WHERE AssetCode = 'CT-001'), '2024-03-02', 90, N'Ca chụp', (SELECT UserId FROM dbo.Users WHERE Username = 'truongkhoa')),
+    ((SELECT AssetId FROM dbo.EquipmentAssets WHERE AssetCode = 'CT-001'), '2024-03-03', 110, N'Ca chụp', (SELECT UserId FROM dbo.Users WHERE Username = 'truongkhoa'))
+) AS sample (AssetId, LogDate, UsageCount, Unit, RecordedBy)
+WHERE NOT EXISTS (
+    SELECT 1 FROM dbo.UsageLogs AS existing
+    WHERE existing.AssetId = sample.AssetId
+      AND existing.LogDate = sample.LogDate
+);
+
+-- The sample stock starts at 49 after the historical use of one cable.
+INSERT INTO dbo.Maintenance_SpareParts (MaintenanceId, PartId, QuantityUsed, Note)
+SELECT m.MaintenanceId, p.PartId, 1, N'Thay cáp SpO2 mới do đứt ngầm'
+FROM (
+    SELECT TOP (1) m.MaintenanceId
+    FROM dbo.MaintenanceRecords AS m
+    JOIN dbo.EquipmentAssets AS a ON a.AssetId = m.AssetId
+    WHERE a.AssetCode = 'MON-001'
+      AND m.MaintenanceType = N'Sửa chữa đột xuất'
+      AND m.MaintenanceDate = '20240310'
+    ORDER BY m.MaintenanceId
+) AS m
+CROSS JOIN dbo.SpareParts AS p
+WHERE p.PartCode = 'SP-SPO2-01'
+  AND NOT EXISTS (
+      SELECT 1 FROM dbo.Maintenance_SpareParts AS existing
+      WHERE existing.MaintenanceId = m.MaintenanceId AND existing.PartId = p.PartId
+  );
+
+COMMIT TRANSACTION;
 GO
