@@ -1,0 +1,34 @@
+TargetDb                                                                                                                         EffectiveUser                                                                                                                   
+-------------------------------------------------------------------------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------
+MedicalEquipmentDB_BetaTest                                                                                                      beta_schema_qa                                                                                                                  
+
+(1 rows affected)
+Msg 2627, Level 14, State 1, Server DESKTOP-AUTD3A3\SQLEXPRESS, Line 235
+Violation of UNIQUE KEY constraint 'UQ__Roles__D62CB59C306A2B2A'. Cannot insert duplicate key in object 'dbo.Roles'. The duplicate key value is (ADMIN).
+The statement has been terminated.
+
+(4 rows affected)
+Msg 2627, Level 14, State 1, Server DESKTOP-AUTD3A3\SQLEXPRESS, Line 245
+Violation of UNIQUE KEY constraint 'UQ__Users__536C85E4839FEAC4'. Cannot insert duplicate key in object 'dbo.Users'. The duplicate key value is (admin).
+The statement has been terminated.
+Msg 2627, Level 14, State 1, Server DESKTOP-AUTD3A3\SQLEXPRESS, Line 251
+Violation of UNIQUE KEY constraint 'UQ__Departme__6EA8896DBD1903E4'. Cannot insert duplicate key in object 'dbo.Departments'. The duplicate key value is (KCC).
+The statement has been terminated.
+
+(3 rows affected)
+Msg 2627, Level 14, State 1, Server DESKTOP-AUTD3A3\SQLEXPRESS, Line 263
+Violation of UNIQUE KEY constraint 'UQ__Equipmen__371BA955069675DB'. Cannot insert duplicate key in object 'dbo.EquipmentCategories'. The duplicate key value is (XQ).
+The statement has been terminated.
+Msg 2627, Level 14, State 1, Server DESKTOP-AUTD3A3\SQLEXPRESS, Line 269
+Violation of UNIQUE KEY constraint 'UQ__Equipmen__514DC4D49167DECB'. Cannot insert duplicate key in object 'dbo.EquipmentModels'. The duplicate key value is (PH-EPIQ7).
+The statement has been terminated.
+Msg 2627, Level 14, State 1, Server DESKTOP-AUTD3A3\SQLEXPRESS, Line 275
+Violation of UNIQUE KEY constraint 'UQ__Contract__C51D43DA5953A01A'. Cannot insert duplicate key in object 'dbo.Contracts'. The duplicate key value is (HD-2023-001).
+The statement has been terminated.
+Msg 2627, Level 14, State 1, Server DESKTOP-AUTD3A3\SQLEXPRESS, Line 279
+Violation of UNIQUE KEY constraint 'UQ__Equipmen__2DDE5240C17292CC'. Cannot insert duplicate key in object 'dbo.EquipmentAssets'. The duplicate key value is (SA-001).
+The statement has been terminated.
+
+(2 rows affected)
+
+(2 rows affected)

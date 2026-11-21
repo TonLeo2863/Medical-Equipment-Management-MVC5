@@ -1,0 +1,1057 @@
+Build started 11/21/2026 10:25:48 AM.
+Logging verbosity is set to: Detailed.Process = "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe"
+MSBuild executable path = "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe"
+Command line arguments = ""C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" MedicalEquipmentManagement.sln /t:Restore /p:RestorePackagesConfig=true "/flp:logfile=C:\Users\TonLeo\Desktop\Data_Laptop\Documents\A.D? li?u m�n h?c\L?p tr�nh Web\Medical-Equipment-Management-MVC5\.beta-worktree\Docs\QA\Logs/restore-final.log" /v:minimal"
+Current directory = "<BETA_BUILD_ROOT>"
+MSBuild version = "17.14.60+43b635718"
+Based on the Windows registry key LongPathsEnabled, the LongPaths feature is disabled.
+Some command line switches were read from the auto-response file "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.rsp". To disable this file, use the "-noAutoResponse" switch.
+
+Property reassignment: $(MSBuildExtensionsPath)="C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild" (previous value: "C:\Program Files (x86)\MSBuild") at 
+Property reassignment: $(MSBuildExtensionsPath32)="C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild" (previous value: "C:\Program Files (x86)\MSBuild") at 
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+Trying to import C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\$(MSBuildToolsVersion)\SolutionFile\ImportAfter\* using extensions path C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message : Property reassignment: $(_GenerateRestoreGraphProjectEntryInputProperties)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       ExcludeRestorePackageImports=true;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       _RestoreSolutionFileUsed=true;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       SolutionDir=<BETA_BUILD_ROOT>\;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       SolutionName=MedicalEquipmentManagement;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       SolutionFileName=MedicalEquipmentManagement.sln;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       SolutionPath=<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       SolutionExt=.sln;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :     " (previous value: "ExcludeRestorePackageImports=true") at C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets (104,5)
+Overriding target "Restore" in project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln.metaproj" with target "Restore" from project "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets".
+The target "_CheckForInvalidConfigurationAndPlatform" listed in a BeforeTargets attribute at "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets (703,11)" does not exist in the project, and will be ignored.
+Project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" on node 1 (Restore target(s)).
+Target "ValidateSolutionConfiguration" in file "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln.metaproj" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (entry point):
+Task "Error" skipped, due to false condition; (('$(CurrentSolutionConfigurationContents)' == '') and ('$(SkipInvalidConfigurations)' != 'true')) was evaluated as (('<SolutionConfiguration>
+  <ProjectConfiguration Project="{F042DB45-9663-42B5-B7F9-8875DE8BEBA2}" AbsolutePath="<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" BuildProjectInSolution="True">Debug|AnyCPU</ProjectConfiguration>
+</SolutionConfiguration>' == '') and ('' != 'true')).
+Task "Warning" skipped, due to false condition; (('$(CurrentSolutionConfigurationContents)' == '') and ('$(SkipInvalidConfigurations)' == 'true')) was evaluated as (('<SolutionConfiguration>
+  <ProjectConfiguration Project="{F042DB45-9663-42B5-B7F9-8875DE8BEBA2}" AbsolutePath="<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" BuildProjectInSolution="True">Debug|AnyCPU</ProjectConfiguration>
+</SolutionConfiguration>' == '') and ('' == 'true')).
+Using "Message" task from assembly "Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+Task "Message"
+  Building solution configuration "Debug|Any CPU".
+Done executing task "Message".
+Done building target "ValidateSolutionConfiguration" in project "MedicalEquipmentManagement.sln".
+Target "ValidateToolsVersions" in file "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln.metaproj" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (entry point):
+Task "Error" skipped, due to false condition; ('$(MSBuildToolsVersion)' == '2.0' and ('$(ProjectToolsVersion)' != '2.0' and '$(ProjectToolsVersion)' != '')) was evaluated as ('Current' == '2.0' and ('' != '2.0' and '' != '')).
+Done building target "ValidateToolsVersions" in project "MedicalEquipmentManagement.sln".
+Target "ValidateProjects" in file "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln.metaproj" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (entry point):
+Done building target "ValidateProjects" in project "MedicalEquipmentManagement.sln".
+Target "_LoadRestoreGraphEntryPoints" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (target "_FilterRestoreGraphProjectInputItems" depends on it):
+Assembly loaded during TaskRun: NuGet.Build.Tasks, Version=6.14.3.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll, MVID: e536faaf-aaea-4dd6-8134-9d8d6838149a, AppDomain: [Default])
+Assembly loaded during TaskRun: NuGet.Common, Version=6.14.3.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Common.dll, MVID: 9aac8d98-2dfc-4d5f-a7c6-dae2cc2d216e, AppDomain: [Default])
+Assembly loaded during TaskRun: NuGet.Commands, Version=6.14.3.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Commands.dll, MVID: c042bc18-1315-41df-87ab-347e599c0bd1, AppDomain: [Default])
+Assembly loaded during TaskRun: Microsoft.Build.Utilities.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Windows\Microsoft.Net\assembly\GAC_MSIL\Microsoft.Build.Utilities.v4.0\v4.0_4.0.0.0__b03f5f7f11d50a3a\Microsoft.Build.Utilities.v4.0.dll, MVID: 886c2746-1988-46be-801b-c22c34f01f6c, AppDomain: [Default])
+Assembly loaded during TaskRun: NuGet.ProjectModel, Version=6.14.3.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.ProjectModel.dll, MVID: cfa864b2-0492-4771-85a0-f2dbe1dbd78f, AppDomain: [Default])
+Using "GetRestoreSolutionProjectsTask" task from assembly "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll".
+Task "GetRestoreSolutionProjectsTask"
+Done executing task "GetRestoreSolutionProjectsTask".
+Done building target "_LoadRestoreGraphEntryPoints" in project "MedicalEquipmentManagement.sln".
+Target "_FilterRestoreGraphProjectInputItems" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (target "_GenerateRestoreGraph" depends on it):
+Using "RemoveDuplicates" task from assembly "Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+Task "RemoveDuplicates"
+Done executing task "RemoveDuplicates".
+Using "MSBuild" task from assembly "Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+Task "MSBuild"
+  Global Properties:
+    ExcludeRestorePackageImports=true
+    _RestoreSolutionFileUsed=true
+    SolutionDir=<BETA_BUILD_ROOT>\
+    SolutionName=MedicalEquipmentManagement
+    SolutionFileName=MedicalEquipmentManagement.sln
+    SolutionPath=<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln
+    SolutionExt=.sln
+  Additional Properties for project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj":
+    Configuration=Debug
+    Platform=AnyCPU
+Property reassignment: $(MSBuildExtensionsPath)="C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild" (previous value: "C:\Program Files (x86)\MSBuild") at 
+Property reassignment: $(MSBuildExtensionsPath32)="C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild" (previous value: "C:\Program Files (x86)\MSBuild") at 
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+Trying to import C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\$(MSBuildToolsVersion)\Microsoft.Common.props using extensions path C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Microsoft.Common.props(60,5): message : Property reassignment: $(MSBuildProjectExtensionsPath)="<BETA_BUILD_ROOT>\MedicalEquipmentManagement\obj\" (previous value: "obj\") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Microsoft.Common.props (60,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Microsoft.Common.props(84,119): message : Property 'MSBuildUserExtensionsPath' with value 'C:\Users\TonLeo\AppData\Local\Microsoft\MSBuild' expanded from the environment.
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+Trying to import C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\$(MSBuildToolsVersion)\Imports\Microsoft.Common.props\ImportBefore\* using extensions path C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild
+The "Configuration" property is a global property, and cannot be modified.
+The "Platform" property is a global property, and cannot be modified.
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+The "Configuration" property is a global property, and cannot be modified.
+The "Platform" property is a global property, and cannot be modified.
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Roslyn\Microsoft.CSharp.Core.targets(200,5): message : Property reassignment: $(CommandLineArgsForDesignTimeEvaluation)="-langversion:7.3 -define:DEBUG;TRACE" (previous value: "-langversion:7.3") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Roslyn\Microsoft.CSharp.Core.targets (200,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets(13,5): message : Property reassignment: $(DefineCommonItemSchemas)="false" (previous value: "true") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets (13,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets(14,5): message : Property reassignment: $(DefineCommonCapabilities)="false" (previous value: "true") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets (14,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets(15,5): message : Property reassignment: $(DefineCommonReferenceSchemas)="false" (previous value: "true") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets (15,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets(501,5): message : Property reassignment: $(CollectUpToDateCheckInputDesignTimeDependsOn)="CompileDesignTime;ResolveCodeAnalysisRuleSet" (previous value: "CompileDesignTime") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets (501,5)
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+Trying to import C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\$(MSBuildToolsVersion)\Microsoft.Common.targets\ImportBefore\* using extensions path C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.props(117,5): message : Property reassignment: $(AvailablePlatforms)="Any CPU,x86,x64,ARM64" (previous value: "Any CPU,x86,x64") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.props (117,5)
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+The "Platform" property is a global property, and cannot be modified.
+The "Configuration" property is a global property, and cannot be modified.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(175,5): message : Property reassignment: $(_DebugSymbolsProduced)="true" (previous value: "false") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (175,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(185,5): message : Property reassignment: $(_DocumentationFileProduced)="false" (previous value: "true") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (185,5)
+The "SolutionName" property is a global property, and cannot be modified.
+The "SolutionFileName" property is a global property, and cannot be modified.
+The "SolutionPath" property is a global property, and cannot be modified.
+The "SolutionDir" property is a global property, and cannot be modified.
+The "SolutionExt" property is a global property, and cannot be modified.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(392,5): message : Property reassignment: $(MSBuildCopyMarkerName)="MedicalE.88A70EBA" (previous value: "MedicalEquipmentManagement.csproj") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (392,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(393,5): message : Property reassignment: $(MSBuildCopyMarkerName)="MedicalE.88A70EBA.Up2Date" (previous value: "MedicalE.88A70EBA") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (393,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(541,5): message : Property reassignment: $(ProcessorArchitecture)="msil" (previous value: "") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (541,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(580,5): message : Property reassignment: $(DelaySign)="" (previous value: "false") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (580,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(649,5): message : Property reassignment: $(AssemblySearchPaths)="{CandidateAssemblyFiles};" (previous value: "{CandidateAssemblyFiles}") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (649,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(650,5): message : Property reassignment: $(AssemblySearchPaths)="{CandidateAssemblyFiles};;{HintPathFromItem}" (previous value: "{CandidateAssemblyFiles};") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (650,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(651,5): message : Property reassignment: $(AssemblySearchPaths)="{CandidateAssemblyFiles};;{HintPathFromItem};{TargetFrameworkDirectory}" (previous value: "{CandidateAssemblyFiles};;{HintPathFromItem}") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (651,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(652,5): message : Property reassignment: $(AssemblySearchPaths)="{CandidateAssemblyFiles};;{HintPathFromItem};{TargetFrameworkDirectory};{AssemblyFoldersFromConfig:C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\AssemblyFolders.config,v4.8};" (previous value: "{CandidateAssemblyFiles};;{HintPathFromItem};{TargetFrameworkDirectory}") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (652,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(653,5): message : Property reassignment: $(AssemblySearchPaths)="{CandidateAssemblyFiles};;{HintPathFromItem};{TargetFrameworkDirectory};{AssemblyFoldersFromConfig:C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\AssemblyFolders.config,v4.8};;{Registry:Software\Microsoft\.NETFramework,v4.8,AssemblyFoldersEx}" (previous value: "{CandidateAssemblyFiles};;{HintPathFromItem};{TargetFrameworkDirectory};{AssemblyFoldersFromConfig:C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\AssemblyFolders.config,v4.8};") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (653,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(654,5): message : Property reassignment: $(AssemblySearchPaths)="{CandidateAssemblyFiles};;{HintPathFromItem};{TargetFrameworkDirectory};{AssemblyFoldersFromConfig:C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\AssemblyFolders.config,v4.8};;{Registry:Software\Microsoft\.NETFramework,v4.8,AssemblyFoldersEx};{AssemblyFolders}" (previous value: "{CandidateAssemblyFiles};;{HintPathFromItem};{TargetFrameworkDirectory};{AssemblyFoldersFromConfig:C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\AssemblyFolders.config,v4.8};;{Registry:Software\Microsoft\.NETFramework,v4.8,AssemblyFoldersEx}") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (654,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(655,5): message : Property reassignment: $(AssemblySearchPaths)="{CandidateAssemblyFiles};;{HintPathFromItem};{TargetFrameworkDirectory};{AssemblyFoldersFromConfig:C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\AssemblyFolders.config,v4.8};;{Registry:Software\Microsoft\.NETFramework,v4.8,AssemblyFoldersEx};{AssemblyFolders};{GAC}" (previous value: "{CandidateAssemblyFiles};;{HintPathFromItem};{TargetFrameworkDirectory};{AssemblyFoldersFromConfig:C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\AssemblyFolders.config,v4.8};;{Registry:Software\Microsoft\.NETFramework,v4.8,AssemblyFoldersEx};{AssemblyFolders}") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (655,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(656,5): message : Property reassignment: $(AssemblySearchPaths)="{CandidateAssemblyFiles};;{HintPathFromItem};{TargetFrameworkDirectory};{AssemblyFoldersFromConfig:C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\AssemblyFolders.config,v4.8};;{Registry:Software\Microsoft\.NETFramework,v4.8,AssemblyFoldersEx};{AssemblyFolders};{GAC};{RawFileName}" (previous value: "{CandidateAssemblyFiles};;{HintPathFromItem};{TargetFrameworkDirectory};{AssemblyFoldersFromConfig:C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\AssemblyFolders.config,v4.8};;{Registry:Software\Microsoft\.NETFramework,v4.8,AssemblyFoldersEx};{AssemblyFolders};{GAC}") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (656,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(657,5): message : Property reassignment: $(AssemblySearchPaths)="{CandidateAssemblyFiles};;{HintPathFromItem};{TargetFrameworkDirectory};{AssemblyFoldersFromConfig:C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\AssemblyFolders.config,v4.8};;{Registry:Software\Microsoft\.NETFramework,v4.8,AssemblyFoldersEx};{AssemblyFolders};{GAC};{RawFileName};bin\" (previous value: "{CandidateAssemblyFiles};;{HintPathFromItem};{TargetFrameworkDirectory};{AssemblyFoldersFromConfig:C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\AssemblyFolders.config,v4.8};;{Registry:Software\Microsoft\.NETFramework,v4.8,AssemblyFoldersEx};{AssemblyFolders};{GAC};{RawFileName}") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (657,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(2619,5): message : Property 'LOCALAPPDATA' with value 'C:\Users\TonLeo\AppData\Local' expanded from the environment.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(3947,5): message : Property reassignment: $(_SGenGenerateSerializationAssembliesConfig)="Auto" (previous value: "") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (3947,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(3948,5): message : Property reassignment: $(_SGenGenerateSerializationAssembliesConfig)="Off" (previous value: "Auto") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (3948,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(5159,5): message : Property reassignment: $(_TargetsThatPrepareProjectReferences)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(5159,5): message :       AssignProjectConfiguration;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(5159,5): message :       _SplitProjectReferencesByFileExistence
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(5159,5): message :     " (previous value: "_SplitProjectReferencesByFileExistence") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets (5159,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\CodeAnalysis\Microsoft.CodeAnalysis.targets(125,5): message : Property reassignment: $(_CodeAnalysisTreatWarningsAsErrors)="false" (previous value: "") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\CodeAnalysis\Microsoft.CodeAnalysis.targets (125,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\CodeAnalysis\Microsoft.CodeAnalysis.targets(167,9): message : Property reassignment: $(PrepareForRunDependsOn)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\CodeAnalysis\Microsoft.CodeAnalysis.targets(167,9): message :       CopyFilesToOutputDirectory
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\CodeAnalysis\Microsoft.CodeAnalysis.targets(167,9): message :     ;RunCodeAnalysis" (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\CodeAnalysis\Microsoft.CodeAnalysis.targets(167,9): message :       CopyFilesToOutputDirectory
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\CodeAnalysis\Microsoft.CodeAnalysis.targets(167,9): message :     ") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\CodeAnalysis\Microsoft.CodeAnalysis.targets (167,9)
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message : Property reassignment: $(ResolveReferencesDependsOn)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       BeforeResolveReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       AssignProjectConfiguration;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       ResolveProjectReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       FindInvalidProjectReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       ResolveNativeReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       ResolveAssemblyReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       GenerateBindingRedirects;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       GenerateBindingRedirectsUpdateAppConfig;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       ResolveComReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       AfterResolveReferences
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       ImplicitlyExpandDesignTimeFacades
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :     " (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       BeforeResolveReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       AssignProjectConfiguration;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       ResolveProjectReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       FindInvalidProjectReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       ResolveNativeReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       ResolveAssemblyReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       GenerateBindingRedirects;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       GenerateBindingRedirectsUpdateAppConfig;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       ResolveComReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :       AfterResolveReferences
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets(74,5): message :     ") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets (74,5)
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message : Property reassignment: $(PrepareResourceNamesDependsOn)="
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message :                     AssignWinFXEmbeddedResource;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message :                     
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message :       AssignTargetPaths;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message :       SplitResourcesByCulture;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message :       CreateManifestResourceNames;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message :       CreateCustomManifestResourceNames
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message :     
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message :       " (previous value: "
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message :       AssignTargetPaths;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message :       SplitResourcesByCulture;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message :       CreateManifestResourceNames;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message :       CreateCustomManifestResourceNames
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(97,7): message :     ") at C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets (97,7)
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message : Property reassignment: $(PrepareResourcesDependsOn)="
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :                 MarkupCompilePass1;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :                 AfterMarkupCompilePass1;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :                 MarkupCompilePass2ForMainAssembly;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :                 FileClassification;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :                 MainResourcesGeneration;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :                 
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :       ;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :       PrepareResourceNames;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :       ResGen;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :       CompileLicxFiles
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :     
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :       " (previous value: "
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :       ;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :       PrepareResourceNames;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :       ResGen;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :       CompileLicxFiles
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(108,7): message :     ") at C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets (108,7)
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message : Property reassignment: $(CompileDependsOn)="
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :         
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       ResolveReferences;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       ResolveKeySource;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       SetWin32ManifestProperties;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       _SetPreferNativeArm64Win32ManifestProperties;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       FindReferenceAssembliesForReferences;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       _GenerateCompileInputs;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       BeforeCompile;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       _TimeStampBeforeCompile;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       _GenerateCompileDependencyCache;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       CoreCompile;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       _TimeStampAfterCompile;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       AfterCompile;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :     ;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :         _AfterCompileWinFXInternal
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :     " (previous value: "
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       ResolveReferences;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       ResolveKeySource;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       SetWin32ManifestProperties;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       _SetPreferNativeArm64Win32ManifestProperties;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       FindReferenceAssembliesForReferences;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       _GenerateCompileInputs;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       BeforeCompile;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       _TimeStampBeforeCompile;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       _GenerateCompileDependencyCache;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       CoreCompile;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       _TimeStampAfterCompile;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :       AfterCompile;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(184,5): message :     ") at C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets (184,5)
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message : Property reassignment: $(PublishBuildDependsOn)="
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :             BuildOnlySettings;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :             PrepareForBuild;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :             ResolveReferences;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :             PrepareResources;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :             ResolveKeySource;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :             PrepareResourcesForSatelliteAssemblies;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :             GenerateSerializationAssemblies;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :             CreateSatelliteAssemblies;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :         " (previous value: "
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :       BuildOnlySettings;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :       PrepareForBuild;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :       ResolveReferences;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :       PrepareResources;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :       ResolveKeySource;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :       GenerateSerializationAssemblies;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :       CreateSatelliteAssemblies;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets(813,9): message :     ") at C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets (813,9)
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(35,5): message : Property reassignment: $(BuildDependsOn)="
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(35,5): message :       EntityDeploy;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(35,5): message :       
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(35,5): message :       BeforeBuild;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(35,5): message :       CoreBuild;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(35,5): message :       AfterBuild
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(35,5): message :     
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(35,5): message :     " (previous value: "
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(35,5): message :       BeforeBuild;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(35,5): message :       CoreBuild;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(35,5): message :       AfterBuild
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(35,5): message :     ") at C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets (35,5)
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message : Property reassignment: $(CleanDependsOn)="
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       BeforeClean;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       UnmanagedUnregistration;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       CoreClean;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       CleanReferencedProjects;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       CleanPublishFolder;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       AfterClean
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :     ;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       EntityClean;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :     " (previous value: "
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       BeforeClean;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       UnmanagedUnregistration;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       CoreClean;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       CleanReferencedProjects;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       CleanPublishFolder;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :       AfterClean
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets(42,5): message :     ") at C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Data.Entity.targets (42,5)
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message : Property reassignment: $(PrepareResourcesDependsOn)="
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :       XamlMarkupCompilePass1;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :       XamlMarkupCompilePass2;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :       
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :                 MarkupCompilePass1;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :                 AfterMarkupCompilePass1;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :                 MarkupCompilePass2ForMainAssembly;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :                 FileClassification;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :                 MainResourcesGeneration;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :                 
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :       ;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :       PrepareResourceNames;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :       ResGen;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :       CompileLicxFiles
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :     
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :        
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :     " (previous value: "
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :                 MarkupCompilePass1;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :                 AfterMarkupCompilePass1;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :                 MarkupCompilePass2ForMainAssembly;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :                 FileClassification;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :                 MainResourcesGeneration;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :                 
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :       ;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :       PrepareResourceNames;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :       ResGen;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :       CompileLicxFiles
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :     
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets(35,5): message :       ") at C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets (35,5)
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message : Property reassignment: $(PrepareResourcesDependsOn)="
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       ValidationExtension;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       ExpressionBuildExtension;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       XamlMarkupCompilePass1;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       XamlMarkupCompilePass2;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :                 MarkupCompilePass1;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :                 AfterMarkupCompilePass1;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :                 MarkupCompilePass2ForMainAssembly;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :                 FileClassification;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :                 MainResourcesGeneration;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :                 
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       ;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       PrepareResourceNames;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       ResGen;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       CompileLicxFiles
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :     
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :        
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :     
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :     " (previous value: "
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       XamlMarkupCompilePass1;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       XamlMarkupCompilePass2;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :                 MarkupCompilePass1;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :                 AfterMarkupCompilePass1;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :                 MarkupCompilePass2ForMainAssembly;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :                 FileClassification;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :                 MainResourcesGeneration;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :                 
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       ;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       PrepareResourceNames;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       ResGen;
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :       CompileLicxFiles
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :     
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :        
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets(16,5): message :     ") at C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets (16,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message : Property reassignment: $(ResolveReferencesDependsOn)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       BeforeResolveReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       AssignProjectConfiguration;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       ResolveProjectReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       FindInvalidProjectReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       ResolveNativeReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       ResolveAssemblyReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       GenerateBindingRedirects;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       GenerateBindingRedirectsUpdateAppConfig;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       ResolveComReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       AfterResolveReferences
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       ImplicitlyExpandDesignTimeFacades
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       ResolveTestReferences
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :     " (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       BeforeResolveReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       AssignProjectConfiguration;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       ResolveProjectReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       FindInvalidProjectReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       ResolveNativeReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       ResolveAssemblyReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       GenerateBindingRedirects;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       GenerateBindingRedirectsUpdateAppConfig;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       ResolveComReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       AfterResolveReferences
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :       ImplicitlyExpandDesignTimeFacades
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets(4,5): message :     ") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\TeamTest\Microsoft.TeamTest.targets (4,5)
+The "_RestoreSolutionFileUsed" property is a global property, and cannot be modified.
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message : Property reassignment: $(_GenerateRestoreGraphProjectEntryInputProperties)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       ExcludeRestorePackageImports=true;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       _RestoreSolutionFileUsed=true;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       SolutionDir=<BETA_BUILD_ROOT>\;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       SolutionName=MedicalEquipmentManagement;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       SolutionFileName=MedicalEquipmentManagement.sln;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       SolutionPath=<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :       SolutionExt=.sln;
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(104,5): message :     " (previous value: "ExcludeRestorePackageImports=true") at C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets (104,5)
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+Trying to import C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\$(MSBuildToolsVersion)\Microsoft.Common.targets\ImportAfter\* using extensions path C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+Trying to import C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\build\Microsoft.Docker.targets using extensions path C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(74,5): message : Property reassignment: $(ProjectLockFile)="obj\project.assets.json" (previous value: "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\obj\project.assets.json") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets (74,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message : Property reassignment: $(ResolveAssemblyReferencesDependsOn)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       ResolveProjectReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       FindInvalidProjectReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       GetFrameworkPaths;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       GetReferenceAssemblyPaths;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       PrepareForBuild;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       ResolveSDKReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       ExpandSDKReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :     ;ResolveNuGetPackageAssets" (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       ResolveProjectReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       FindInvalidProjectReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       GetFrameworkPaths;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       GetReferenceAssemblyPaths;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       PrepareForBuild;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       ResolveSDKReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :       ExpandSDKReferences;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(185,5): message :     ") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets (185,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message : Property reassignment: $(PrepareResourcesDependsOn)="ResolveNuGetPackageAssets;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       ValidationExtension;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       ExpressionBuildExtension;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       XamlMarkupCompilePass1;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       XamlMarkupCompilePass2;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :                 MarkupCompilePass1;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :                 AfterMarkupCompilePass1;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :                 MarkupCompilePass2ForMainAssembly;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :                 FileClassification;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :                 MainResourcesGeneration;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :                 
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       PrepareResourceNames;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       ResGen;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       CompileLicxFiles
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :     
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :        
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :     
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :     " (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       ValidationExtension;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       ExpressionBuildExtension;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       XamlMarkupCompilePass1;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       XamlMarkupCompilePass2;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :                 MarkupCompilePass1;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :                 AfterMarkupCompilePass1;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :                 MarkupCompilePass2ForMainAssembly;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :                 FileClassification;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :                 MainResourcesGeneration;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :                 
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       PrepareResourceNames;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       ResGen;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :       CompileLicxFiles
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :     
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :        
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :     
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(186,5): message :     ") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets (186,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets(267,5): message : Property reassignment: $(_HandlePackageFileConflictsAfter)="ResolveNuGetPackageAssets;ResolveNuGetPackageAssetsNonAOT" (previous value: "ResolveNuGetPackageAssets") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\NuGet\17.0\Microsoft.NuGet.targets (267,5)
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+Trying to import C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\WebTools.Aspire\Microsoft.WebTools.Aspire.targets using extensions path C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\WebTools.Aspire\Microsoft.WebTools.Aspire.targets(25,5): message : Property reassignment: $(JsonSchemaCombinedFilePath)="<BETA_BUILD_ROOT>\MedicalEquipmentManagement\obj\Debug\CombinedComponentSchema.json" (previous value: "obj\Debug\\CombinedComponentSchema.json") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\WebTools.Aspire\Microsoft.WebTools.Aspire.targets (25,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\WebTools.Aspire\Microsoft.WebTools.Aspire.targets(27,5): message : Property reassignment: $(AppSettingsJsonSchemaCombinedFilePath)="<BETA_BUILD_ROOT>\MedicalEquipmentManagement\obj\Debug\AppSettingsSchema.json" (previous value: "obj\Debug\\AppSettingsSchema.json") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\WebTools.Aspire\Microsoft.WebTools.Aspire.targets (27,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Xamarin\Xamarin.Sdk.targets(9,9): message : Property reassignment: $(PrepareForRunDependsOn)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Xamarin\Xamarin.Sdk.targets(9,9): message :             _CalculatePostXamarinTelemetry;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Xamarin\Xamarin.Sdk.targets(9,9): message :             _PostXamarinTelemetry;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Xamarin\Xamarin.Sdk.targets(9,9): message :             
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Xamarin\Xamarin.Sdk.targets(9,9): message :       CopyFilesToOutputDirectory
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Xamarin\Xamarin.Sdk.targets(9,9): message :     ;RunCodeAnalysis
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Xamarin\Xamarin.Sdk.targets(9,9): message :         " (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Xamarin\Xamarin.Sdk.targets(9,9): message :       CopyFilesToOutputDirectory
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Xamarin\Xamarin.Sdk.targets(9,9): message :     ;RunCodeAnalysis") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Xamarin\Xamarin.Sdk.targets (9,9)
+Search paths being used for $(MSBuildExtensionsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+Search paths being used for $(VSToolsPath) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0;$(MSBuildProgramFiles32)\MSBuild\Microsoft\VisualStudio\v$(VisualStudioVersion)
+Trying to import C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets using extensions path C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(27,5): message : Property reassignment: $(CleanWebProjectOutputDir)="False" (previous value: "True") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets (27,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message : Property reassignment: $(PrepareForRunDependsOn)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :             _CalculatePostXamarinTelemetry;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :             _PostXamarinTelemetry;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :             
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :       CopyFilesToOutputDirectory
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :     ;RunCodeAnalysis
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :         ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :       CopySilverlightApplications;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :       _CopyBinDeployableAssemblies;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :     " (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :             _CalculatePostXamarinTelemetry;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :             _PostXamarinTelemetry;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :             
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :       CopyFilesToOutputDirectory
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :     ;RunCodeAnalysis
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(37,5): message :         ") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets (37,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message : Property reassignment: $(PrepareForRunDependsOn)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :             _CalculatePostXamarinTelemetry;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :             _PostXamarinTelemetry;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :             
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :       CopyFilesToOutputDirectory
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :     ;RunCodeAnalysis
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :         ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :       CopySilverlightApplications;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :       _CopyBinDeployableAssemblies;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :       _CopyWebApplication;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :       _BuiltWebOutputGroupOutput
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :     " (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :             _CalculatePostXamarinTelemetry;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :             _PostXamarinTelemetry;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :             
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :       CopyFilesToOutputDirectory
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :     ;RunCodeAnalysis
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :         ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :       CopySilverlightApplications;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :       _CopyBinDeployableAssemblies;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(42,5): message :     ") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets (42,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message : Property reassignment: $(CleanDependsOn)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       BeforeClean;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       UnmanagedUnregistration;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       CoreClean;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       CleanReferencedProjects;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       CleanPublishFolder;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       AfterClean
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       EntityClean;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       CleanWebProjectOutputDir;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :     " (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       BeforeClean;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       UnmanagedUnregistration;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       CoreClean;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       CleanReferencedProjects;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       CleanPublishFolder;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       AfterClean
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :       EntityClean;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(53,5): message :     ") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets (53,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message : Property reassignment: $(CleanDependsOn)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       BeforeClean;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       UnmanagedUnregistration;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       CoreClean;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       CleanReferencedProjects;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       CleanPublishFolder;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       AfterClean
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       EntityClean;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       CleanWebProjectOutputDir;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       CleanWebsitesPackage;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       CleanWebsitesWPPAllFilesInSingleFolder;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       CleanWebPublishPipelineIntermediateOutput;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :     " (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       BeforeClean;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       UnmanagedUnregistration;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       CoreClean;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       CleanReferencedProjects;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       CleanPublishFolder;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       AfterClean
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       EntityClean;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :       CleanWebProjectOutputDir;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(215,5): message :     ") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets (215,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(404,5): message : Property reassignment: $(CleanWebProjectOutputDir)="True" (previous value: "False") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets (404,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(405,5): message : Property reassignment: $(CleanWebProjectOutputDir)="False" (previous value: "True") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets (405,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(453,5): message : Property reassignment: $(_UseDefaultLinkExtensionValue)="True" (previous value: "False") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets (453,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(532,5): message : Property reassignment: $(_DestinationIisAppPhysicalPath)="<BETA_BUILD_ROOT>\MedicalEquipmentManagement_deploy" (previous value: "") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets (532,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(3662,5): message : Property reassignment: $(WriteItemsToSourceManifestDependsOn)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(3662,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(3662,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(3662,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(3662,5): message :       AddDatabasesToSourceManifest;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(3662,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(3662,5): message :       AddIisSettingAndFileContentsToSourceManifest;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(3662,5): message :     " (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(3662,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(3662,5): message :       AddDatabasesToSourceManifest;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(3662,5): message :     ") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets (3662,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(4633,5): message : Property reassignment: $(DbDacFxPreviewDependsOn)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(4633,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(4633,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(4633,5): message :       GetMSDeployInstalledVersionPath;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(4633,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(4633,5): message :       RemoteDbDacFxPreview;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(4633,5): message :     " (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(4633,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(4633,5): message :       GetMSDeployInstalledVersionPath;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets(4633,5): message :     ") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing.targets (4633,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message : Property reassignment: $(PipelineTransformPhaseDependsOn)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       PipeLineCollectFilesPhase;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       TransformWebConfig;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       ProfileTransformWebConfig;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       InsertAdditionalWebCofigConnectionStrings;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       MarkWebConfigAssistFilesAsExclude;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :     ;_TransformWebConfigForAzureAuthentication" (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       PipeLineCollectFilesPhase;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       TransformWebConfig;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       ProfileTransformWebConfig;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       InsertAdditionalWebCofigConnectionStrings;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :       MarkWebConfigAssistFilesAsExclude;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets(17,5): message :     ") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\Web\Microsoft.Web.Publishing\ImportAfter\Microsoft.Web.AzureAD.Publishing.targets (17,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(385,5): message : Property reassignment: $(OnBeforePipelineCollectFilesPhase)="
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(385,5): message :       
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(385,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(385,5): message :       _CleanWPPIfNeedTo;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(385,5): message :     ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(385,5): message :       CopySilverlightApplications;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(385,5): message :     " (previous value: "
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(385,5): message :       ;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(385,5): message :       _CleanWPPIfNeedTo;
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(385,5): message :     ") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets (385,5)
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets(393,5): message : Property reassignment: $(AutoUnifyAssemblyReferences)="false" (previous value: "true") at C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\WebApplications\Microsoft.WebApplication.targets (393,5)
+Search paths being used for $(MSBuildExtensionsPath32) are C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild;$(MSBuildProgramFiles32)\MSBuild
+Overriding target "ResolveFrameworkReferences" in project "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets" with target "ResolveFrameworkReferences" from project "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets".
+Overriding target "GetFrameworkPaths" in project "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets" with target "GetFrameworkPaths" from project "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.NETFramework.CurrentVersion.targets".
+Overriding target "SatelliteDllsProjectOutputGroup" in project "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets" with target "SatelliteDllsProjectOutputGroup" from project "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WinFx.targets".
+Overriding target "GenerateCompiledExpressionsTempFile" in project "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.WorkflowBuildExtensions.targets" with target "GenerateCompiledExpressionsTempFile" from project "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.WorkflowBuildExtensions.targets".
+Overriding target "CollectPackageReferences" in project "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets" with target "CollectPackageReferences" from project "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets".
+Overriding target "CollectNuGetAuditSuppressions" in project "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets" with target "CollectNuGetAuditSuppressions" from project "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets".
+Overriding target "CollectPrunePackageReferences" in project "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets" with target "CollectPrunePackageReferences" from project "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets".
+Overriding target "CollectCopyToOutputDirectoryItemDesignTime" in project "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets" with target "CollectCopyToOutputDirectoryItemDesignTime" from project "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\ProjectServices\Microsoft.DesignTime.targets".
+Overriding target "CompileDesignTime" in project "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.CSharp.DesignTime.targets" with target "CompileDesignTime" from project "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\ProjectServices\Microsoft.DesignTime.targets".
+Overriding target "_CheckCompileDesignTimePrerequisite" in project "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.Managed.DesignTime.targets" with target "_CheckCompileDesignTimePrerequisite" from project "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\ProjectServices\Microsoft.DesignTime.targets".
+Overriding target "AfterBuild" in project "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets" with target "AfterBuild" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj".
+The target "_PrepareRazorSourceGenerators" listed in an AfterTargets attribute at "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\Managed\Microsoft.CSharp.DesignTime.targets (74,45)" does not exist in the project, and will be ignored.
+The target "ClCompile" listed in an AfterTargets attribute at "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VisualStudio\v17.0\CodeAnalysis\Microsoft.CodeAnalysis.targets (446,11)" does not exist in the project, and will be ignored.
+Project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (1) is building "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (2) on node 1 (_IsProjectRestoreSupported target(s)).
+Project file contains ToolsVersion="15.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="Current". For more information, please see http://go.microsoft.com/fwlink/?LinkId=293424.
+Target "_IsProjectRestoreSupported" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (entry point):
+Done building target "_IsProjectRestoreSupported" in project "MedicalEquipmentManagement.csproj".
+Done Building Project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (_IsProjectRestoreSupported target(s)).
+Done executing task "MSBuild".
+Task "MSBuild" skipped, due to false condition; ( '$(RestoreUseSkipNonexistentTargets)' != 'true' ) was evaluated as ( 'true' != 'true' ).
+Using "WarnForInvalidProjectsTask" task from assembly "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll".
+Task "WarnForInvalidProjectsTask"
+Done executing task "WarnForInvalidProjectsTask".
+Done building target "_FilterRestoreGraphProjectInputItems" in project "MedicalEquipmentManagement.sln".
+Target "_FilterRestoreGraphProjectInputItems" skipped. Previously built successfully.
+Target "_GetAllRestoreProjectPathItems" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (target "_GenerateRestoreGraph" depends on it):
+Using "NuGetMessageTask" task from assembly "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll".
+Task "NuGetMessageTask"
+  Determining projects to restore...
+Done executing task "NuGetMessageTask".
+Task "MSBuild"
+  Global Properties:
+    ExcludeRestorePackageImports=true
+    _RestoreSolutionFileUsed=true
+    SolutionDir=<BETA_BUILD_ROOT>\
+    SolutionName=MedicalEquipmentManagement
+    SolutionFileName=MedicalEquipmentManagement.sln
+    SolutionPath=<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln
+    SolutionExt=.sln
+  Additional Properties for project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj":
+    Configuration=Debug
+    Platform=AnyCPU
+Project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (1) is building "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (2:2) on node 1 (_GenerateRestoreProjectPathWalk target(s)).
+Project file contains ToolsVersion="15.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="Current". For more information, please see http://go.microsoft.com/fwlink/?LinkId=293424.
+Target "_GenerateRestoreProjectPathItemsAllFrameworks" skipped, due to false condition; ( '$(TargetFrameworks)' != '' ) was evaluated as ( '' != '' ).
+Target "_GenerateRestoreProjectPathItemsPerFramework" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GenerateRestoreProjectPathItemsCurrentProject" depends on it):
+Using "ConvertToAbsolutePath" task from assembly "Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+Task "ConvertToAbsolutePath"
+Done executing task "ConvertToAbsolutePath".
+Done building target "_GenerateRestoreProjectPathItemsPerFramework" in project "MedicalEquipmentManagement.csproj".
+Target "_GenerateRestoreProjectPathItemsCurrentProject" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GenerateRestoreProjectPathItems" depends on it):
+Done building target "_GenerateRestoreProjectPathItemsCurrentProject" in project "MedicalEquipmentManagement.csproj".
+Target "_GenerateRestoreProjectPathItems" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GenerateRestoreProjectPathWalk" depends on it):
+Using "RemoveDuplicates" task from assembly "Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+Task "RemoveDuplicates"
+Done executing task "RemoveDuplicates".
+Done building target "_GenerateRestoreProjectPathItems" in project "MedicalEquipmentManagement.csproj".
+Target "_GenerateRestoreProjectPathWalk" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (entry point):
+Using "MSBuild" task from assembly "Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+Task "MSBuild"
+Done executing task "MSBuild".
+Task "MSBuild" skipped, due to false condition; ( '$(RestoreUseSkipNonexistentTargets)' != 'true' ) was evaluated as ( 'true' != 'true' ).
+Task "RemoveDuplicates"
+Done executing task "RemoveDuplicates".
+Done building target "_GenerateRestoreProjectPathWalk" in project "MedicalEquipmentManagement.csproj".
+Done Building Project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (_GenerateRestoreProjectPathWalk target(s)).
+Done executing task "MSBuild".
+Task "MSBuild" skipped, due to false condition; ( '$(RestoreUseSkipNonexistentTargets)' != 'true' ) was evaluated as ( 'true' != 'true' ).
+Task "RemoveDuplicates"
+Done executing task "RemoveDuplicates".
+Task "MSBuild"
+  Global Properties:
+    ExcludeRestorePackageImports=true
+    _RestoreSolutionFileUsed=true
+    SolutionDir=<BETA_BUILD_ROOT>\
+    SolutionName=MedicalEquipmentManagement
+    SolutionFileName=MedicalEquipmentManagement.sln
+    SolutionPath=<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln
+    SolutionExt=.sln
+  Additional Properties for project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj":
+    Configuration=Debug
+    Platform=AnyCPU
+Project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (1) is building "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (2:3) on node 1 (_IsProjectRestoreSupported target(s)).
+Target "_IsProjectRestoreSupported" skipped. Previously built successfully.
+Done Building Project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (_IsProjectRestoreSupported target(s)).
+Done executing task "MSBuild".
+Task "MSBuild" skipped, due to false condition; ( '$(RestoreUseSkipNonexistentTargets)' != 'true' ) was evaluated as ( 'true' != 'true' ).
+Done building target "_GetAllRestoreProjectPathItems" in project "MedicalEquipmentManagement.sln".
+Target "_GenerateRestoreGraph" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (target "Restore" depends on it):
+Task "Message"
+  Generating dg file
+Done executing task "Message".
+Task "Message"
+  <BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj
+Done executing task "Message".
+Task "MSBuild"
+  Global Properties:
+    ExcludeRestorePackageImports=true
+    _RestoreSolutionFileUsed=true
+    SolutionDir=<BETA_BUILD_ROOT>\
+    SolutionName=MedicalEquipmentManagement
+    SolutionFileName=MedicalEquipmentManagement.sln
+    SolutionPath=<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln
+    SolutionExt=.sln
+  Additional Properties for project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj":
+    Configuration=Debug
+    Platform=AnyCPU
+Project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (1) is building "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (2:4) on node 1 (_GenerateRestoreGraphProjectEntry target(s)).
+Project file contains ToolsVersion="15.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="Current". For more information, please see http://go.microsoft.com/fwlink/?LinkId=293424.
+Target "_GetProjectJsonPath" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GetRestoreProjectStyle" depends on it):
+Using "GetRestoreProjectJsonPathTask" task from assembly "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll".
+Task "GetRestoreProjectJsonPathTask"
+Done executing task "GetRestoreProjectJsonPathTask".
+Done building target "_GetProjectJsonPath" in project "MedicalEquipmentManagement.csproj".
+Target "CollectPackageReferences" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GetRestoreProjectStyle" depends on it):
+Using "CheckForDuplicateNuGetItemsTask" task from assembly "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll".
+Task "CheckForDuplicateNuGetItemsTask"
+Done executing task "CheckForDuplicateNuGetItemsTask".
+Done building target "CollectPackageReferences" in project "MedicalEquipmentManagement.csproj".
+Target "_GetRestoreProjectStyle" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GenerateRestoreSpecs" depends on it):
+Using "GetRestoreProjectStyleTask" task from assembly "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll".
+Task "GetRestoreProjectStyleTask"
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.GetRestoreProjectStyleTask): NuGet.Configuration, Version=6.14.3.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Configuration.dll, MVID: 06c0d0a7-2b54-4fe6-957a-11618d6d35b1, AppDomain: [Default])
+Done executing task "GetRestoreProjectStyleTask".
+Done building target "_GetRestoreProjectStyle" in project "MedicalEquipmentManagement.csproj".
+Target "_GenerateRestoreSpecs" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GenerateRestoreGraphProjectEntry" depends on it):
+Using "Message" task from assembly "Microsoft.Build.Tasks.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+Task "Message"
+  Restore entry point <BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj
+Done executing task "Message".
+Done building target "_GenerateRestoreSpecs" in project "MedicalEquipmentManagement.csproj".
+Target "_GetRestoreSettingsOverrides" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GetRestoreSettings" depends on it):
+Task "MSBuild" skipped, due to false condition; ( '$(RestorePackagesPath)' != '' ) was evaluated as ( '' != '' ).
+Task "MSBuild" skipped, due to false condition; ( '$(RestoreRepositoryPathOverride)' != '' ) was evaluated as ( '' != '' ).
+Task "MSBuild" skipped, due to false condition; ( '$(RestoreSources)' != '' ) was evaluated as ( '' != '' ).
+Task "MSBuild" skipped, due to false condition; ( '$(RestoreFallbackFolders)' != '' ) was evaluated as ( '' != '' ).
+Done building target "_GetRestoreSettingsOverrides" in project "MedicalEquipmentManagement.csproj".
+Target "_GetRestoreSettingsCurrentProject" skipped, due to false condition; ( '$(TargetFrameworks)' == '' AND '$(PackageReferenceCompatibleProjectStyle)' == 'true' ) was evaluated as ( '' == '' AND 'False' == 'true' ).
+Target "_GetRestoreSettingsAllFrameworks" skipped, due to false condition; ( '$(TargetFrameworks)' != '' AND '$(PackageReferenceCompatibleProjectStyle)' == 'true' ) was evaluated as ( '' != '' AND 'False' == 'true' ).
+Target "_GetRestoreSettings" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GenerateDotnetCliToolReferenceSpecs" depends on it):
+Using "GetRestoreSettingsTask" task from assembly "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll".
+Task "GetRestoreSettingsTask"
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.GetRestoreSettingsTask): System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 (location: C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Xml.Linq\v4.0_4.0.0.0__b77a5c561934e089\System.Xml.Linq.dll, MVID: 44df89d0-0560-4998-ade6-c5dead543cda, AppDomain: [Default])
+Done executing task "GetRestoreSettingsTask".
+Done building target "_GetRestoreSettings" in project "MedicalEquipmentManagement.csproj".
+Target "_GenerateDotnetCliToolReferenceSpecs" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GenerateRestoreGraphProjectEntry" depends on it):
+Using "GetRestoreDotnetCliToolsTask" task from assembly "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll".
+Task "GetRestoreDotnetCliToolsTask"
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.GetRestoreDotnetCliToolsTask): NuGet.Versioning, Version=6.14.3.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Versioning.dll, MVID: 12ae147a-b9b8-4a50-a19d-25d88efdea7a, AppDomain: [Default])
+Done executing task "GetRestoreDotnetCliToolsTask".
+Done building target "_GenerateDotnetCliToolReferenceSpecs" in project "MedicalEquipmentManagement.csproj".
+Target "_GenerateRestoreGraphProjectEntry" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (entry point):
+Done building target "_GenerateRestoreGraphProjectEntry" in project "MedicalEquipmentManagement.csproj".
+Done Building Project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (_GenerateRestoreGraphProjectEntry target(s)).
+Done executing task "MSBuild".
+Task "MSBuild"
+  Global Properties:
+    ExcludeRestorePackageImports=true
+    _RestoreSolutionFileUsed=true
+    SolutionDir=<BETA_BUILD_ROOT>\
+    SolutionName=MedicalEquipmentManagement
+    SolutionFileName=MedicalEquipmentManagement.sln
+    SolutionPath=<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln
+    SolutionExt=.sln
+  Additional Properties for project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj":
+    Configuration=Debug
+    Platform=AnyCPU
+Project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (1) is building "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (2:5) on node 1 (_GenerateProjectRestoreGraph target(s)).
+Project file contains ToolsVersion="15.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="Current". For more information, please see http://go.microsoft.com/fwlink/?LinkId=293424.
+Target "_GetRestoreProjectStyle" skipped. Previously built successfully.
+Target "_GetRestoreProjectStyle" skipped. Previously built successfully.
+Target "_GetRestoreProjectStyle" skipped. Previously built successfully.
+Target "_GetRestoreTargetFrameworkOverride" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GetRestoreTargetFrameworksOutput" depends on it):
+Task "GetGlobalPropertyValueTask" skipped, due to false condition; ( '$(TargetFrameworks)' != '' ) was evaluated as ( '' != '' ).
+Done building target "_GetRestoreTargetFrameworkOverride" in project "MedicalEquipmentManagement.csproj".
+Target "_GetRestoreTargetFrameworksOutput" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GenerateRestoreProjectSpec" depends on it):
+Using "GetProjectTargetFrameworksTask" task from assembly "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll".
+Task "GetProjectTargetFrameworksTask"
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.GetProjectTargetFrameworksTask): NuGet.Frameworks, Version=6.14.3.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Frameworks.dll, MVID: 08a11195-8070-4b56-a4b6-fc9ac567d1ec, AppDomain: [Default])
+Done executing task "GetProjectTargetFrameworksTask".
+Done building target "_GetRestoreTargetFrameworksOutput" in project "MedicalEquipmentManagement.csproj".
+Target "_GetRestoreSettings" skipped. Previously built successfully.
+Target "_GenerateRestoreProjectSpec" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GenerateProjectRestoreGraph" depends on it):
+Task "ConvertToAbsolutePath" skipped, due to false condition; ( '$(PackageReferenceCompatibleProjectStyle)' == 'true' OR '$(RestoreProjectStyle)' == 'ProjectJson') was evaluated as ( 'False' == 'true' OR 'PackagesConfig' == 'ProjectJson').
+Done building target "_GenerateRestoreProjectSpec" in project "MedicalEquipmentManagement.csproj".
+Target "_GenerateProjectRestoreGraphAllFrameworks" skipped, due to false condition; ( '$(TargetFrameworks)' != '' ) was evaluated as ( '' != '' ).
+Target "_GetRestoreProjectStyle" skipped. Previously built successfully.
+Target "CollectPackageReferences" skipped. Previously built successfully.
+Target "CollectPackageDownloads" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_CollectRestoreInputs" depends on it):
+Task "CheckForDuplicateNuGetItemsTask"
+Done executing task "CheckForDuplicateNuGetItemsTask".
+Done building target "CollectPackageDownloads" in project "MedicalEquipmentManagement.csproj".
+Target "CollectFrameworkReferences" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_CollectRestoreInputs" depends on it):
+Done building target "CollectFrameworkReferences" in project "MedicalEquipmentManagement.csproj".
+Target "CollectCentralPackageVersions" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_CollectRestoreInputs" depends on it):
+Task "CheckForDuplicateNuGetItemsTask"
+Done executing task "CheckForDuplicateNuGetItemsTask".
+Done building target "CollectCentralPackageVersions" in project "MedicalEquipmentManagement.csproj".
+Target "CollectNuGetAuditSuppressions" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_CollectRestoreInputs" depends on it):
+Task "CheckForDuplicateNuGetItemsTask"
+Done executing task "CheckForDuplicateNuGetItemsTask".
+Done building target "CollectNuGetAuditSuppressions" in project "MedicalEquipmentManagement.csproj".
+Target "CollectPrunePackageReferences" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_CollectRestoreInputs" depends on it):
+Task "CheckForDuplicateNuGetItemsTask"
+Done executing task "CheckForDuplicateNuGetItemsTask".
+Done building target "CollectPrunePackageReferences" in project "MedicalEquipmentManagement.csproj".
+Target "_CollectRestoreInputs" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GenerateProjectRestoreGraphPerFramework" depends on it):
+Done building target "_CollectRestoreInputs" in project "MedicalEquipmentManagement.csproj".
+Target "_GenerateProjectRestoreGraphPerFramework" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GenerateProjectRestoreGraphCurrentProject" depends on it):
+Using "GetRestoreProjectReferencesTask" task from assembly "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll".
+Task "GetRestoreProjectReferencesTask"
+Done executing task "GetRestoreProjectReferencesTask".
+Task "GetRestorePackageReferencesTask" skipped, due to false condition; ( '$(PackageReferenceCompatibleProjectStyle)' == 'true' ) was evaluated as ( 'False' == 'true' ).
+Task "GetCentralPackageVersionsTask" skipped, due to false condition; ( '$(PackageReferenceCompatibleProjectStyle)' == 'true' AND '$(_CentralPackageVersionsEnabled)' == 'true' ) was evaluated as ( 'False' == 'true' AND '' == 'true' ).
+Task "GetRestorePackageDownloadsTask" skipped, due to false condition; ( '$(PackageReferenceCompatibleProjectStyle)' == 'true' ) was evaluated as ( 'False' == 'true' ).
+Task "GetRestoreFrameworkReferencesTask" skipped, due to false condition; ( '$(PackageReferenceCompatibleProjectStyle)' == 'true' ) was evaluated as ( 'False' == 'true' ).
+Using "GetRestoreNuGetAuditSuppressionsTask" task from assembly "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll".
+Task "GetRestoreNuGetAuditSuppressionsTask"
+Done executing task "GetRestoreNuGetAuditSuppressionsTask".
+Using "GetRestorePrunePackageReferencesTask" task from assembly "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll".
+Task "GetRestorePrunePackageReferencesTask"
+Done executing task "GetRestorePrunePackageReferencesTask".
+Done building target "_GenerateProjectRestoreGraphPerFramework" in project "MedicalEquipmentManagement.csproj".
+Target "_GenerateProjectRestoreGraphCurrentProject" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GenerateRestoreDependencies" depends on it):
+Done building target "_GenerateProjectRestoreGraphCurrentProject" in project "MedicalEquipmentManagement.csproj".
+Target "_GenerateRestoreDependencies" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (target "_GenerateProjectRestoreGraph" depends on it):
+Done building target "_GenerateRestoreDependencies" in project "MedicalEquipmentManagement.csproj".
+Target "_GenerateProjectRestoreGraph" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (entry point):
+Done building target "_GenerateProjectRestoreGraph" in project "MedicalEquipmentManagement.csproj".
+Done Building Project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement\MedicalEquipmentManagement.csproj" (_GenerateProjectRestoreGraph target(s)).
+Done executing task "MSBuild".
+Done building target "_GenerateRestoreGraph" in project "MedicalEquipmentManagement.sln".
+Target "Restore" in file "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets" from project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (entry point):
+Task "RemoveDuplicates"
+Done executing task "RemoveDuplicates".
+Using "RestoreTask" task from assembly "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Build.Tasks.dll".
+Task "RestoreTask"
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): NuGet.LibraryModel, Version=6.14.3.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.LibraryModel.dll, MVID: 357b86f2-f560-4c2c-b7df-c984319c78e3, AppDomain: [Default])
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): NuGet.Packaging, Version=6.14.3.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Packaging.dll, MVID: 413b0f9e-a294-4037-af2c-6d947f755e11, AppDomain: [Default])
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): NuGet.Protocol, Version=6.14.3.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Protocol.dll, MVID: 92fd1e31-0a29-496d-8b66-a8e85e4841af, AppDomain: [Default])
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): NuGet.Credentials, Version=6.14.3.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.Credentials.dll, MVID: c5cfe427-0ac7-418c-b199-e59ba9e0eb0f, AppDomain: [Default])
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): NuGet.PackageManagement, Version=6.14.3.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.PackageManagement.dll, MVID: 7b0972e4-33cb-4a04-9c0c-4a48cab30cc1, AppDomain: [Default])
+  X.509 certificate chain validation will use the default trust store selected by .NET for code signing.
+  X.509 certificate chain validation will use the default trust store selected by .NET for timestamping.
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): NuGet.DependencyResolver.Core, Version=6.14.3.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.DependencyResolver.Core.dll, MVID: 686ab7d5-6c3b-44d4-807f-d575ad064323, AppDomain: [Default])
+  Restoring NuGet package bootstrap.5.2.3.
+  Restoring NuGet package Antlr.3.5.0.2.
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed (location: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Newtonsoft.Json.dll, MVID: dd21e087-47d9-4bce-bed8-b56112226337, AppDomain: [Default])
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\antlr\3.5.0.2\antlr.3.5.0.2.nupkg
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\bootstrap\5.2.3\bootstrap.5.2.3.nupkg
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Net.Http\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Net.Http.dll, MVID: 5323866c-f46c-41a0-9539-40f1eba94e7c, AppDomain: [Default])
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): System.Numerics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 (location: C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Numerics\v4.0_4.0.0.0__b77a5c561934e089\System.Numerics.dll, MVID: f6c66a31-8fe1-41dd-ae20-28db11194a46, AppDomain: [Default])
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): System.Runtime.Serialization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 (location: C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Runtime.Serialization\v4.0_4.0.0.0__b77a5c561934e089\System.Runtime.Serialization.dll, MVID: c00bf0b6-a776-4229-8748-6d2f39bd1129, AppDomain: [Default])
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): System.Text.Json, Version=10.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\System.Text.Json.dll, MVID: 89ce9786-5d26-4ea9-b6a0-4efef09e2a39, AppDomain: [Default])
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 (location: C:\Windows\Microsoft.Net\assembly\GAC_32\System.Data\v4.0_4.0.0.0__b77a5c561934e089\System.Data.dll, MVID: ee5a0bff-1cd6-45e3-a92d-c352416621c2, AppDomain: [Default])
+  Adding package 'bootstrap.5.2.3' to folder '<BETA_BUILD_ROOT>\packages'
+  Adding package 'Antlr.3.5.0.2' to folder '<BETA_BUILD_ROOT>\packages'
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): System.IO.Compression, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089 (location: C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.IO.Compression\v4.0_4.0.0.0__b77a5c561934e089\System.IO.Compression.dll, MVID: 4c435b9f-dbf7-4344-a22a-d64325047de0, AppDomain: [Default])
+  Added package 'Antlr.3.5.0.2' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Antlr.3.5.0.2' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package EntityFramework.6.5.2.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\entityframework\6.5.2\entityframework.6.5.2.nupkg
+  Adding package 'EntityFramework.6.5.2' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'EntityFramework.6.5.2' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'EntityFramework.6.5.2' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package jQuery.3.7.0.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\jquery\3.7.0\jquery.3.7.0.nupkg
+  Adding package 'jQuery.3.7.0' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'bootstrap.5.2.3' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'bootstrap.5.2.3' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package jQuery.Validation.1.19.5.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\jquery.validation\1.19.5\jquery.validation.1.19.5.nupkg
+  Added package 'jQuery.3.7.0' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'jQuery.3.7.0' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package Microsoft.AspNet.Mvc.5.2.9.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\microsoft.aspnet.mvc\5.2.9\microsoft.aspnet.mvc.5.2.9.nupkg
+  Adding package 'jQuery.Validation.1.19.5' to folder '<BETA_BUILD_ROOT>\packages'
+  Adding package 'Microsoft.AspNet.Mvc.5.2.9' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'jQuery.Validation.1.19.5' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'jQuery.Validation.1.19.5' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package Microsoft.AspNet.Razor.3.2.9.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\microsoft.aspnet.razor\3.2.9\microsoft.aspnet.razor.3.2.9.nupkg
+  Adding package 'Microsoft.AspNet.Razor.3.2.9' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.Razor.3.2.9' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.Razor.3.2.9' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package Microsoft.AspNet.Web.Optimization.1.1.3.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\microsoft.aspnet.web.optimization\1.1.3\microsoft.aspnet.web.optimization.1.1.3.nupkg
+  Adding package 'Microsoft.AspNet.Web.Optimization.1.1.3' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.Mvc.5.2.9' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.Mvc.5.2.9' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package Microsoft.AspNet.WebPages.3.2.9.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\microsoft.aspnet.webpages\3.2.9\microsoft.aspnet.webpages.3.2.9.nupkg
+  Adding package 'Microsoft.AspNet.WebPages.3.2.9' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.Web.Optimization.1.1.3' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.Web.Optimization.1.1.3' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\microsoft.codedom.providers.dotnetcompilerplatform\2.0.1\microsoft.codedom.providers.dotnetcompilerplatform.2.0.1.nupkg
+  Adding package 'Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.WebPages.3.2.9' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.WebPages.3.2.9' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package Microsoft.jQuery.Unobtrusive.Validation.3.2.11.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\microsoft.jquery.unobtrusive.validation\3.2.11\microsoft.jquery.unobtrusive.validation.3.2.11.nupkg
+  Adding package 'Microsoft.jQuery.Unobtrusive.Validation.3.2.11' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.jQuery.Unobtrusive.Validation.3.2.11' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.jQuery.Unobtrusive.Validation.3.2.11' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package Microsoft.Web.Infrastructure.2.0.0.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\microsoft.web.infrastructure\2.0.0\microsoft.web.infrastructure.2.0.0.nupkg
+  Adding package 'Microsoft.Web.Infrastructure.2.0.0' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.Web.Infrastructure.2.0.0' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.Web.Infrastructure.2.0.0' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package Modernizr.2.8.3.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\modernizr\2.8.3\modernizr.2.8.3.nupkg
+  Adding package 'Modernizr.2.8.3' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Modernizr.2.8.3' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Modernizr.2.8.3' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package Newtonsoft.Json.13.0.3.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\newtonsoft.json\13.0.3\newtonsoft.json.13.0.3.nupkg
+  Adding package 'Newtonsoft.Json.13.0.3' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Newtonsoft.Json.13.0.3' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Newtonsoft.Json.13.0.3' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package WebGrease.1.6.0.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\webgrease\1.6.0\webgrease.1.6.0.nupkg
+  Adding package 'WebGrease.1.6.0' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'WebGrease.1.6.0' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'WebGrease.1.6.0' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package ClosedXML.0.95.4.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\closedxml\0.95.4\closedxml.0.95.4.nupkg
+  Adding package 'ClosedXML.0.95.4' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'ClosedXML.0.95.4' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'ClosedXML.0.95.4' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package DocumentFormat.OpenXml.2.7.2.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\documentformat.openxml\2.7.2\documentformat.openxml.2.7.2.nupkg
+  Adding package 'DocumentFormat.OpenXml.2.7.2' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'DocumentFormat.OpenXml.2.7.2' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'DocumentFormat.OpenXml.2.7.2' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package ExcelNumberFormat.1.0.10.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\excelnumberformat\1.0.10\excelnumberformat.1.0.10.nupkg
+  Adding package 'ExcelNumberFormat.1.0.10' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'ExcelNumberFormat.1.0.10' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'ExcelNumberFormat.1.0.10' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package QRCoder.1.4.3.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\qrcoder\1.4.3\qrcoder.1.4.3.nupkg
+  Adding package 'QRCoder.1.4.3' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'QRCoder.1.4.3' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'QRCoder.1.4.3' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package System.IO.FileSystem.Primitives.4.0.1.
+  Adding package 'System.IO.FileSystem.Primitives.4.0.1' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package System.IO.Packaging.4.0.0.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\system.io.packaging\4.0.0\system.io.packaging.4.0.0.nupkg
+  Adding package 'System.IO.Packaging.4.0.0' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'System.IO.Packaging.4.0.0' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'System.IO.Packaging.4.0.0' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package Microsoft.AspNet.WebApi.Core.5.2.9.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\microsoft.aspnet.webapi.core\5.2.9\microsoft.aspnet.webapi.core.5.2.9.nupkg
+  Added package 'System.IO.FileSystem.Primitives.4.0.1' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'System.IO.FileSystem.Primitives.4.0.1' to folder '<BETA_BUILD_ROOT>\packages' from source 'C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\'
+  Restoring NuGet package Microsoft.AspNet.WebApi.WebHost.5.2.9.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\microsoft.aspnet.webapi.webhost\5.2.9\microsoft.aspnet.webapi.webhost.5.2.9.nupkg
+    GET https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.core/5.2.9/microsoft.aspnet.webapi.core.5.2.9.nupkg
+    GET https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.webhost/5.2.9/microsoft.aspnet.webapi.webhost.5.2.9.nupkg
+    OK https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.webhost/5.2.9/microsoft.aspnet.webapi.webhost.5.2.9.nupkg 5223ms
+  Acquiring lock for the installation of Microsoft.AspNet.WebApi.WebHost 5.2.9
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): System.Text.Encodings.Web, Version=10.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\System.Text.Encodings.Web.dll, MVID: 92b624ef-d929-4f61-a8f9-f06c20655663, AppDomain: [Default])
+  Acquired lock for the installation of Microsoft.AspNet.WebApi.WebHost 5.2.9
+    OK https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.core/5.2.9/microsoft.aspnet.webapi.core.5.2.9.nupkg 5648ms
+  Acquiring lock for the installation of Microsoft.AspNet.WebApi.Core 5.2.9
+  Acquired lock for the installation of Microsoft.AspNet.WebApi.Core 5.2.9
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): System.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (location: C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Security\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Security.dll, MVID: 085771de-b08f-4e01-91f2-8e37acba1874, AppDomain: [Default])
+  PackageSignatureVerificationLog: PackageIdentity: Microsoft.AspNet.WebApi.WebHost.5.2.9 Source: https://api.nuget.org/v3/index.json PackageSignatureValidity: True
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): System.ValueTuple, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51 (location: C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.ValueTuple\v4.0_4.0.0.0__cc7b13ffcd2ddd51\System.ValueTuple.dll, MVID: a504210d-a65a-49a5-87f3-fcfcd22bdcc3, AppDomain: [Default])
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): System.IO.Pipelines, Version=10.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\System.IO.Pipelines.dll, MVID: 3d1814ff-2276-45be-8c2c-e553083e7966, AppDomain: [Default])
+  Installed Microsoft.AspNet.WebApi.WebHost 5.2.9 from https://api.nuget.org/v3/index.json to C:\Users\TonLeo\.nuget\packages\microsoft.aspnet.webapi.webhost\5.2.9 with content hash +mQWEe0/mWdEccKszPI7QOLduYH0ZSl1AjdRXLlM6jKrhS3LnLMBg2WuLEIlQcCS7GCs4GU5LlhycArgg3j84g==.
+  Adding package 'Microsoft.AspNet.WebApi.WebHost.5.2.9' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.WebApi.WebHost.5.2.9' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.WebApi.WebHost.5.2.9' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+  Restoring NuGet package Microsoft.AspNet.WebApi.Client.5.2.9.
+  Missing C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\microsoft.aspnet.webapi.client\5.2.9\microsoft.aspnet.webapi.client.5.2.9.nupkg
+    GET https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg
+    OK https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg 1350ms
+  Acquiring lock for the installation of Microsoft.AspNet.WebApi.Client 5.2.9
+  Acquired lock for the installation of Microsoft.AspNet.WebApi.Client 5.2.9
+  PackageSignatureVerificationLog: PackageIdentity: Microsoft.AspNet.WebApi.Core.5.2.9 Source: https://api.nuget.org/v3/index.json PackageSignatureValidity: True
+  Installed Microsoft.AspNet.WebApi.Core 5.2.9 from https://api.nuget.org/v3/index.json to C:\Users\TonLeo\.nuget\packages\microsoft.aspnet.webapi.core\5.2.9 with content hash 9C0/gBUeMBjorRFSmR5Z2j5wznf9BP5SddN+OZE7X0BpXgivBZTZ42d0h8tIjJzSLHYVCU4HZBf51+cidCY4fQ==.
+  Adding package 'Microsoft.AspNet.WebApi.Core.5.2.9' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.WebApi.Core.5.2.9' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.WebApi.Core.5.2.9' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): warning : Error downloading 'Microsoft.AspNet.WebApi.Client.5.2.9' from 'https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg'. [<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln]
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): warning : The download of 'https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg' timed out because no data was received for 60000ms. [<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln]
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): warning :   Exception of type 'System.TimeoutException' was thrown. [<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln]
+    GET https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg
+    OK https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg 14607ms
+  Acquiring lock for the installation of Microsoft.AspNet.WebApi.Client 5.2.9
+  Acquired lock for the installation of Microsoft.AspNet.WebApi.Client 5.2.9
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): warning : Error downloading 'Microsoft.AspNet.WebApi.Client.5.2.9' from 'https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg'. [<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln]
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): warning : The download of 'https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg' timed out because no data was received for 60000ms. [<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln]
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): warning :   Exception of type 'System.TimeoutException' was thrown. [<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln]
+    GET https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg
+    OK https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg 1877ms
+  Acquiring lock for the installation of Microsoft.AspNet.WebApi.Client 5.2.9
+  Acquired lock for the installation of Microsoft.AspNet.WebApi.Client 5.2.9
+  PackageSignatureVerificationLog: PackageIdentity: Microsoft.AspNet.WebApi.Client.5.2.9 Source: https://api.nuget.org/v3/index.json PackageSignatureValidity: True
+  Installed Microsoft.AspNet.WebApi.Client 5.2.9 from https://api.nuget.org/v3/index.json to C:\Users\TonLeo\.nuget\packages\microsoft.aspnet.webapi.client\5.2.9 with content hash cuVhPjjNMSEFpKXweMNBbsG4RUFuuZpFBm8tSyw309U9JEjcnbB6n3EPb4xwgcy9bJ38ctIbv5G8zXUBhlrPWw==.
+  Adding package 'Microsoft.AspNet.WebApi.Client.5.2.9' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.WebApi.Client.5.2.9' to folder '<BETA_BUILD_ROOT>\packages'
+  Added package 'Microsoft.AspNet.WebApi.Client.5.2.9' to folder '<BETA_BUILD_ROOT>\packages' from source 'https://api.nuget.org/v3/index.json'
+    CACHE https://api.nuget.org/v3/vulnerabilities/index.json
+  Assembly loaded during TaskRun (NuGet.Build.Tasks.RestoreTask): System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51 (location: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\System.Threading.Tasks.Extensions.dll, MVID: f3b88b95-fe66-4644-ac3f-a31400f50e06, AppDomain: [Default])
+    CACHE https://api.nuget.org/v3-vulnerabilities/2026.11.20.05.34.20/vulnerability.base.json
+    CACHE https://api.nuget.org/v3-vulnerabilities/2026.11.20.05.34.20/2026.11.20.23.34.24/vulnerability.update.json
+  
+  NuGet Config files used:
+      C:\Users\TonLeo\AppData\Roaming\NuGet\NuGet.Config
+      C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.FallbackLocation.config
+      C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.Offline.config
+  
+  Feeds used:
+      C:\Users\TonLeo\.nuget\packages\
+      https://api.nuget.org/v3/index.json
+      C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\
+  
+  Installed:
+      24 package(s) to packages.config projects
+Done executing task "RestoreTask".
+Done building target "Restore" in project "MedicalEquipmentManagement.sln".
+Done Building Project "<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (Restore target(s)).
+
+Build succeeded.
+
+"<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln" (Restore target) (1) ->
+(Restore target) -> 
+  C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): warning : Error downloading 'Microsoft.AspNet.WebApi.Client.5.2.9' from 'https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg'. [<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln]
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): warning : The download of 'https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg' timed out because no data was received for 60000ms. [<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln]
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): warning :   Exception of type 'System.TimeoutException' was thrown. [<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln]
+  C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): warning : Error downloading 'Microsoft.AspNet.WebApi.Client.5.2.9' from 'https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg'. [<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln]
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): warning : The download of 'https://api.nuget.org/v3-flatcontainer/microsoft.aspnet.webapi.client/5.2.9/microsoft.aspnet.webapi.client.5.2.9.nupkg' timed out because no data was received for 60000ms. [<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln]
+C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\NuGet\NuGet.targets(178,5): warning :   Exception of type 'System.TimeoutException' was thrown. [<BETA_BUILD_ROOT>\MedicalEquipmentManagement.sln]
+
+    2 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:03:20.30

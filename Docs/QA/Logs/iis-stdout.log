@@ -1,0 +1,24 @@
+Starting IIS Express ...
+Successfully registered URL "http://localhost:53841/" for site "Development Web Site" application "/"
+Registration completed
+IIS Express is running.
+Enter 'Q' to stop IIS Express
+Request started: "GET" http://localhost:53841/
+Response sent: http://localhost:53841/ with HTTP status 200.0
+Request started: "GET" http://localhost:53841/Home/About
+Response sent: http://localhost:53841/Home/About with HTTP status 200.0
+Request started: "GET" http://localhost:53841/Error/NotFound
+Response sent: http://localhost:53841/Error/NotFound with HTTP status 404.0
+Request started: "GET" http://localhost:53841/Error/ServerError
+Response sent: http://localhost:53841/Error/ServerError with HTTP status 500.0
+Request started: "GET" http://localhost:53841/Equipment
+Response sent: http://localhost:53841/Equipment with HTTP status 302.0
+Request started: "GET" http://localhost:53841/api/equipments
+Response sent: http://localhost:53841/api/equipments with HTTP status 401.0
+Request started: "GET" http://localhost:53841/Account/Login
+Response sent: http://localhost:53841/Account/Login with HTTP status 200.0
+Request started: "POST" http://localhost:53841/Account/Login
+Response sent: http://localhost:53841/Account/Login with HTTP status 200.0
+Request started: "GET" http://localhost:53841/Account/Login
+Response sent: http://localhost:53841/Account/Login with HTTP status 200.0
+Request started: "POST" http://localhost:53841/Account/Login

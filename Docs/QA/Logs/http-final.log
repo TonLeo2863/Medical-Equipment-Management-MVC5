@@ -1,0 +1,11 @@
+Runtime target MedicalEquipmentDB_BetaTest|0
+PASS GET / expected=200 actual=200 MIME=text/html
+PASS GET /Home/About expected=200 actual=200 MIME=text/html
+PASS GET /Error/NotFound expected=404 actual=404 MIME=text/html
+PASS GET /Error/ServerError expected=500 actual=500 MIME=text/html
+PASS GET /Equipment expected=302 actual=302 MIME=text/html
+PASS GET /api/equipments expected=401 actual=401 MIME=text/plain
+PASS GET /Account/Login expected=200 actual=200 MIME=text/html
+PASS POST /Account/Login expected=200 actual=200 MIME=text/html
+Role admin
+PASS GET /Account/Login expected=200 actual=200 MIME=text/html
