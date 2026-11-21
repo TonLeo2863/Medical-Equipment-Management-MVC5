@@ -1,4 +1,5 @@
-﻿using System;
+using MedicalEquipmentManagement.Filters;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -23,6 +24,7 @@ namespace MedicalEquipmentManagement.Controllers
     /// 3. Bắt lỗi và hiện thông báo thân thiện khi cố XÓA thiết bị đang có lịch sử bảo trì (DB chặn Cascade Delete).
     /// 4. Phần mở rộng: Import danh sách thiết bị từ Excel (.xlsx) & Tự động sinh mã vạch (Barcode/QR Code) từ Số Serial.
     /// </summary>
+    [CustomAuthorize(Roles = "ADMIN,MANAGER,ENGINEER,STAFF")]
     public class EquipmentController : Controller
     {
         private readonly MedicalEquipmentContext db = new MedicalEquipmentContext();

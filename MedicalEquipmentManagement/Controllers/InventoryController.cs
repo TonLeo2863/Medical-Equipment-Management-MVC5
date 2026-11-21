@@ -1,3 +1,4 @@
+using MedicalEquipmentManagement.Filters;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -8,6 +9,7 @@ using MedicalEquipmentManagement.Models;
 
 namespace MedicalEquipmentManagement.Controllers
 {
+    [CustomAuthorize(Roles = "ADMIN,MANAGER")]
     public class InventoryController : Controller
     {
         private readonly MedicalEquipmentContext db = new MedicalEquipmentContext();
@@ -96,60 +98,71 @@ namespace MedicalEquipmentManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Transfer([Bind(Include = "AssetId,FromDepartmentId,ToDepartmentId,TransferDate,Reason")] AssetTransfer transfer)
         {
-            var asset = db.EquipmentAssets.Include(a => a.EquipmentModel).FirstOrDefault(a => a.AssetId == transfer.AssetId);
+            if (!(Session["UserId"] is int userId))
+                return new HttpUnauthorizedResult();
 
-            if (asset == null)
+            using (var transaction = db.Database.BeginTransaction(System.Data.IsolationLevel.Serializable))
             {
-                ModelState.AddModelError("AssetId", "Thiết bị được chọn không tồn tại.");
-            }
-            else
-            {
-                if (asset.Status == "Đang bảo trì")
+                var asset = db.EquipmentAssets.Include(a => a.EquipmentModel).FirstOrDefault(a => a.AssetId == transfer.AssetId && !a.IsDeleted);
+
+                if (asset == null)
                 {
-                    ModelState.AddModelError("", "Thiết bị hiện đang trong quá trình bảo trì/sửa chữa. Không thể điều chuyển lúc này.");
+                    ModelState.AddModelError("AssetId", "Thiết bị được chọn không tồn tại.");
+                }
+                else
+                {
+                    if (asset.Status == "Đang bảo trì")
+                    {
+                        ModelState.AddModelError("", "Thiết bị hiện đang trong quá trình bảo trì/sửa chữa. Không thể điều chuyển lúc này.");
+                    }
+
+                    if (asset.DepartmentId != transfer.FromDepartmentId)
+                        ModelState.AddModelError("FromDepartmentId", "Khoa ngu?n kh?ng kh?p v?i v? tr? hi?n t?i.");
+
+                    if (asset.DepartmentId == transfer.ToDepartmentId)
+                    {
+                        ModelState.AddModelError("ToDepartmentId", "Khoa chuyển đến không được trùng với khoa hiện tại.");
+                    }
                 }
 
-                if (transfer.FromDepartmentId == transfer.ToDepartmentId)
+                if (!db.Departments.Any(d => d.DepartmentId == transfer.ToDepartmentId && d.IsActive))
+                    ModelState.AddModelError("ToDepartmentId", "Khoa ??ch kh?ng ho?t ??ng ho?c kh?ng t?n t?i.");
+
+                if (ModelState.IsValid)
                 {
-                    ModelState.AddModelError("ToDepartmentId", "Khoa chuyển đến không được trùng với khoa hiện tại.");
+                    // Cập nhật vị trí phòng ban cho thiết bị
+                    asset.DepartmentId = transfer.ToDepartmentId;
+                    if (asset.Status == "Chưa phân bổ" || string.IsNullOrEmpty(asset.Status))
+                    {
+                        asset.Status = "Đang hoạt động";
+                    }
+
+                    // Ghi nhận lịch sử luân chuyển
+                    transfer.TransferDate = DateTime.Now;
+                    transfer.Status = "Đã chuyển";
+                    transfer.RequestedBy = userId;
+                    db.AssetTransfers.Add(transfer);
+
+                    // Đồng bộ ghi log giao dịch kho
+                    var invTx = new InventoryTransaction
+                    {
+                        EquipmentId = asset.AssetId,
+                        DepartmentId = transfer.ToDepartmentId,
+                        TransactionType = "Điều chuyển",
+                        Quantity = 1,
+                        TransactionDate = DateTime.Now,
+                        Note = $"Chuyển từ khoa ID {transfer.FromDepartmentId} sang khoa ID {transfer.ToDepartmentId}. Lý do: {transfer.Reason}"
+                    };
+                    db.InventoryTransactions.Add(invTx);
+
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    var toDept = db.Departments.Find(transfer.ToDepartmentId);
+                    TempData["Success"] = $"Đã điều chuyển thiết bị '{asset.SerialNumber}' sang {toDept?.Name} thành công.";
+                    return RedirectToAction("Index", new { departmentId = transfer.ToDepartmentId });
                 }
-            }
 
-            if (ModelState.IsValid)
-            {
-                // Cập nhật vị trí phòng ban cho thiết bị
-                asset.DepartmentId = transfer.ToDepartmentId;
-                if (asset.Status == "Chưa phân bổ" || string.IsNullOrEmpty(asset.Status))
-                {
-                    asset.Status = "Đang hoạt động";
-                }
-
-                // Ghi nhận lịch sử luân chuyển
-                transfer.TransferDate = DateTime.Now;
-                transfer.Status = "Đã chuyển";
-                if (!transfer.RequestedBy.HasValue || transfer.RequestedBy.Value == 0)
-                {
-                    transfer.RequestedBy = 1; // Mặc định là Admin trong hệ thống
-                }
-                db.AssetTransfers.Add(transfer);
-
-                // Đồng bộ ghi log giao dịch kho
-                var invTx = new InventoryTransaction
-                {
-                    EquipmentId = asset.AssetId,
-                    DepartmentId = transfer.ToDepartmentId,
-                    TransactionType = "Điều chuyển",
-                    Quantity = 1,
-                    TransactionDate = DateTime.Now,
-                    Note = $"Chuyển từ khoa ID {transfer.FromDepartmentId} sang khoa ID {transfer.ToDepartmentId}. Lý do: {transfer.Reason}"
-                };
-                db.InventoryTransactions.Add(invTx);
-
-                db.SaveChanges();
-
-                var toDept = db.Departments.Find(transfer.ToDepartmentId);
-                TempData["Success"] = $"Đã điều chuyển thiết bị '{asset.SerialNumber}' sang {toDept?.Name} thành công.";
-                return RedirectToAction("Index", new { departmentId = transfer.ToDepartmentId });
             }
 
             // Reload dropdown khi có lỗi

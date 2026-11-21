@@ -1,3 +1,4 @@
+using MedicalEquipmentManagement.Filters;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -8,6 +9,7 @@ using MedicalEquipmentManagement.Models;
 
 namespace MedicalEquipmentManagement.Controllers
 {
+    [CustomAuthorize(Roles = "ADMIN,MANAGER,ENGINEER,STAFF")]
     public class WorkOrderController : Controller
     {
         private readonly MedicalEquipmentContext db = new MedicalEquipmentContext();

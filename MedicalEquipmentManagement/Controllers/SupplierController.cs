@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+using MedicalEquipmentManagement.Filters;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -13,6 +14,7 @@ namespace MedicalEquipmentManagement.Controllers
     /// <summary>
     /// Controller Quản lý Nhà cung cấp & Hãng sản xuất (Supplier) - CRUD cơ bản.
     /// </summary>
+    [CustomAuthorize(Roles = "ADMIN,MANAGER")]
     public class SupplierController : Controller
     {
         private readonly MedicalEquipmentContext db = new MedicalEquipmentContext();

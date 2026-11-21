@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,15 +7,13 @@ using System.Web.Routing;
 
 namespace MedicalEquipmentManagement.Filters
 {
-    public class CustomAuthorizeAttribute : ActionFilterAttribute
+    public class CustomAuthorizeAttribute : AuthorizeAttribute
     {
-        public string Roles { get; set; }
-
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        public override void OnAuthorization(AuthorizationContext filterContext)
         {
             var session = filterContext.HttpContext.Session;
-            var userName = session["UserName"] as string;
-            var roleCode = session["RoleCode"] as string;
+            var userName = session?["UserName"] as string;
+            var roleCode = session?["RoleCode"] as string;
             if (string.IsNullOrEmpty(userName))
             {
                 filterContext.Result = new RedirectToRouteResult(
@@ -46,7 +44,7 @@ namespace MedicalEquipmentManagement.Filters
                 }
             }
 
-            base.OnActionExecuting(filterContext);
+
         }
     }
 }

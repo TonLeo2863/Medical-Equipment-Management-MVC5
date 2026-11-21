@@ -1,24 +1,38 @@
+using System;
 using MedicalEquipmentManagement.Data;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 using System.Web.Mvc;
 namespace MedicalEquipmentManagement.Controllers
 {
     public class AccountController : Controller
     {
         private MedicalEquipmentContext db = new MedicalEquipmentContext();
-        public static string GetMd5Hash(string input)
+        private static bool VerifyPassword(string password, string storedHash)
         {
-            using (MD5 md5Hash = MD5.Create())
+            var fields = storedHash?.Split('$');
+            if (fields == null || fields.Length != 3 || fields[0] != "pbkdf2-sha256-v1")
+                return false;
+
+            try
             {
-                byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-                StringBuilder sBuilder = new StringBuilder();
-                for (int i = 0; i < data.Length; i++)
+                var salt = Convert.FromBase64String(fields[1]);
+                var expected = Convert.FromBase64String(fields[2]);
+                if (salt.Length != 16 || expected.Length != 32)
+                    return false;
+
+                using (var derivation = new Rfc2898DeriveBytes(password, salt, 600000, HashAlgorithmName.SHA256))
                 {
-                    sBuilder.Append(data[i].ToString("x2"));
+                    var actual = derivation.GetBytes(expected.Length);
+                    int difference = 0;
+                    for (int i = 0; i < expected.Length; i++)
+                        difference |= expected[i] ^ actual[i];
+                    return difference == 0;
                 }
-                return sBuilder.ToString();
+            }
+            catch (FormatException)
+            {
+                return false;
             }
         }
         public ActionResult Login()
@@ -35,15 +49,10 @@ namespace MedicalEquipmentManagement.Controllers
                 return View();
             }
 
-            string hashedPassword = GetMd5Hash(password);
-
-            // Kiểm tra tài khoản trong DB
-            var user = db.Users.FirstOrDefault(u => u.Username == username
-                                                && (u.PasswordHash == hashedPassword || u.PasswordHash == password)
-                                                && u.IsActive);
-
-            if (user != null)
+            var user = db.Users.FirstOrDefault(u => u.Username == username && u.IsActive);
+            if (user != null && VerifyPassword(password, user.PasswordHash))
             {
+                Session["UserId"] = user.UserId;
                 Session["UserName"] = user.Username;
                 Session["FullName"] = user.FullName;
                 Session["RoleCode"] = user.Role != null ? user.Role.RoleCode : "STAFF";

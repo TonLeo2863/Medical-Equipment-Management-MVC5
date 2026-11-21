@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+using MedicalEquipmentManagement.Filters;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -14,6 +15,7 @@ namespace MedicalEquipmentManagement.Controllers
     /// Controller Quản lý Mẫu thiết bị (EquipmentModel):
     /// CRUD thông tin mẫu máy, hãng sản xuất, có Dropdown chọn Category (hiển thị đúng tên).
     /// </summary>
+    [CustomAuthorize(Roles = "ADMIN,MANAGER")]
     public class EquipmentModelController : Controller
     {
         private readonly MedicalEquipmentContext db = new MedicalEquipmentContext();
