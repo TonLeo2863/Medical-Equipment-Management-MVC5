@@ -1,0 +1,91 @@
+Database MedicalEquipmentDB_BetaTest|0
+PASS form GET /Account/Login expected=200 actual=200 duration_ms=3280 redirect=-
+PASS  POST /Account/Login expected=302 actual=302 duration_ms=21079 redirect=/
+PASS  GET /Equipment/Create expected=200 actual=200 duration_ms=2350 redirect=-
+PASS  GET /api/equipments expected=200 actual=200 duration_ms=694 redirect=-
+PASS  POST /api/equipments expected=201 actual=201 duration_ms=1823 redirect=http://localhost:53843/api/equipments/30
+PASS  PUT /api/equipments/30 expected=204 actual=204 duration_ms=166 redirect=-
+PASS API price persisted GET /api/equipments/30 expected=200 actual=200 duration_ms=20 redirect=-
+PASS  PUT /api/equipments/30 expected=400 actual=400 duration_ms=34 redirect=-
+PASS  DELETE /api/equipments/30 expected=204 actual=204 duration_ms=177 redirect=-
+PASS API soft delete GET /api/equipments/30 expected=404 actual=404 duration_ms=14 redirect=-
+PASS form GET /Category/Create expected=200 actual=200 duration_ms=95 redirect=-
+PASS create category POST /Category/Create expected=302 actual=302 duration_ms=266 redirect=/Category
+PASS lookup GET /Category?keyword=QA7A765764 expected=200 actual=200 duration_ms=405 redirect=-
+PASS form GET /Supplier/Create expected=200 actual=200 duration_ms=70 redirect=-
+PASS create supplier POST /Supplier/Create expected=302 actual=302 duration_ms=74 redirect=/Supplier
+PASS lookup GET /Supplier?keyword=QA%20vendor%207A765764 expected=200 actual=200 duration_ms=225 redirect=-
+PASS  GET /Category/Details/10 expected=200 actual=200 duration_ms=295 redirect=-
+PASS form GET /Category/Edit/10 expected=200 actual=200 duration_ms=146 redirect=-
+PASS update POST /Category/Edit/10 expected=302 actual=302 duration_ms=36 redirect=/Category
+PASS  GET /Category/Details/10 expected=200 actual=200 duration_ms=14 redirect=-
+PASS  GET /Supplier/Details/13 expected=200 actual=200 duration_ms=247 redirect=-
+PASS form GET /Supplier/Edit/13 expected=200 actual=200 duration_ms=118 redirect=-
+PASS update POST /Supplier/Edit/13 expected=302 actual=302 duration_ms=35 redirect=/Supplier
+PASS  GET /Supplier/Details/13 expected=200 actual=200 duration_ms=14 redirect=-
+PASS form GET /Category/Create expected=200 actual=200 duration_ms=14 redirect=-
+PASS duplicate category code POST /Category/Create expected=200 actual=200 duration_ms=28 redirect=-
+PASS form GET /EquipmentModel/Create expected=200 actual=200 duration_ms=98 redirect=-
+PASS create model POST /EquipmentModel/Create expected=302 actual=302 duration_ms=49 redirect=/EquipmentModel
+PASS lookup GET /EquipmentModel?keyword=QA-MOD-7A765764 expected=200 actual=200 duration_ms=384 redirect=-
+PASS  GET /EquipmentModel/Details/12 expected=200 actual=200 duration_ms=406 redirect=-
+PASS form GET /EquipmentModel/Edit/12 expected=200 actual=200 duration_ms=144 redirect=-
+PASS update model POST /EquipmentModel/Edit/12 expected=302 actual=302 duration_ms=121 redirect=/EquipmentModel
+PASS  GET /EquipmentModel/Details/12 expected=200 actual=200 duration_ms=103 redirect=-
+PASS form GET /Category/Delete/10 expected=200 actual=200 duration_ms=80 redirect=-
+PASS attempt delete referenced category POST /Category/Delete/10 expected=302 actual=302 duration_ms=69 redirect=/Category
+PASS category retained by reference GET /Category/Details/10 expected=200 actual=200 duration_ms=74 redirect=-
+PASS form GET /Equipment/Create expected=200 actual=200 duration_ms=41 redirect=-
+PASS create asset POST /Equipment/Create expected=302 actual=302 duration_ms=72 redirect=/Equipment
+PASS form GET /Equipment/Create expected=200 actual=200 duration_ms=93 redirect=-
+PASS validation negative purchase price POST /Equipment/Create expected=200 actual=200 duration_ms=85 redirect=-
+PASS  GET /api/equipments expected=200 actual=200 duration_ms=17 redirect=-
+PASS  GET /Equipment/Details/31 expected=200 actual=200 duration_ms=23826 redirect=-
+PASS form GET /Equipment/Edit/31 expected=200 actual=200 duration_ms=1329 redirect=-
+PASS edit equipment POST /Equipment/Edit/31 expected=302 actual=302 duration_ms=66 redirect=/Equipment
+PASS edit persisted GET /api/equipments/31 expected=200 actual=200 duration_ms=46 redirect=-
+PASS form GET /Inventory/Transfer expected=200 actual=200 duration_ms=3467 redirect=-
+PASS reject wrong origin POST /Inventory/Transfer expected=200 actual=200 duration_ms=979 redirect=-
+PASS rejected transfer left asset unchanged GET /api/equipments/31 expected=200 actual=200 duration_ms=35 redirect=-
+PASS form GET /Inventory/Transfer expected=200 actual=200 duration_ms=32 redirect=-
+PASS reject same department POST /Inventory/Transfer expected=200 actual=200 duration_ms=54 redirect=-
+PASS form GET /Inventory/Transfer expected=200 actual=200 duration_ms=246 redirect=-
+PASS transfer asset POST /Inventory/Transfer expected=302 actual=302 duration_ms=1527 redirect=/Inventory?departmentId=2
+PASS transfer persisted GET /api/equipments/31 expected=200 actual=200 duration_ms=110 redirect=-
+PASS transfer history persisted GET /Inventory/TransferHistory expected=200 actual=200 duration_ms=2090 redirect=-
+PASS form GET /Maintenance/Create expected=200 actual=200 duration_ms=1141 redirect=-
+PASS maintenance create POST /Maintenance/Create expected=302 actual=302 duration_ms=72 redirect=/Maintenance
+PASS maintenance persisted GET /Maintenance/DeviceHistory/31 expected=200 actual=200 duration_ms=1879 redirect=-
+PASS form GET /WorkOrder/Create expected=200 actual=200 duration_ms=954 redirect=-
+PASS create work order POST /WorkOrder/Create expected=302 actual=302 duration_ms=65 redirect=/WorkOrder
+PASS work order persisted GET /WorkOrder?keyword=QA%20work%207A765764 expected=200 actual=200 duration_ms=1869 redirect=-
+PASS work order updates asset state GET /api/equipments/31 expected=200 actual=200 duration_ms=26 redirect=-
+PASS search matches unique asset GET /Equipment?keyword=QA-MVC-7A765764 expected=200 actual=200 duration_ms=547 redirect=-
+PASS department filter excludes asset GET /Equipment?keyword=QA-MVC-7A765764&departmentId=1 expected=200 actual=200 duration_ms=90 redirect=-
+PASS department filter includes asset GET /Equipment?keyword=QA-MVC-7A765764&departmentId=2 expected=200 actual=200 duration_ms=37 redirect=-
+PASS form GET /Equipment/Delete/31 expected=200 actual=200 duration_ms=1026 redirect=-
+PASS reject asset deletion with history POST /Equipment/Delete/31 expected=302 actual=302 duration_ms=228 redirect=/Equipment
+PASS asset retained by history GET /api/equipments/31 expected=200 actual=200 duration_ms=26 redirect=-
+PASS form GET /EquipmentModel/Delete/12 expected=200 actual=200 duration_ms=795 redirect=-
+PASS delete model POST /EquipmentModel/Delete/12 expected=302 actual=302 duration_ms=225 redirect=/EquipmentModel
+PASS  GET /EquipmentModel/Details/12 expected=404 actual=404 duration_ms=38 redirect=-
+PASS form GET /Category/Delete/10 expected=200 actual=200 duration_ms=26 redirect=-
+PASS delete category POST /Category/Delete/10 expected=302 actual=302 duration_ms=27 redirect=/Category
+PASS  GET /Category/Details/10 expected=404 actual=404 duration_ms=29 redirect=-
+PASS form GET /Supplier/Delete/13 expected=200 actual=200 duration_ms=54 redirect=-
+PASS delete supplier POST /Supplier/Delete/13 expected=302 actual=302 duration_ms=39 redirect=/Supplier
+PASS  GET /Supplier/Details/13 expected=404 actual=404 duration_ms=29 redirect=-
+PASS  GET /Equipment/DownloadImportTemplate expected=200 actual=200 duration_ms=3188 redirect=-
+PASS  GET /Equipment/Import expected=200 actual=200 duration_ms=72 redirect=-
+PASS valid Excel upload POST /Equipment/Import expected=200 actual=200 duration_ms=1339 redirect=-
+PASS Excel import persisted GET /Equipment?keyword=QA-XLS-7A765764 expected=200 actual=200 duration_ms=40 redirect=-
+PASS  GET /Equipment/Import expected=200 actual=200 duration_ms=26 redirect=-
+PASS duplicate Excel upload POST /Equipment/Import expected=200 actual=200 duration_ms=43 redirect=-
+PASS  GET /api/equipments expected=200 actual=200 duration_ms=25 redirect=-
+PASS duplicate Excel creates no second asset
+PASS  GET /Equipment/Import expected=200 actual=200 duration_ms=20 redirect=-
+PASS invalid model Excel upload POST /Equipment/Import expected=200 actual=200 duration_ms=49 redirect=-
+PASS  GET /Equipment/Import expected=200 actual=200 duration_ms=25 redirect=-
+PASS corrupt Excel POST /Equipment/Import expected=200 actual=200 duration_ms=32 redirect=-
+PASS  GET /Equipment/Import expected=200 actual=200 duration_ms=24 redirect=-
+PASS invalid Excel extension POST /Equipment/Import expected=200 actual=200 duration_ms=25 redirect=-

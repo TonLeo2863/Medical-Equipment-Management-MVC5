@@ -1,0 +1,171 @@
+Starting IIS Express ...
+Successfully registered URL "http://localhost:53842/" for site "Development Web Site" application "/"
+Registration completed
+IIS Express is running.
+Enter 'Q' to stop IIS Express
+Request started: "GET" http://localhost:53842/Account/Login
+Response sent: http://localhost:53842/Account/Login with HTTP status 200.0
+Request started: "POST" http://localhost:53842/Account/Login
+Response sent: http://localhost:53842/Account/Login with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Department
+Response sent: http://localhost:53842/Department with HTTP status 200.0
+Request started: "GET" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 401.0
+Request started: "GET" http://localhost:53842/Equipment
+Response sent: http://localhost:53842/Equipment with HTTP status 302.0
+Request started: "POST" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 401.0
+Request started: "GET" http://localhost:53842/
+Response sent: http://localhost:53842/ with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Home/About
+Response sent: http://localhost:53842/Home/About with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Account/Login
+Response sent: http://localhost:53842/Account/Login with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Category
+Response sent: http://localhost:53842/Category with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Supplier
+Response sent: http://localhost:53842/Supplier with HTTP status 200.0
+Request started: "GET" http://localhost:53842/EquipmentModel
+Response sent: http://localhost:53842/EquipmentModel with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Equipment
+Response sent: http://localhost:53842/Equipment with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Inventory
+Response sent: http://localhost:53842/Inventory with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Maintenance
+Response sent: http://localhost:53842/Maintenance with HTTP status 200.0
+Request started: "GET" http://localhost:53842/WorkOrder
+Response sent: http://localhost:53842/WorkOrder with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Maintenance/Upcoming
+Response sent: http://localhost:53842/Maintenance/Upcoming with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Inventory/TransferHistory
+Response sent: http://localhost:53842/Inventory/TransferHistory with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Home/About
+Response sent: http://localhost:53842/Home/About with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Equipment?keyword=PH
+Response sent: http://localhost:53842/Equipment?keyword=PH with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Equipment?status=%C4%90ang%20ho%E1%BA%A1t%20%C4%91%E1%BB%99ng
+Response sent: http://localhost:53842/Equipment?status=%C4%90ang%20ho%E1%BA%A1t%20%C4%91%E1%BB%99ng with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Equipment?sortBy=price&sortDir=desc&page=2
+Response sent: http://localhost:53842/Equipment?sortBy=price&sortDir=desc&page=2 with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Equipment?departmentId=1
+Response sent: http://localhost:53842/Equipment?departmentId=1 with HTTP status 200.0
+Request started: "GET" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 200.0
+Request started: "GET" http://localhost:53842/api/equipments/2147483647
+Response sent: http://localhost:53842/api/equipments/2147483647 with HTTP status 404.0
+Request started: "POST" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 400.0
+Request started: "GET" http://localhost:53842/Equipment/QrCode/1
+Response sent: http://localhost:53842/Equipment/QrCode/1 with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Equipment/Barcode/1
+Response sent: http://localhost:53842/Equipment/Barcode/1 with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Equipment/DownloadImportTemplate
+Response sent: http://localhost:53842/Equipment/DownloadImportTemplate with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Equipment/Create
+Response sent: http://localhost:53842/Equipment/Create with HTTP status 200.0
+Request started: "POST" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 400.0
+Request started: "POST" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 201.0
+Request started: "GET" http://localhost:53842/api/equipments/24
+Response sent: http://localhost:53842/api/equipments/24 with HTTP status 200.0
+Request started: "POST" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 409.0
+Request started: "PUT" http://localhost:53842/api/equipments/24
+Response sent: http://localhost:53842/api/equipments/24 with HTTP status 404.0
+Request started: "GET" http://localhost:53842/api/equipments/24
+Response sent: http://localhost:53842/api/equipments/24 with HTTP status 200.0
+Request started: "DELETE" http://localhost:53842/api/equipments/24
+Response sent: http://localhost:53842/api/equipments/24 with HTTP status 404.0
+Request started: "GET" http://localhost:53842/api/equipments/24
+Response sent: http://localhost:53842/api/equipments/24 with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Account/Login
+Response sent: http://localhost:53842/Account/Login with HTTP status 200.0
+Request started: "POST" http://localhost:53842/Account/Login
+Response sent: http://localhost:53842/Account/Login with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Equipment
+Response sent: http://localhost:53842/Equipment with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Department
+Response sent: http://localhost:53842/Department with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Inventory
+Response sent: http://localhost:53842/Inventory with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Category
+Response sent: http://localhost:53842/Category with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Supplier
+Response sent: http://localhost:53842/Supplier with HTTP status 200.0
+Request started: "GET" http://localhost:53842/EquipmentModel
+Response sent: http://localhost:53842/EquipmentModel with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Maintenance
+Response sent: http://localhost:53842/Maintenance with HTTP status 200.0
+Request started: "GET" http://localhost:53842/WorkOrder
+Response sent: http://localhost:53842/WorkOrder with HTTP status 200.0
+Request started: "GET" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 200.0
+Request started: "POST" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 400.0
+Request started: "GET" http://localhost:53842/Account/Logout
+Response sent: http://localhost:53842/Account/Logout with HTTP status 302.0
+Request started: "GET" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 401.0
+Request started: "GET" http://localhost:53842/Account/Login
+Response sent: http://localhost:53842/Account/Login with HTTP status 200.0
+Request started: "POST" http://localhost:53842/Account/Login
+Response sent: http://localhost:53842/Account/Login with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Equipment
+Response sent: http://localhost:53842/Equipment with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Department
+Response sent: http://localhost:53842/Department with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Inventory
+Response sent: http://localhost:53842/Inventory with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Category
+Response sent: http://localhost:53842/Category with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Supplier
+Response sent: http://localhost:53842/Supplier with HTTP status 302.0
+Request started: "GET" http://localhost:53842/EquipmentModel
+Response sent: http://localhost:53842/EquipmentModel with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Maintenance
+Response sent: http://localhost:53842/Maintenance with HTTP status 200.0
+Request started: "GET" http://localhost:53842/WorkOrder
+Response sent: http://localhost:53842/WorkOrder with HTTP status 200.0
+Request started: "GET" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 200.0
+Request started: "POST" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 403.0
+Request started: "GET" http://localhost:53842/Account/Logout
+Response sent: http://localhost:53842/Account/Logout with HTTP status 302.0
+Request started: "GET" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 401.0
+Request started: "GET" http://localhost:53842/Account/Login
+Response sent: http://localhost:53842/Account/Login with HTTP status 200.0
+Request started: "POST" http://localhost:53842/Account/Login
+Response sent: http://localhost:53842/Account/Login with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Equipment
+Response sent: http://localhost:53842/Equipment with HTTP status 200.0
+Request started: "GET" http://localhost:53842/Department
+Response sent: http://localhost:53842/Department with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Inventory
+Response sent: http://localhost:53842/Inventory with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Category
+Response sent: http://localhost:53842/Category with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Supplier
+Response sent: http://localhost:53842/Supplier with HTTP status 302.0
+Request started: "GET" http://localhost:53842/EquipmentModel
+Response sent: http://localhost:53842/EquipmentModel with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Maintenance
+Response sent: http://localhost:53842/Maintenance with HTTP status 302.0
+Request started: "GET" http://localhost:53842/WorkOrder
+Response sent: http://localhost:53842/WorkOrder with HTTP status 200.0
+Request started: "GET" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 200.0
+Request started: "POST" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 403.0
+Request started: "GET" http://localhost:53842/Account/Logout
+Response sent: http://localhost:53842/Account/Logout with HTTP status 302.0
+Request started: "GET" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 401.0
+Request started: "GET" http://localhost:53842/Account/Logout
+Response sent: http://localhost:53842/Account/Logout with HTTP status 302.0
+Request started: "GET" http://localhost:53842/Department
+Response sent: http://localhost:53842/Department with HTTP status 302.0
+Request started: "GET" http://localhost:53842/api/equipments
+Response sent: http://localhost:53842/api/equipments with HTTP status 401.0

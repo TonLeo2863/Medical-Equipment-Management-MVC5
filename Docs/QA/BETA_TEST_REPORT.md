@@ -1,30 +1,57 @@
 ﻿# Báo cáo kiểm thử Beta
 
-**Beta candidate / not ready**. Mã chạy kiểm thử tại `6870b41c9d962966b2eab5a50b056811af57635f`. Windows 10 build 19044, Visual Studio 2022 Community MSBuild 17.14.60, .NET Framework 4.8, IIS Express, SQL Server Express 16.0.1000.6. Thực thi ngày 21/11/2026, múi giờ UTC+7.
+**Đủ bằng chứng cho demo có hướng dẫn. Chưa đủ điều kiện chốt phát hành.** Bộ mã kiểm thử `d50ee96c6c76e17f1e917c5442d41cc40e0ce0d9`. Windows 10 build 19044, Visual Studio 2022 MSBuild 17.14.60, .NET Framework 4.8, IIS Express, SQL Express 16.0.1000.6. Mọi thao tác dữ liệu QA thực hiện trên `MedicalEquipmentDB_BetaTest`. Hai phiên HTTP xác minh tài khoản ứng dụng có `sysadmin=0`.
 
-| Nhóm hoặc ca | Trạng thái | Bằng chứng |
+## Kết quả thực thi
+
+| Lượt kiểm tra | PASS | FAIL | BLOCKED | Bằng chứng |
+|---|---:|---:|---:|---|
+| IIS smoke, session và vai trò trước khi chỉnh handler | 79 | 4 | 0 | [HTTP](Logs/http-retest.log) · [IIS](Logs/iis-retest.log) |
+| IIS MVC và API sau sửa, lượt cuối với mã tài sản chuẩn hóa | 90 | 0 | 0 | [HTTP](Logs/http-mvc-final.log) |
+| Seed trên DB đã có dữ liệu demo, hai lần | 2 | 0 | 0 | [Lượt 1](Logs/seed-retest-1.log) · [Lượt 2](Logs/seed-retest-2.log) |
+| Đối chiếu trạng thái sau nghiệp vụ | 1 | 0 | 0 | [SQL](Logs/sql-consistency-stage2.log) |
+| MSBuild Debug và Release, Razor precompile | 3 | 0 | 0 | [Debug](Logs/build-debug-stage2.log) · [Release](Logs/build-release-stage2.log) · [Razor](Logs/razor-stage2.log) |
+| **Tổng lượt kiểm tra được báo cáo** | **175** | **4** | **0** | Bốn ca FAIL thuộc cùng BETA-003 và đều có ca tương đương đạt sau sửa. |
+
+Đếm từng dòng kiểm tra HTTP, gồm các request mở form và xác minh dữ liệu. Không cộng lại lượt kiểm thử cũ. Lượt MVC trung gian sau sửa đã xác nhận PUT/DELETE, nhưng script QA so mã tài sản phân biệt hoa thường nên bỏ sót tài sản MVC và báo sai số lượng import trùng. Lượt cuối dùng chữ hoa theo chuẩn của ứng dụng, tìm được tài sản MVC, xác nhận đúng một asset import và chạy các ca nghiệp vụ tiếp theo. [Log trung gian](Logs/http-mvc-retest.log).
+
+Lệnh build dùng `MSBuild.exe MedicalEquipmentManagement.sln /p:Configuration=Debug|Release /p:Platform="Any CPU"` với mỗi cấu hình chạy riêng. Dùng các gói đã restore của Beta và `aspnet_compiler -v / -p <thu-muc-ung-dung>`. IIS thử riêng trên loopback.
+
+## Tài khoản và phân quyền
+
+| Vai trò | POST Login | Thời gian | GET đã kiểm tra | POST API với payload rỗng |
+|---|---|---:|---|---|
+| ADMIN | 302 về / | 23.500 ms | Department 200 bằng session, các danh sách danh mục/kho/bảo trì/WorkOrder 200 | 400 khi thiếu token, 201 khi gửi payload và token hợp lệ |
+| MANAGER | 302 về / | 17.432 ms | Danh mục, kho, Equipment, Maintenance, WorkOrder 200. Department 302 AccessDenied | 400 khi thiếu token |
+| ENGINEER | 302 về / | 15.942 ms | Equipment, Maintenance, WorkOrder 200. Department, kho và danh mục 302 AccessDenied | 403 |
+| STAFF | 302 về / | 17.567 ms | Equipment, WorkOrder 200. Department, kho, danh mục và Maintenance 302 AccessDenied | 403 |
+| Guest | GET Login 200 | 11.197 ms ở lần khởi động đầu | Equipment 302 Login. API 401 | 401 |
+
+Cookie token và ASP.NET_SessionId có HttpOnly. Department trả 200 với đúng tên người dùng được hiển thị. Sau logout, cookie tên cũ còn trong cookie jar, nhưng Department chuyển về Login và API trả 401. BETA-002 đã được xác nhận lại. Độ trễ còn theo dõi ở BETA-004. [Log phiên và mã phản hồi](Logs/http-retest.log).
+
+## Đối chiếu phạm vi đồ án
+
+| Chức năng | Đã xác nhận bằng chạy thực tế | Phần còn mở |
 |---|---|---|
-| NuGet restore packages.config | PASS | MSBuild /t:Restore /p:RestorePackagesConfig=true. Exit 0 trên bản sao đường dẫn ngắn. Logs/restore-final.log. |
-| Build Debug, Release với Any CPU | PASS ×2 | MSBuild /p:Configuration=Debug hoặc Release /p:Platform="Any CPU". Hai lần exit 0. Logs/build-debug-retry.log và build-release-retry.log. |
-| Razor precompile | PASS | Framework64 aspnet_compiler -v / -p đường dẫn dự án tạm. Exit 0. Logs/razor.log. |
-| Kiểm tra đích và quyền SQL runtime | PASS | Kết nối thực tế trả MedicalEquipmentDB_BetaTest và sysadmin=0. Logs/http-final.log. |
-| Schema và seed lần một | PASS ×3 | Database.sql, CapNhatDatabase_Module3.sql, 02_Seed_Module2.sql. Ba lần exit 0. Logs/sql-1-*.log. |
-| Schema và seed lần hai | PASS ×2, FAIL ×1 | Module 3 và seed Module 2 exit 0. Database.sql exit 1 với Msg 2627. Logs/sql-2-*.log. |
-| Smoke HTTP | PASS ×9 | Home, About, trang lỗi 404/500, guest Equipment redirect 302, guest API 401, hai lần GET Login, POST Login sai trả 200. Lần đăng nhập sai chỉ kiểm tra mã HTTP. Logs/http-final.log. |
-| Login thành công | BLOCKED | IIS ghi nhận POST Admin nhưng phiên thực thi kết thúc trước khi ghi phản hồi. Chưa có kết luận cho Admin hay các vai trò còn lại. Logs/iis-stdout.log. |
-| Session, logout, ma trận GET/POST theo vai trò | NOT RUN | Bộ smoke chưa đi tới các ca cần đăng nhập. |
-| CRUD MVC, dữ liệu lỗi, FK, soft delete, tìm/lọc/sắp xếp/phân trang | NOT RUN | Chưa có phiên đăng nhập xác nhận. |
-| Điều chuyển, sai nguồn/đích, bảo trì, lịch sử và rollback | NOT RUN | Chưa có phiên đăng nhập xác nhận. |
-| Maintenance và WorkOrder | NOT RUN | Chưa có phiên đăng nhập xác nhận. |
-| Import Excel, QR/Barcode | NOT RUN | Chưa thử upload, mẫu lỗi, giới hạn kích thước hoặc dữ liệu ảnh. |
-| API xác thực GET/POST/PUT/DELETE, JSON, validation và kiểm tra dữ liệu | NOT RUN | Chưa có phiên đăng nhập xác nhận. |
-| Responsive, dấu tiếng Việt, toàn bộ menu và liên kết | NOT RUN | Smoke chỉ xác nhận mã trạng thái. |
-| Đối chiếu đầy đủ mapping EF với SQL | NOT RUN | Đã tạo schema nhưng chưa xác minh đủ truy vấn ứng dụng theo bảng. |
+| SQL schema và seed | Hai lượt seed exit 0, snapshot 15 bảng giống nhau, tồn kho 49, SA-002 giữ phòng ban 1. | Chưa chạy schema từ DB trống trong đợt này. |
+| Category, Supplier, EquipmentModel | Tạo, đọc, sửa, xóa bằng MVC. Mã Category trùng bị validation chặn. Xóa Category khi còn Model tham chiếu giữ lại Category. | Cần mở rộng các tổ hợp FK và đầu vào lỗi. |
+| EquipmentAsset | Tạo, xem, sửa qua MVC. Giá âm bị chặn. Tìm theo mã và lọc phòng ban kiểm tra bằng nội dung, xóa asset có lịch sử bị chặn. API xóa mềm và GET sau xóa trả 404. | Đã mở URL sắp xếp theo giá và trang 2, cần xác nhận thứ tự, ranh giới trang và xóa thành công từ MVC. |
+| Điều chuyển, kho | Sai phòng nguồn và nguồn bằng đích bị chặn. Điều chuyển đúng cập nhật phòng ban, lịch sử, người yêu cầu và giao dịch kho. | Chưa chủ động gây lỗi giao dịch để xác minh rollback. |
+| Bảo trì và WorkOrder | Tạo bản ghi bảo trì và phiếu sửa chữa. Xác nhận lịch sử và trạng thái tài sản chuyển sang đang bảo trì, đối chiếu SQL. | Chưa kiểm hết chuyển trạng thái phiếu, ngày/chi phí biên và các hành vi đóng phiếu. |
+| Web API | GET collection/by id, POST 201, PUT 204, DELETE 204. JSON, 400, 401, 403, 404 và 409 đã chạy. Giá PUT lưu được, GET sau soft delete trả 404. | Cần mở rộng test cạnh tranh, FK và ma trận theo từng phương thức/role. |
+| Import Excel | Mẫu XLSX tải được, file hợp lệ tạo asset, gửi lại cùng file không nhân đôi mã. Gửi workbook mã model sai, file hỏng và đuôi sai nhận lại HTTP 200. | Chưa đối chiếu đầy đủ thông báo và số dòng bị loại cho từng file lỗi, chưa thử vượt giới hạn dung lượng. |
+| QR / Barcode | HTTP 200, MIME image/png và chữ ký PNG cho cả hai. | Chưa quét ảnh để đối chiếu nội dung mã. |
+| Razor, tiếng Việt và menu | Razor precompile exit 0. Home, About, trang danh sách chính và các form đã tải. About có chuỗi tiếng Việt UTF-8 và thẻ viewport. | Chưa kiểm tra breakpoint bằng mắt và chưa bấm hết mọi mục menu của từng vai trò. |
+| Đăng nhập, phân quyền | Bốn vai trò đăng nhập, GET trực tiếp/một số POST API, logout và session đã kiểm tra. | Cần rà quyền ghi MVC theo từng action/vai trò. Login chậm 16–24 giây trong QA. |
 
-**Tổng lượt kiểm tra cuối** 19 PASS, 1 FAIL, 1 BLOCKED và 8 nhóm NOT RUN. Restore và build ban đầu đã lỗi vì mạng sandbox và đường dẫn quá dài. Các kết quả trước khi phục hồi không được đếm lại.
+## NOT RUN và cách kiểm thử thủ công
 
-## SQL preflight và chạy lại
+1. **NOT RUN · Seed DB trống.** Chỉ dùng môi trường QA có DB đúng tên `MedicalEquipmentDB_BetaTest`. Kiểm tra `DB_NAME()`, bỏ CREATE DATABASE và USE gốc trong bản sao, dùng user giới hạn `beta_schema_qa`. Với DB đã có dữ liệu, dùng hai lượt như log hiện tại. Khi có môi trường BetaTest trống, đối chiếu thêm seed Module 3 và Module 2.
+2. **NOT RUN · Quyền ghi MVC đầy đủ.** Đăng nhập từng vai trò theo bảng, mở form bằng URL trực tiếp và gửi token hợp lệ trên dữ liệu demo. Kiểm tra status, redirect, trạng thái DB.
+3. **NOT RUN · Sắp xếp/phân trang và FK mở rộng.** Thêm đủ dòng demo để vượt kích thước trang. Đối chiếu giá/tên giữa hai trang, thử FK hợp lệ và không tồn tại, rồi kiểm tra bản ghi sau mỗi thao tác.
+4. **NOT RUN · Rollback và vòng đời WorkOrder.** Dùng fixture cô lập, khiến ghi lịch sử điều chuyển thất bại theo điều kiện có kiểm soát. So sánh vị trí, lịch sử và giao dịch kho trước và sau. Chạy tiếp vòng đời phiếu và trạng thái bảo trì.
+5. **NOT RUN · Kiểm tra giao diện và đầu vào biên.** Dùng browser desktop và mobile để mở menu mỗi vai trò, quét QR/Barcode, kiểm tra nội dung tiếng Việt. Thử Excel kích thước vượt giới hạn, đọc lỗi mỗi dòng và so số bản ghi.
 
-Đã rà tất cả SQL/config được Git theo dõi cho USE, CREATE/DROP/ALTER DATABASE, DELETE, TRUNCATE, UPDATE và connection string. Ba file SQL có USE trỏ database gốc. Database.sql còn có CREATE DATABASE và các UPDATE seed ở dòng 247, 316, 331 và 339. Web.config gốc có tên máy cụ thể và đích DB gốc. Hai transform có ví dụ connection string trong comment. Views/Web.config và packages.config không có kết nối runtime.
+## An toàn SQL
 
-Tạo mới riêng `MedicalEquipmentDB_BetaTest` sau khi xác minh chưa tồn tại. Tạo ba bản sao SQL UTF-8 trong thư mục tạm, bỏ CREATE DATABASE gốc và mọi USE, thêm `IF DB_NAME() <> N'MedicalEquipmentDB_BetaTest' THROW 51000, 'Unexpected database', 1` và `EXECUTE AS USER = 'beta_schema_qa'` trước batch đầu. User thử nghiệm có CREATE TABLE và quyền ALTER, REFERENCES, SELECT, INSERT, UPDATE trên schema dbo trong DB thử nghiệm. Chạy lần lượt các bản sao bằng `sqlcmd -S lpc:.\SQLEXPRESS -d MedicalEquipmentDB_BetaTest -b -f 65001 -i <file>` và lặp lại cùng thứ tự. Log mỗi script xác nhận database và effective user. Dùng login ứng dụng tạm có quyền DML trên dbo, sửa Web.config ở bản sao IIS và tạo bốn tài khoản QA tổng hợp. Lượt hai của Database.sql có thể thay đổi dữ liệu demo trước hoặc sau các lỗi khóa trùng. Dữ liệu đó thuộc DB thử nghiệm.
+Đã dùng bản sao UTF-8 và khóa đích SQL bằng `IF DB_NAME() <> N'MedicalEquipmentDB_BetaTest' THROW ...`. Thực thi seed qua `sqlcmd -b` và impersonate user chỉ có quyền trong DB QA. Giá trị tồn kho và phòng hiện tại không bị ghi lại trong seed mới. Tài khoản đăng nhập và tài sản QA là fixture tổng hợp. Tài khoản SQL tạm được thu hồi sau IIS và cấu hình tạm được khôi phục.

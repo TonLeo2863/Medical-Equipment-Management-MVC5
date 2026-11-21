@@ -1,0 +1,183 @@
+Starting IIS Express ...
+Successfully registered URL "http://localhost:53843/" for site "Development Web Site" application "/"
+Registration completed
+IIS Express is running.
+Enter 'Q' to stop IIS Express
+Request started: "GET" http://localhost:53843/Account/Login
+Response sent: http://localhost:53843/Account/Login with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Account/Login
+Response sent: http://localhost:53843/Account/Login with HTTP status 302.0
+Request started: "GET" http://localhost:53843/Equipment/Create
+Response sent: http://localhost:53843/Equipment/Create with HTTP status 200.0
+Request started: "GET" http://localhost:53843/api/equipments
+Response sent: http://localhost:53843/api/equipments with HTTP status 200.0
+Request started: "POST" http://localhost:53843/api/equipments
+Response sent: http://localhost:53843/api/equipments with HTTP status 201.0
+Request started: "PUT" http://localhost:53843/api/equipments/30
+Response sent: http://localhost:53843/api/equipments/30 with HTTP status 204.0
+Request started: "GET" http://localhost:53843/api/equipments/30
+Response sent: http://localhost:53843/api/equipments/30 with HTTP status 200.0
+Request started: "PUT" http://localhost:53843/api/equipments/30
+Response sent: http://localhost:53843/api/equipments/30 with HTTP status 400.0
+Request started: "DELETE" http://localhost:53843/api/equipments/30
+Response sent: http://localhost:53843/api/equipments/30 with HTTP status 204.0
+Request started: "GET" http://localhost:53843/api/equipments/30
+Response sent: http://localhost:53843/api/equipments/30 with HTTP status 404.0
+Request started: "GET" http://localhost:53843/Category/Create
+Response sent: http://localhost:53843/Category/Create with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Category/Create
+Response sent: http://localhost:53843/Category/Create with HTTP status 302.0
+Request started: "GET" http://localhost:53843/Category?keyword=QA7A765764
+Response sent: http://localhost:53843/Category?keyword=QA7A765764 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Supplier/Create
+Response sent: http://localhost:53843/Supplier/Create with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Supplier/Create
+Response sent: http://localhost:53843/Supplier/Create with HTTP status 302.0
+Request started: "GET" http://localhost:53843/Supplier?keyword=QA%20vendor%207A765764
+Response sent: http://localhost:53843/Supplier?keyword=QA%20vendor%207A765764 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Category/Details/10
+Response sent: http://localhost:53843/Category/Details/10 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Category/Edit/10
+Response sent: http://localhost:53843/Category/Edit/10 with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Category/Edit/10
+Response sent: http://localhost:53843/Category/Edit/10 with HTTP status 302.0
+Request started: "GET" http://localhost:53843/Category/Details/10
+Response sent: http://localhost:53843/Category/Details/10 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Supplier/Details/13
+Response sent: http://localhost:53843/Supplier/Details/13 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Supplier/Edit/13
+Response sent: http://localhost:53843/Supplier/Edit/13 with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Supplier/Edit/13
+Response sent: http://localhost:53843/Supplier/Edit/13 with HTTP status 302.0
+Request started: "GET" http://localhost:53843/Supplier/Details/13
+Response sent: http://localhost:53843/Supplier/Details/13 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Category/Create
+Response sent: http://localhost:53843/Category/Create with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Category/Create
+Response sent: http://localhost:53843/Category/Create with HTTP status 200.0
+Request started: "GET" http://localhost:53843/EquipmentModel/Create
+Response sent: http://localhost:53843/EquipmentModel/Create with HTTP status 200.0
+Request started: "POST" http://localhost:53843/EquipmentModel/Create
+Response sent: http://localhost:53843/EquipmentModel/Create with HTTP status 302.0
+Request started: "GET" http://localhost:53843/EquipmentModel?keyword=QA-MOD-7A765764
+Response sent: http://localhost:53843/EquipmentModel?keyword=QA-MOD-7A765764 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/EquipmentModel/Details/12
+Response sent: http://localhost:53843/EquipmentModel/Details/12 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/EquipmentModel/Edit/12
+Response sent: http://localhost:53843/EquipmentModel/Edit/12 with HTTP status 200.0
+Request started: "POST" http://localhost:53843/EquipmentModel/Edit/12
+Response sent: http://localhost:53843/EquipmentModel/Edit/12 with HTTP status 302.0
+Request started: "GET" http://localhost:53843/EquipmentModel/Details/12
+Response sent: http://localhost:53843/EquipmentModel/Details/12 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Category/Delete/10
+Response sent: http://localhost:53843/Category/Delete/10 with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Category/Delete/10
+Response sent: http://localhost:53843/Category/Delete/10 with HTTP status 302.0
+Request started: "GET" http://localhost:53843/Category/Details/10
+Response sent: http://localhost:53843/Category/Details/10 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Equipment/Create
+Response sent: http://localhost:53843/Equipment/Create with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Equipment/Create
+Response sent: http://localhost:53843/Equipment/Create with HTTP status 302.0
+Request started: "GET" http://localhost:53843/Equipment/Create
+Response sent: http://localhost:53843/Equipment/Create with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Equipment/Create
+Response sent: http://localhost:53843/Equipment/Create with HTTP status 200.0
+Request started: "GET" http://localhost:53843/api/equipments
+Response sent: http://localhost:53843/api/equipments with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Equipment/Details/31
+Response sent: http://localhost:53843/Equipment/Details/31 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Equipment/Edit/31
+Response sent: http://localhost:53843/Equipment/Edit/31 with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Equipment/Edit/31
+Response sent: http://localhost:53843/Equipment/Edit/31 with HTTP status 302.0
+Request started: "GET" http://localhost:53843/api/equipments/31
+Response sent: http://localhost:53843/api/equipments/31 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Inventory/Transfer
+Response sent: http://localhost:53843/Inventory/Transfer with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Inventory/Transfer
+Response sent: http://localhost:53843/Inventory/Transfer with HTTP status 200.0
+Request started: "GET" http://localhost:53843/api/equipments/31
+Response sent: http://localhost:53843/api/equipments/31 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Inventory/Transfer
+Response sent: http://localhost:53843/Inventory/Transfer with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Inventory/Transfer
+Response sent: http://localhost:53843/Inventory/Transfer with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Inventory/Transfer
+Response sent: http://localhost:53843/Inventory/Transfer with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Inventory/Transfer
+Response sent: http://localhost:53843/Inventory/Transfer with HTTP status 302.0
+Request started: "GET" http://localhost:53843/api/equipments/31
+Response sent: http://localhost:53843/api/equipments/31 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Inventory/TransferHistory
+Response sent: http://localhost:53843/Inventory/TransferHistory with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Maintenance/Create
+Response sent: http://localhost:53843/Maintenance/Create with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Maintenance/Create
+Response sent: http://localhost:53843/Maintenance/Create with HTTP status 302.0
+Request started: "GET" http://localhost:53843/Maintenance/DeviceHistory/31
+Response sent: http://localhost:53843/Maintenance/DeviceHistory/31 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/WorkOrder/Create
+Response sent: http://localhost:53843/WorkOrder/Create with HTTP status 200.0
+Request started: "POST" http://localhost:53843/WorkOrder/Create
+Response sent: http://localhost:53843/WorkOrder/Create with HTTP status 302.0
+Request started: "GET" http://localhost:53843/WorkOrder?keyword=QA%20work%207A765764
+Response sent: http://localhost:53843/WorkOrder?keyword=QA%20work%207A765764 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/api/equipments/31
+Response sent: http://localhost:53843/api/equipments/31 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Equipment?keyword=QA-MVC-7A765764
+Response sent: http://localhost:53843/Equipment?keyword=QA-MVC-7A765764 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Equipment?keyword=QA-MVC-7A765764&departmentId=1
+Response sent: http://localhost:53843/Equipment?keyword=QA-MVC-7A765764&departmentId=1 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Equipment?keyword=QA-MVC-7A765764&departmentId=2
+Response sent: http://localhost:53843/Equipment?keyword=QA-MVC-7A765764&departmentId=2 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Equipment/Delete/31
+Response sent: http://localhost:53843/Equipment/Delete/31 with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Equipment/Delete/31
+Response sent: http://localhost:53843/Equipment/Delete/31 with HTTP status 302.0
+Request started: "GET" http://localhost:53843/api/equipments/31
+Response sent: http://localhost:53843/api/equipments/31 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/EquipmentModel/Delete/12
+Response sent: http://localhost:53843/EquipmentModel/Delete/12 with HTTP status 200.0
+Request started: "POST" http://localhost:53843/EquipmentModel/Delete/12
+Response sent: http://localhost:53843/EquipmentModel/Delete/12 with HTTP status 302.0
+Request started: "GET" http://localhost:53843/EquipmentModel/Details/12
+Response sent: http://localhost:53843/EquipmentModel/Details/12 with HTTP status 404.0
+Request started: "GET" http://localhost:53843/Category/Delete/10
+Response sent: http://localhost:53843/Category/Delete/10 with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Category/Delete/10
+Response sent: http://localhost:53843/Category/Delete/10 with HTTP status 302.0
+Request started: "GET" http://localhost:53843/Category/Details/10
+Response sent: http://localhost:53843/Category/Details/10 with HTTP status 404.0
+Request started: "GET" http://localhost:53843/Supplier/Delete/13
+Response sent: http://localhost:53843/Supplier/Delete/13 with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Supplier/Delete/13
+Response sent: http://localhost:53843/Supplier/Delete/13 with HTTP status 302.0
+Request started: "GET" http://localhost:53843/Supplier/Details/13
+Response sent: http://localhost:53843/Supplier/Details/13 with HTTP status 404.0
+Request started: "GET" http://localhost:53843/Equipment/DownloadImportTemplate
+Response sent: http://localhost:53843/Equipment/DownloadImportTemplate with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Equipment/Import
+Response sent: http://localhost:53843/Equipment/Import with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Equipment/Import
+Response sent: http://localhost:53843/Equipment/Import with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Equipment?keyword=QA-XLS-7A765764
+Response sent: http://localhost:53843/Equipment?keyword=QA-XLS-7A765764 with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Equipment/Import
+Response sent: http://localhost:53843/Equipment/Import with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Equipment/Import
+Response sent: http://localhost:53843/Equipment/Import with HTTP status 200.0
+Request started: "GET" http://localhost:53843/api/equipments
+Response sent: http://localhost:53843/api/equipments with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Equipment/Import
+Response sent: http://localhost:53843/Equipment/Import with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Equipment/Import
+Response sent: http://localhost:53843/Equipment/Import with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Equipment/Import
+Response sent: http://localhost:53843/Equipment/Import with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Equipment/Import
+Response sent: http://localhost:53843/Equipment/Import with HTTP status 200.0
+Request started: "GET" http://localhost:53843/Equipment/Import
+Response sent: http://localhost:53843/Equipment/Import with HTTP status 200.0
+Request started: "POST" http://localhost:53843/Equipment/Import
+Response sent: http://localhost:53843/Equipment/Import with HTTP status 200.0
