@@ -244,6 +244,9 @@ INSERT INTO Roles (RoleCode, RoleName, Description) VALUES
 ('ENGINEER', N'Kỹ sư y sinh', N'Cập nhật bảo trì, sửa chữa'),
 ('STAFF', N'Nhân viên y tế', N'Xem thiết bị tại khoa');
 
+UPDATE Users 
+SET PasswordHash = '202cb962ac59075b964b07152d234b70'
+WHERE PasswordHash = 'hash_123';
 -- Chèn User (PasswordHash minh họa là '123' đã mã hóa giả lập)
 INSERT INTO Users (Username, PasswordHash, FullName, RoleId, Email) VALUES 
 ('admin', 'hash_123', N'Quản trị viên', 1, 'admin@hospital.vn'),

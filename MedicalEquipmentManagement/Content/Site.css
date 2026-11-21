@@ -305,7 +305,7 @@ main.container {
         align-items: center;
         padding: 8px 16px;
         border-radius: var(--radius-full);
-        font-size: 13px;
+        font-size: 10px;
         font-weight: 500;
         color: var(--color-text-secondary);
         transition: var(--transition);

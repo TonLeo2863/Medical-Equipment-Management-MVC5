@@ -7,7 +7,9 @@ namespace MedicalEquipmentManagement.Models
     {
         [Key]
         public int RoleId { get; set; }
+        public string RoleCode { get; set; }
         public string RoleName { get; set; }
+        public string Description { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }
