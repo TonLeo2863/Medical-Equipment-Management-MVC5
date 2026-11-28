@@ -1,0 +1,219 @@
+Ứng dụng: 24a0244cc9f67d8419da4ec3015ee0fd181cf7d7
+IIS Express và MedicalEquipmentDB_BetaTest
+Lượt hồi quy tích hợp: exit 0.
+
+PASS PBKDF2 CNG tương thích triển khai cũ
+PASS PBKDF2 từ chối mật khẩu sai
+BENCH trực tiếp managed=14902ms cng=2950ms
+BENCH SQL truy vấn trực tiếp, kết nối mở sẵn 3ms
+PASS API khách chưa đăng nhập
+PASS Đăng nhập ADMIN
+BENCH HTTP ADMIN 11105ms ef_init;dur=2844, ef_query;dur=4975, pbkdf2;dur=3087
+PASS Dashboard ADMIN
+PASS API đọc ADMIN
+PASS Đăng nhập MANAGER
+BENCH HTTP MANAGER 3189ms ef_init;dur=0, ef_query;dur=2, pbkdf2;dur=3180
+PASS Dashboard MANAGER
+PASS API đọc MANAGER
+PASS Đăng nhập ENGINEER
+BENCH HTTP ENGINEER 3578ms ef_init;dur=0, ef_query;dur=2, pbkdf2;dur=3568
+PASS Dashboard ENGINEER
+PASS API đọc ENGINEER
+PASS Đăng nhập STAFF
+BENCH HTTP STAFF 3260ms ef_init;dur=0, ef_query;dur=3, pbkdf2;dur=3245
+PASS Dashboard STAFF
+PASS API đọc STAFF
+PASS Đăng nhập OTHERSTAFF
+BENCH HTTP OTHERSTAFF 3134ms ef_init;dur=0, ef_query;dur=2, pbkdf2;dur=3124
+PASS Dashboard OTHERSTAFF
+PASS API đọc OTHERSTAFF
+PASS Đăng nhập DISABLED
+BENCH HTTP DISABLED 35ms ef_init;dur=0, ef_query;dur=2, pbkdf2;dur=0
+PASS Cookie đăng nhập có HttpOnly
+PASS Chỉ có Session ID không đủ để truy cập API
+PASS MANAGER bị từ chối GET/POST /Department/Create
+PASS MANAGER bị từ chối GET/POST /Department/Edit/2147483647
+PASS MANAGER bị từ chối GET/POST /Department/Delete/2147483647
+PASS MANAGER bị từ chối GET/POST /UserAdmin/Edit/2147483647
+PASS MANAGER bị từ chối GET/POST /UserAdmin/ResetPassword/2147483647
+PASS MANAGER bị từ chối GET/POST /Maintenance/Create
+PASS MANAGER bị từ chối GET/POST /Calibration/Create
+PASS ENGINEER bị từ chối GET/POST /Category/Create
+PASS ENGINEER bị từ chối GET/POST /Category/Edit/2147483647
+PASS ENGINEER bị từ chối GET/POST /Category/Delete/2147483647
+PASS ENGINEER bị từ chối GET/POST /Supplier/Create
+PASS ENGINEER bị từ chối GET/POST /Supplier/Edit/2147483647
+PASS ENGINEER bị từ chối GET/POST /Supplier/Delete/2147483647
+PASS ENGINEER bị từ chối GET/POST /EquipmentModel/Create
+PASS ENGINEER bị từ chối GET/POST /EquipmentModel/Edit/2147483647
+PASS ENGINEER bị từ chối GET/POST /EquipmentModel/Delete/2147483647
+PASS ENGINEER bị từ chối GET/POST /Inventory/Transfer
+PASS ENGINEER bị từ chối GET/POST /Department/Create
+PASS ENGINEER bị từ chối GET/POST /Department/Edit/2147483647
+PASS ENGINEER bị từ chối GET/POST /Department/Delete/2147483647
+PASS ENGINEER bị từ chối GET/POST /UserAdmin/Edit/2147483647
+PASS ENGINEER bị từ chối GET/POST /UserAdmin/ResetPassword/2147483647
+PASS ENGINEER bị từ chối GET/POST /WorkOrder/Create
+PASS STAFF bị từ chối GET/POST /Category/Create
+PASS STAFF bị từ chối GET/POST /Category/Edit/2147483647
+PASS STAFF bị từ chối GET/POST /Category/Delete/2147483647
+PASS STAFF bị từ chối GET/POST /Supplier/Create
+PASS STAFF bị từ chối GET/POST /Supplier/Edit/2147483647
+PASS STAFF bị từ chối GET/POST /Supplier/Delete/2147483647
+PASS STAFF bị từ chối GET/POST /EquipmentModel/Create
+PASS STAFF bị từ chối GET/POST /EquipmentModel/Edit/2147483647
+PASS STAFF bị từ chối GET/POST /EquipmentModel/Delete/2147483647
+PASS STAFF bị từ chối GET/POST /Inventory/Transfer
+PASS STAFF bị từ chối GET/POST /Department/Create
+PASS STAFF bị từ chối GET/POST /Department/Edit/2147483647
+PASS STAFF bị từ chối GET/POST /Department/Delete/2147483647
+PASS STAFF bị từ chối GET/POST /UserAdmin/Edit/2147483647
+PASS STAFF bị từ chối GET/POST /UserAdmin/ResetPassword/2147483647
+PASS STAFF bị từ chối GET/POST /Maintenance/Create
+PASS STAFF bị từ chối GET/POST /Calibration/Create
+PASS STAFF bị từ chối GET/POST /WorkOrder/Edit/2147483647
+PASS Sai mật khẩu
+PASS Quản trị tài khoản ADMIN
+PASS Quản trị tài khoản MANAGER bị từ chối
+PASS ENGINEER bị từ chối /Equipment/Create
+PASS ENGINEER bị từ chối POST /Equipment/Create
+PASS ENGINEER bị từ chối /Equipment/Edit/1048
+PASS ENGINEER bị từ chối POST /Equipment/Edit/1048
+PASS ENGINEER bị từ chối /Equipment/Delete/1048
+PASS ENGINEER bị từ chối POST /Equipment/Delete/1048
+PASS ENGINEER bị từ chối /Equipment/Import
+PASS ENGINEER bị từ chối POST /Equipment/Import
+PASS API ghi bị từ chối ENGINEER
+PASS STAFF bị từ chối /Equipment/Create
+PASS STAFF bị từ chối POST /Equipment/Create
+PASS STAFF bị từ chối /Equipment/Edit/1048
+PASS STAFF bị từ chối POST /Equipment/Edit/1048
+PASS STAFF bị từ chối /Equipment/Delete/1048
+PASS STAFF bị từ chối POST /Equipment/Delete/1048
+PASS STAFF bị từ chối /Equipment/Import
+PASS STAFF bị từ chối POST /Equipment/Import
+PASS API ghi bị từ chối STAFF
+PASS API ghi thiếu CSRF
+PASS API tạo thiết bị
+PASS API từ chối mã trùng
+PASS API cập nhật giá
+PASS Giá mới lưu vào SQL Server
+PASS API từ chối giá âm
+PASS API xóa mềm thiết bị
+PASS API ẩn thiết bị sau xóa mềm
+PASS Chi tiết tài sản
+PASS Danh sách trang 1
+PASS Thứ tự giá và ranh giới trang 1 khớp SQL
+PASS Danh sách trang 2
+PASS Thứ tự giá và ranh giới trang 2 khớp SQL
+PASS Mẫu Excel tải được
+PASS HTTP nhập qa.xlsx
+PASS Excel có thông báo dòng có giá âm
+PASS Excel lưu duy nhất dòng hợp lệ
+PASS Excel bỏ qua dòng giá âm
+PASS HTTP nhập dup.xlsx
+PASS Excel báo dòng trùng
+PASS HTTP nhập loi.xlsx
+PASS Excel sai định dạng bị từ chối
+PASS HTTP nhập qua-lon.xlsx
+PASS Excel vượt 2 MB bị từ chối
+PASS QrCode mã hóa đúng Serial
+PASS Barcode mã hóa đúng Serial
+PASS API từ chối đổi khoa ngoài điều chuyển
+PASS API giữ khoa nguồn sau yêu cầu bị từ chối
+PASS Hai yêu cầu đồng thời chỉ có một điều chuyển
+PASS Vị trí sau điều chuyển
+PASS Giao dịch kho sau điều chuyển
+PASS Lỗi khóa ngoại kích hoạt rollback trên fixture SQL
+PASS Rollback giữ vị trí trước transaction lỗi
+PASS STAFF báo hỏng
+PASS SQL xác nhận phiếu lấy người báo từ Session và bỏ qua dữ liệu ngoài phạm vi
+PASS STAFF khác không xem được phiếu
+PASS ENGINEER chưa được phân công không xem phiếu
+PASS MANAGER phân công ENGINEER
+PASS ENGINEER bắt đầu sửa
+PASS ENGINEER ghi bảo trì
+PASS Bảo trì liên kết phiếu và người thực hiện
+PASS STAFF tạo phiếu thứ hai cho cùng thiết bị
+PASS ENGINEER hoàn thành sửa
+PASS Trạng thái phiếu hoàn thành
+PASS Thiết bị chưa hoạt động lại khi còn phiếu mở
+PASS STAFF bị từ chối khi tự hủy phiếu
+PASS ADMIN hủy phiếu chưa phân công
+PASS Hủy phiếu giữ lịch sử trong SQL
+PASS API bảo toàn thiết bị có lịch sử bảo trì
+PASS ENGINEER ghi hiệu chuẩn không đạt
+PASS Hiệu chuẩn không đạt đánh dấu hỏng
+PASS API từ chối đưa thiết bị hiệu chuẩn không đạt vào hoạt động
+PASS Danh sách hiệu chuẩn 15 ngày
+PASS Dashboard có cảnh báo dữ liệu fixture
+PASS Dashboard tổng số thiết bị khớp SQL
+PASS Dashboard chỉ số Đang hoạt động khớp SQL
+PASS Dashboard chỉ số Đang bảo trì khớp SQL
+PASS Dashboard chỉ số Hỏng khớp SQL
+PASS Dashboard chỉ số Đã thanh lý khớp SQL
+PASS Dashboard chi phí tháng 1 khớp SQL
+PASS Dashboard chi phí tháng 2 khớp SQL
+PASS Dashboard chi phí tháng 3 khớp SQL
+PASS Dashboard chi phí tháng 4 khớp SQL
+PASS Dashboard chi phí tháng 5 khớp SQL
+PASS Dashboard chi phí tháng 6 khớp SQL
+PASS Dashboard chi phí tháng 7 khớp SQL
+PASS Dashboard chi phí tháng 8 khớp SQL
+PASS Dashboard chi phí tháng 9 khớp SQL
+PASS Dashboard chi phí tháng 10 khớp SQL
+PASS Dashboard chi phí tháng 11 khớp SQL
+PASS Dashboard chi phí tháng 12 khớp SQL
+PASS Chart.js cục bộ phục vụ được
+PASS API thu hồi phiên khi tài khoản bị vô hiệu hóa
+PASS Logout GET bị từ chối
+PASS GET Logout giữ phiên
+PASS Logout POST có token
+PASS API sau logout
+PASS ADMIN tạo tài khoản
+PASS ADMIN đặt lại mật khẩu
+PASS Mật khẩu ban đầu hết hiệu lực sau đặt lại
+PASS Đăng nhập bằng mật khẩu đặt lại
+PASS Đổi mật khẩu cá nhân
+PASS Trường vai trò giả bị bỏ qua khi đổi mật khẩu
+PASS ADMIN vô hiệu hóa tài khoản QA
+PASS Phiên bị vô hiệu hóa không thể đọc API
+PASS ADMIN kích hoạt lại tài khoản QA
+PASS Đăng nhập bằng mật khẩu mới sau khi kích hoạt
+PASS Tạo Category
+PASS Đọc Category
+PASS Sửa Category
+PASS Category cập nhật trong SQL
+PASS Tạo Supplier
+PASS Đọc Supplier
+PASS Sửa Supplier
+PASS Supplier cập nhật trong SQL
+PASS Tạo EquipmentModel
+PASS Đọc EquipmentModel
+PASS Sửa EquipmentModel
+PASS EquipmentModel cập nhật trong SQL
+PASS Category còn mẫu thiết bị không thể xóa
+PASS Xóa EquipmentModel
+PASS Xóa Supplier
+PASS Xóa Category
+PASS Ba bản ghi danh mục đã được xóa
+PASS Tạo Department
+PASS Đọc Department
+PASS Sửa Department
+PASS Department cập nhật trong SQL
+PASS Xóa Department
+PASS Department đã được xóa
+PASS Tạo EquipmentAsset qua MVC
+PASS Đọc EquipmentAsset qua MVC
+PASS Sửa EquipmentAsset qua MVC
+PASS MVC cập nhật đúng giá thiết bị
+PASS MVC từ chối đổi khoa trực tiếp
+PASS MVC giữ khoa nguồn sau yêu cầu bị từ chối
+PASS MVC xóa mềm EquipmentAsset
+PASS MVC giữ bản ghi với cờ IsDeleted
+PASS MVC ẩn thiết bị đã xóa mềm
+PASS Edge WebView2 hiển thị cả ba biểu đồ với dữ liệu thực
+PASS Edge WebView2 tiếng Việt và bố cục Dashboard/Thiết bị ở 390px
+PASS Edge WebView2 tiếng Việt và bố cục Dashboard/Thiết bị ở 768px
+PASS Edge WebView2 tiếng Việt và bố cục Dashboard/Thiết bị ở 1280px
+PASS Edge WebView2 mở điều hướng di động

@@ -1,0 +1,7 @@
+PASS STAFF đăng nhập trên mã Beta c9ce363.
+POST WorkOrder/Create bỏ trống kỹ sư: HTTP 500.
+BETA-005 DbUpdateException
+BETA-005 UpdateException
+BETA-005 System.Data.SqlClient.SqlException
+BETA-005 Cannot insert the value NULL into column 'ReportedBy'
+PASS SQL xác nhận không còn phiếu của yêu cầu thất bại.

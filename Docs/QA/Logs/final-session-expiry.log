@@ -1,0 +1,2 @@
+PASS API đọc được trước khi hết hạn Session.
+PASS Sau 75 giây không có request, Session cấu hình 1 phút trên bản sao QA trả HTTP 401 với cùng Cookie jar.

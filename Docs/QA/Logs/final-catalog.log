@@ -1,0 +1,34 @@
+BENCH SQL truy vấn trực tiếp, kết nối mở sẵn 6ms
+PASS ADMIN đăng nhập cho nhóm kiểm tra danh mục
+PASS Tạo Category
+PASS Đọc Category
+PASS Sửa Category
+PASS Category cập nhật trong SQL
+PASS Tạo Supplier
+PASS Đọc Supplier
+PASS Sửa Supplier
+PASS Supplier cập nhật trong SQL
+PASS Tạo EquipmentModel
+PASS Đọc EquipmentModel
+PASS Sửa EquipmentModel
+PASS EquipmentModel cập nhật trong SQL
+PASS Category còn mẫu thiết bị không thể xóa
+PASS Xóa EquipmentModel
+PASS Xóa Supplier
+PASS Xóa Category
+PASS Ba bản ghi danh mục đã được xóa
+PASS Tạo Department
+PASS Đọc Department
+PASS Sửa Department
+PASS Department cập nhật trong SQL
+PASS Xóa Department
+PASS Department đã được xóa
+PASS Tạo EquipmentAsset qua MVC
+PASS Đọc EquipmentAsset qua MVC
+PASS Sửa EquipmentAsset qua MVC
+PASS MVC cập nhật đúng giá thiết bị
+PASS MVC từ chối đổi khoa trực tiếp
+PASS MVC giữ khoa nguồn sau yêu cầu bị từ chối
+PASS MVC xóa mềm EquipmentAsset
+PASS MVC giữ bản ghi với cờ IsDeleted
+PASS MVC ẩn thiết bị đã xóa mềm

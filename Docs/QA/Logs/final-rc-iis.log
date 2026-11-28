@@ -1,0 +1,153 @@
+Mã nguồn ứng dụng: 24a0244
+Môi trường: IIS Express, localhost\SQLEXPRESS, MedicalEquipmentDB_BetaTest
+
+PASS PBKDF2 CNG tương thích triển khai cũ
+PASS PBKDF2 từ chối mật khẩu sai
+BENCH trực tiếp managed=32015ms cng=2713ms
+BENCH SQL truy vấn trực tiếp, kết nối mở sẵn 3ms
+PASS API khách chưa đăng nhập
+PASS Đăng nhập ADMIN
+BENCH HTTP ADMIN 12935ms ef_init;dur=3313, ef_query;dur=6146, pbkdf2;dur=3268
+PASS Dashboard ADMIN
+PASS API đọc ADMIN
+PASS Đăng nhập MANAGER
+BENCH HTTP MANAGER 3290ms ef_init;dur=0, ef_query;dur=2, pbkdf2;dur=3267
+PASS Dashboard MANAGER
+PASS API đọc MANAGER
+PASS Đăng nhập ENGINEER
+BENCH HTTP ENGINEER 3761ms ef_init;dur=0, ef_query;dur=57, pbkdf2;dur=3672
+PASS Dashboard ENGINEER
+PASS API đọc ENGINEER
+PASS Đăng nhập STAFF
+BENCH HTTP STAFF 3428ms ef_init;dur=0, ef_query;dur=2, pbkdf2;dur=3408
+PASS Dashboard STAFF
+PASS API đọc STAFF
+PASS Đăng nhập OTHERSTAFF
+BENCH HTTP OTHERSTAFF 3253ms ef_init;dur=0, ef_query;dur=2, pbkdf2;dur=3229
+PASS Dashboard OTHERSTAFF
+PASS API đọc OTHERSTAFF
+PASS Đăng nhập DISABLED
+BENCH HTTP DISABLED 27ms ef_init;dur=0, ef_query;dur=2, pbkdf2;dur=0
+PASS Cookie đăng nhập có HttpOnly
+PASS Chỉ có Session ID không đủ để truy cập API
+PASS Sai mật khẩu
+PASS Quản trị tài khoản ADMIN
+PASS Quản trị tài khoản MANAGER bị từ chối
+PASS ENGINEER bị từ chối /Equipment/Create
+PASS ENGINEER bị từ chối POST /Equipment/Create
+PASS ENGINEER bị từ chối /Equipment/Edit/1041
+PASS ENGINEER bị từ chối POST /Equipment/Edit/1041
+PASS ENGINEER bị từ chối /Equipment/Delete/1041
+PASS ENGINEER bị từ chối POST /Equipment/Delete/1041
+PASS ENGINEER bị từ chối /Equipment/Import
+PASS ENGINEER bị từ chối POST /Equipment/Import
+PASS API ghi bị từ chối ENGINEER
+PASS STAFF bị từ chối /Equipment/Create
+PASS STAFF bị từ chối POST /Equipment/Create
+PASS STAFF bị từ chối /Equipment/Edit/1041
+PASS STAFF bị từ chối POST /Equipment/Edit/1041
+PASS STAFF bị từ chối /Equipment/Delete/1041
+PASS STAFF bị từ chối POST /Equipment/Delete/1041
+PASS STAFF bị từ chối /Equipment/Import
+PASS STAFF bị từ chối POST /Equipment/Import
+PASS API ghi bị từ chối STAFF
+PASS API ghi thiếu CSRF
+PASS API tạo thiết bị
+PASS API từ chối mã trùng
+PASS API cập nhật giá
+PASS Giá mới lưu vào SQL Server
+PASS API từ chối giá âm
+PASS API xóa mềm thiết bị
+PASS API ẩn thiết bị sau xóa mềm
+PASS Chi tiết tài sản
+PASS Danh sách trang 1
+PASS Thứ tự giá và ranh giới trang 1 khớp SQL
+PASS Danh sách trang 2
+PASS Thứ tự giá và ranh giới trang 2 khớp SQL
+PASS Mẫu Excel tải được
+PASS HTTP nhập qa.xlsx
+PASS Excel có thông báo dòng có giá âm
+PASS Excel lưu duy nhất dòng hợp lệ
+PASS Excel bỏ qua dòng giá âm
+PASS HTTP nhập dup.xlsx
+PASS Excel báo dòng trùng
+PASS HTTP nhập loi.xlsx
+PASS Excel sai định dạng bị từ chối
+PASS HTTP nhập qua-lon.xlsx
+PASS Excel vượt 2 MB bị từ chối
+PASS QrCode mã hóa đúng Serial
+PASS Barcode mã hóa đúng Serial
+PASS API từ chối đổi khoa ngoài điều chuyển
+PASS API giữ khoa nguồn sau yêu cầu bị từ chối
+PASS Hai yêu cầu đồng thời chỉ có một điều chuyển
+PASS Vị trí sau điều chuyển
+PASS Giao dịch kho sau điều chuyển
+PASS Lỗi khóa ngoại kích hoạt rollback trên fixture SQL
+PASS Rollback giữ vị trí trước transaction lỗi
+PASS STAFF báo hỏng
+PASS SQL xác nhận phiếu lấy người báo từ Session và bỏ qua dữ liệu ngoài phạm vi
+PASS STAFF khác không xem được phiếu
+PASS ENGINEER chưa được phân công không xem phiếu
+PASS MANAGER phân công ENGINEER
+PASS ENGINEER bắt đầu sửa
+PASS ENGINEER ghi bảo trì
+PASS Bảo trì liên kết phiếu và người thực hiện
+PASS STAFF tạo phiếu thứ hai cho cùng thiết bị
+PASS ENGINEER hoàn thành sửa
+PASS Trạng thái phiếu hoàn thành
+PASS Thiết bị chưa hoạt động lại khi còn phiếu mở
+PASS STAFF bị từ chối khi tự hủy phiếu
+PASS ADMIN hủy phiếu chưa phân công
+PASS Hủy phiếu giữ lịch sử trong SQL
+PASS API bảo toàn thiết bị có lịch sử bảo trì
+PASS ENGINEER ghi hiệu chuẩn không đạt
+PASS Hiệu chuẩn không đạt đánh dấu hỏng
+PASS API từ chối đưa thiết bị hiệu chuẩn không đạt vào hoạt động
+PASS Danh sách hiệu chuẩn 15 ngày
+PASS Dashboard có cảnh báo dữ liệu fixture
+PASS Dashboard tổng số thiết bị khớp SQL
+PASS Dashboard chỉ số Đang hoạt động khớp SQL
+PASS Dashboard chỉ số Đang bảo trì khớp SQL
+PASS Dashboard chỉ số Hỏng khớp SQL
+PASS Dashboard chỉ số Đã thanh lý khớp SQL
+PASS Dashboard chi phí tháng 1 khớp SQL
+PASS Dashboard chi phí tháng 2 khớp SQL
+PASS Dashboard chi phí tháng 3 khớp SQL
+PASS Dashboard chi phí tháng 4 khớp SQL
+PASS Dashboard chi phí tháng 5 khớp SQL
+PASS Dashboard chi phí tháng 6 khớp SQL
+PASS Dashboard chi phí tháng 7 khớp SQL
+PASS Dashboard chi phí tháng 8 khớp SQL
+PASS Dashboard chi phí tháng 9 khớp SQL
+PASS Dashboard chi phí tháng 10 khớp SQL
+PASS Dashboard chi phí tháng 11 khớp SQL
+PASS Dashboard chi phí tháng 12 khớp SQL
+PASS Chart.js cục bộ phục vụ được
+PASS API thu hồi phiên khi tài khoản bị vô hiệu hóa
+PASS Logout GET bị từ chối
+PASS GET Logout giữ phiên
+PASS Logout POST có token
+PASS API sau logout
+PASS ADMIN tạo tài khoản
+PASS ADMIN đặt lại mật khẩu
+PASS Mật khẩu ban đầu hết hiệu lực sau đặt lại
+PASS Đăng nhập bằng mật khẩu đặt lại
+PASS Đổi mật khẩu cá nhân
+PASS Trường vai trò giả bị bỏ qua khi đổi mật khẩu
+PASS ADMIN vô hiệu hóa tài khoản QA
+PASS Phiên bị vô hiệu hóa không thể đọc API
+PASS ADMIN kích hoạt lại tài khoản QA
+PASS Đăng nhập bằng mật khẩu mới sau khi kích hoạt
+PASS Tạo Category
+PASS Đọc Category
+PASS Sửa Category
+PASS Category cập nhật trong SQL
+PASS Tạo Supplier
+PASS Đọc Supplier
+PASS Sửa Supplier
+PASS Supplier cập nhật trong SQL
+PASS Tạo EquipmentModel
+PASS Đọc EquipmentModel
+PASS Sửa EquipmentModel
+
+Lượt này dừng khi phép đối chiếu SQL của harness dùng ModelName thay cho cột Name.

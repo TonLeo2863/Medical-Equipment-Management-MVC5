@@ -1,0 +1,6 @@
+BENCH SQL truy vấn trực tiếp, kết nối mở sẵn 8ms
+PASS Edge WebView2 hiển thị cả ba biểu đồ với dữ liệu thực
+PASS Edge WebView2 tiếng Việt và bố cục Dashboard/Thiết bị ở 390px
+PASS Edge WebView2 tiếng Việt và bố cục Dashboard/Thiết bị ở 768px
+PASS Edge WebView2 tiếng Việt và bố cục Dashboard/Thiết bị ở 1280px
+PASS Edge WebView2 mở điều hướng di động
