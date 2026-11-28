@@ -2,7 +2,7 @@
 
 on:
   push:
-    branches: [fix/rc-acceptance-ui]
+    branches: [fix/rc-acceptance-ui, fix/rc-classic-ui]
   pull_request:
     branches: [main, develop, beta-projects, release/final-candidate]
 
