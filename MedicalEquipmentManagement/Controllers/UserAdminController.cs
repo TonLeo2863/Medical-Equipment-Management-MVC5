@@ -24,7 +24,7 @@ namespace MedicalEquipmentManagement.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            var account = id.HasValue ? db.Users.Find(id.Value) : new User { IsActive = true };
+            var account = id.GetValueOrDefault() != 0 ? db.Users.Find(id.Value) : new User { IsActive = true };
             if (account == null)
                 return HttpNotFound();
             return EditView(new UserAdminInput
@@ -34,7 +34,9 @@ namespace MedicalEquipmentManagement.Controllers
             });
         }
 
-        /// <summary>Tuần tự hóa thay đổi tài khoản để bảo đảm luôn còn tối thiểu một quản trị viên hoạt động.</summary>
+        /// <summary>Kiểm tra mật khẩu xác nhận khi tạo. Tuần tự hóa thay đổi tài khoản để bảo đảm còn ít nhất một ADMIN hoạt động.</summary>
+        /// <param name="id">ID khác 0 dùng để sửa tài khoản hiện có.</param>
+        /// <param name="input">Thông tin biểu mẫu; mật khẩu ban đầu được băm trước khi ghi vào SQL.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int? id, UserAdminInput input)
@@ -43,6 +45,8 @@ namespace MedicalEquipmentManagement.Controllers
             input.UserId = userId;
             if (userId == 0 && string.IsNullOrEmpty(input.InitialPassword))
                 ModelState.AddModelError(nameof(input.InitialPassword), "Vui lòng nhập mật khẩu ban đầu.");
+            if (userId == 0 && (string.IsNullOrEmpty(input.InitialConfirmation) || input.InitialPassword != input.InitialConfirmation))
+                ModelState.AddModelError(nameof(input.InitialConfirmation), "Vui lòng xác nhận chính xác mật khẩu ban đầu.");
             if (!ModelState.IsValid)
                 return EditView(input);
 
@@ -53,12 +57,15 @@ namespace MedicalEquipmentManagement.Controllers
                     "DECLARE @result int; EXEC @result = sp_getapplock @Resource = N'AccountAdministration', @LockMode = N'Exclusive', @LockOwner = N'Transaction', @LockTimeout = 5000; SELECT @result;")
                     .Single();
                 if (lockResult < 0)
-                    return new HttpStatusCodeResult(409);
+                {
+                    ModelState.AddModelError("", "Hệ thống đang xử lý thay đổi tài khoản khác. Vui lòng thử lại.");
+                    return EditView(input);
+                }
 
                 var account = userId == 0 ? new User { CreatedAt = DateTime.Now } : db.Users.Find(userId);
                 if (account == null)
                     return HttpNotFound();
-                var role = db.Roles.Find(input.RoleId);
+                var role = db.Roles.Find(input.RoleId.Value);
                 if (role == null)
                     ModelState.AddModelError(nameof(input.RoleId), "Vai trò không tồn tại.");
                 if (db.Users.Any(u => u.UserId != userId && u.Username == input.Username.Trim()))
@@ -72,7 +79,7 @@ namespace MedicalEquipmentManagement.Controllers
                 account.Username = input.Username.Trim();
                 account.FullName = input.FullName.Trim();
                 account.Email = input.Email?.Trim();
-                account.RoleId = input.RoleId;
+                account.RoleId = role.RoleId;
                 account.IsActive = input.IsActive;
                 if (userId == 0)
                 {

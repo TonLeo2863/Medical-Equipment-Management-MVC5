@@ -19,26 +19,22 @@ namespace MedicalEquipmentManagement.Controllers
             return View();
         }
         /// <summary>Xác minh tài khoản hoạt động rồi tạo Session với vai trò lấy từ SQL Server.</summary>
-        /// <param name="username">Tên đăng nhập từ biểu mẫu có token chống CSRF.</param>
-        /// <param name="password">Mật khẩu nhập, chỉ dùng trong yêu cầu hiện tại.</param>
+        /// <param name="input">Tên đăng nhập và mật khẩu từ biểu mẫu có token chống CSRF.</param>
         /// <returns>Chuyển đến Dashboard khi xác thực thành công hoặc trả lại biểu mẫu với lỗi chung.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string username, string password)
+        public ActionResult Login(LoginInput input)
         {
-            if (string.IsNullOrWhiteSpace(username) || username.Length > 50 || string.IsNullOrEmpty(password) || password.Length > 256)
-            {
-                ViewBag.Message = "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.";
-                return View();
-            }
+            if (!ModelState.IsValid)
+                return View(input);
 
             var timer = Stopwatch.StartNew();
             db.Database.Initialize(false);
             var initialization = timer.ElapsedMilliseconds;
             var user = db.Users.AsNoTracking().Include(u => u.Role)
-                .SingleOrDefault(u => u.Username == username.Trim() && u.IsActive);
+                .SingleOrDefault(u => u.Username == input.Username.Trim() && u.IsActive);
             var query = timer.ElapsedMilliseconds - initialization;
-            var verified = user != null && user.Role != null && PasswordHasher.Verify(password, user.PasswordHash);
+            var verified = user != null && user.Role != null && PasswordHasher.Verify(input.Password, user.PasswordHash);
             var derivation = timer.ElapsedMilliseconds - initialization - query;
             Trace.TraceInformation("Login EF init={0} ms, EF query={1} ms, PBKDF2={2} ms",
                 initialization, query, derivation);
@@ -56,8 +52,8 @@ namespace MedicalEquipmentManagement.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.Message = "Tên đăng nhập hoặc mật khẩu không đúng.";
-            return View();
+            ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng.");
+            return View(input);
         }
 
         /// <summary>Hủy Session bằng POST có token để trang bên ngoài không thể chủ động đăng xuất người dùng.</summary>
@@ -108,7 +104,10 @@ namespace MedicalEquipmentManagement.Controllers
                 "UPDATE dbo.Users SET PasswordHash = @p0 WHERE UserId = @p1 AND PasswordHash = @p2 AND IsActive = 1",
                 newHash, account.UserId, previousHash);
             if (rows != 1)
-                return new HttpStatusCodeResult(409);
+            {
+                ModelState.AddModelError("", "Tài khoản hoặc mật khẩu vừa thay đổi. Vui lòng đăng nhập lại rồi thử lại.");
+                return View(input);
+            }
             Session["Credential"] = PasswordHasher.SessionCredential(newHash);
             TempData["Success"] = "Đã đổi mật khẩu.";
             return RedirectToAction("Index", "Home");
