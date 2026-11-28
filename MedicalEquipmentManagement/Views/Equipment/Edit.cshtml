@@ -66,7 +66,7 @@
             @Html.ValidationMessageFor(m => m.PurchasePrice, "", new { style = "color: var(--color-danger); font-size: 12px;" })
         </div>
 
-        <div style="display: flex; gap: 8px; margin-top: 20px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px;">
             <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
             <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy</a>
         </div>

@@ -2,7 +2,7 @@
 @{ ViewBag.Title = Model.UserId == 0 ? "Thêm tài khoản" : "Sửa tài khoản"; }
 <section class="form-card">
 <h1>@ViewBag.Title</h1>
-@using (Html.BeginForm("Edit", "UserAdmin", new { id = Model.UserId == 0 ? (int?)null : Model.UserId }, FormMethod.Post))
+@using (Html.BeginForm("Edit", "UserAdmin", new { id = Model.UserId == 0 ? (int?)null : Model.UserId }, FormMethod.Post, new { novalidate = "novalidate" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "Vui lòng kiểm tra thông tin tài khoản.")

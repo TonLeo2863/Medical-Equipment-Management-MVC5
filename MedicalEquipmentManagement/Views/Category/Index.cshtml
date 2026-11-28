@@ -14,16 +14,6 @@
     </div>
 </div>
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert-success">@TempData["Success"]</div>
-}
-
-@if (TempData["Error"] != null)
-{
-    <div class="error">@TempData["Error"]</div>
-}
-
 <div class="toolbar-card">
     <form method="get" action="@Url.Action("Index")" class="search-form">
         <input type="text" name="keyword" value="@Model.Keyword" placeholder="Tìm theo mã hoặc tên danh mục..." class="search-input" style="min-width: 260px;" />

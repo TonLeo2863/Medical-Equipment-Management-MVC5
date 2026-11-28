@@ -1,4 +1,4 @@
-@model IEnumerable<MedicalEquipmentManagement.Models.MaintenanceRecord>
+﻿@model IEnumerable<MedicalEquipmentManagement.Models.MaintenanceRecord>
 
 @{
     var asset = ViewBag.Asset as MedicalEquipmentManagement.Models.EquipmentAsset;
@@ -18,7 +18,7 @@
             <h2>Lịch sử Vòng đời Thiết bị</h2>
             <h3>Theo dõi toàn bộ quá trình điều chuyển phòng ban, sửa chữa và bảo dưỡng</h3>
         </div>
-        <div style="display: flex; gap: 8px;">
+        <div class="action-row">
             @if (asset != null)
             {
                 <a href="@Url.Action("Transfer", "Inventory", new { assetId = asset.AssetId })" class="btn btn-ghost">
@@ -76,7 +76,7 @@
 
 <!-- Section 1: Lịch sử Điều chuyển phòng ban -->
 <div class="table-card" style="margin-bottom: 32px;">
-    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border-soft); display: flex; justify-content: space-between; align-items: center;">
+    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border-soft); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
         <strong style="font-size: 16px;">1. Lịch sử Luân chuyển Kho & Phòng ban (@transferHistory.Count lượt)</strong>
     </div>
     <table class="data-table">
@@ -121,7 +121,7 @@
 
 <!-- Section 2: Lịch sử Bảo trì & Sửa chữa -->
 <div class="table-card" style="margin-bottom: 32px;">
-    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border-soft); display: flex; justify-content: space-between; align-items: center;">
+    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border-soft); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
         <strong style="font-size: 16px;">2. Nhật ký Bảo trì, Hiệu chuẩn & Sửa chữa (@Model.Count() lượt)</strong>
         <span style="font-size: 14px; color: var(--color-text-secondary);">
             Tổng chi phí: <strong style="color: var(--color-accent);">@string.Format("{0:N0} đ", totalCost)</strong>
@@ -180,7 +180,7 @@
 
 <!-- Section 3: Lịch sử Phiếu báo hỏng (Work Orders) -->
 <div class="table-card">
-    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border-soft); display: flex; justify-content: space-between; align-items: center;">
+    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border-soft); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
         <strong style="font-size: 16px;">3. Danh sách Phiếu Báo Hỏng / Sự Cố (@workOrders.Count phiếu)</strong>
     </div>
     <table class="data-table">

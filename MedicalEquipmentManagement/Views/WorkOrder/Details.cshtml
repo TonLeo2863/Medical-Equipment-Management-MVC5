@@ -27,7 +27,7 @@
     {
         @Html.AntiForgeryToken()
         <div class="field"><label for="reason">Lý do hủy phiếu</label><input id="reason" name="reason" maxlength="500" required /></div>
-        <button class="btn btn-ghost" type="submit">Hủy phiếu</button>
+        <button class="btn btn-ghost" type="submit" data-confirm="Tiếp tục hủy phiếu và lưu lý do vào lịch sử?">Hủy phiếu</button>
     }
 }
 @Html.ActionLink("Danh sách phiếu", "Index", null, new { @class = "btn btn-ghost" })

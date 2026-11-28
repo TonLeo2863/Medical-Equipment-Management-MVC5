@@ -29,7 +29,7 @@
             @Html.ValidationMessageFor(m => m.AssetId, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-grid">
             <div class="field">
                 @Html.LabelFor(m => m.MaintenanceType)
                 <select name="MaintenanceType" class="search-input" style="border-radius: var(--radius-sm); cursor: pointer;">
@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="form-grid">
             <div class="field">
                 @Html.LabelFor(m => m.MaintenanceDate)
                 @Html.TextBoxFor(m => m.MaintenanceDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "search-input", style = "border-radius: var(--radius-sm);" })
@@ -79,7 +79,7 @@
             @Html.ValidationMessageFor(m => m.Description, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
         </div>
 
-        <div style="display: flex; gap: 12px; margin-top: 32px; justify-content: flex-end;">
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; justify-content: flex-end;">
             <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy bỏ</a>
             <button type="submit" class="btn btn-primary">Lưu phiếu bảo trì</button>
         </div>

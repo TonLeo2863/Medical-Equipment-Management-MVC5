@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var navigationRole = MedicalEquipmentManagement.Helpers.SessionAccount.HasBinding(ViewContext.HttpContext) ? Session["RoleCode"] as string : null;
+}
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
@@ -7,22 +10,44 @@
     <link rel="stylesheet" href="@Url.Content("~/Content/Site.css")" />
 </head>
 <body>
-    @Html.Partial("_Navbar")
-    <main class="container">
-        @{
-            var controller = (string)ViewContext.RouteData.Values["controller"];
-        }
-        @if ((controller == "Home" || controller == "WorkOrder" || controller == "Calibration" || controller == "UserAdmin") && TempData["Success"] != null)
+    <a class="skip-link" href="#mainContent">Đến nội dung chính</a>
+    <div class="@(navigationRole == null ? "app-shell app-guest" : "app-shell app-authenticated")">
+        @if (navigationRole != null)
         {
-            <p class="alert-success" role="status">@TempData["Success"]</p>
+            @Html.Partial("_Navbar", new ViewDataDictionary { { "NavigationRole", navigationRole } })
+            <div class="navigation-backdrop" data-nav-close aria-hidden="true"></div>
         }
-        @RenderBody()
-    </main>
-    <footer class="site-footer">
-        <div class="container footer-inner">
-            <div class="footer-col"><strong>Quản lý thiết bị y tế</strong><p>Đồ án môn Lập trình Web</p></div>
+        <div class="shell-body">
+            <header class="app-topbar">
+                @if (navigationRole != null)
+                {
+                    <button type="button" id="navToggle" class="btn btn-ghost navigation-toggle" aria-label="Menu điều hướng" aria-controls="appNavigation" aria-expanded="false">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+                        <span>Menu</span>
+                    </button>
+                    <span class="topbar-title">Quản lý thiết bị y tế</span>
+                }
+                else
+                {
+                    <a class="brand" href="@Url.Action("Index", "Home")"><span class="brand-mark" aria-hidden="true">+</span><span>Thiết bị y tế</span></a>
+                    <nav aria-label="Điều hướng chính">@Html.ActionLink("Giới thiệu", "About", "Home") @Html.ActionLink("Đăng nhập", "Login", "Account")</nav>
+                }
+            </header>
+            <main class="container" id="mainContent" tabindex="-1">
+                @* Đọc mỗi khóa TempData một lần ở layout để thông báo tồn tại đúng qua một lần redirect. *@
+                @foreach (var notice in new[] { new { Key = "Error", Label = "Lỗi", Kind = "error" }, new { Key = "Warning", Label = "Cảnh báo", Kind = "warning" }, new { Key = "Success", Label = "Thành công", Kind = "success" } })
+                {
+                    var message = TempData[notice.Key] as string;
+                    if (!string.IsNullOrEmpty(message))
+                    {
+                        <div class="notice notice-@notice.Kind" role="@(notice.Key == "Success" ? "status" : "alert")"><strong>@notice.Label</strong><span>@message</span></div>
+                    }
+                }
+                @RenderBody()
+            </main>
+            <footer class="site-footer"><div class="container footer-inner"><span>Quản lý thiết bị y tế · Đồ án môn Lập trình Web</span></div></footer>
         </div>
-    </footer>
+    </div>
     <script src="@Url.Content("~/Scripts/site.js")"></script>
     @RenderSection("scripts", required: false)
 </body>

@@ -1,4 +1,4 @@
-@model IEnumerable<MedicalEquipmentManagement.Models.Department>
+﻿@model IEnumerable<MedicalEquipmentManagement.Models.Department>
 
 @{
     ViewBag.Title = "Quản lý Khoa / Phòng ban";
@@ -21,20 +21,6 @@
         </div>
     </div>
 </div>
-
-@if (TempData["Success"] != null)
-{
-    <div style="background: rgba(52, 199, 89, 0.12); color: #248a3d; border-radius: var(--radius-sm); padding: 12px 18px; margin-bottom: 20px; font-weight: 500;">
-        ✓ @TempData["Success"]
-    </div>
-}
-
-@if (TempData["Error"] != null)
-{
-    <div class="error">
-        ✕ @TempData["Error"]
-    </div>
-}
 
 <div class="grid grid-4" style="margin-bottom: 28px;">
     <div class="stat stat-total">

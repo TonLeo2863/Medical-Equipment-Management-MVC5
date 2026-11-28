@@ -32,16 +32,6 @@
     </div>
 </div>
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert-success">@TempData["Success"]</div>
-}
-
-@if (TempData["Error"] != null)
-{
-    <div class="error">@TempData["Error"]</div>
-}
-
 <!-- Thanh công cụ Tìm kiếm (Tên/Serial) & Lọc (Khoa/Trạng thái) -->
 <div class="toolbar-card">
     <form method="get" action="@Url.Action("Index")" class="search-form">

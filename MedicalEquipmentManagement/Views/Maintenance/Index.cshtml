@@ -1,4 +1,4 @@
-@model IEnumerable<MedicalEquipmentManagement.Models.MaintenanceRecord>
+﻿@model IEnumerable<MedicalEquipmentManagement.Models.MaintenanceRecord>
 
 @{
     ViewBag.Title = "Quản lý Bảo trì & Sửa chữa Thiết bị";
@@ -10,7 +10,7 @@
             <h2>Quản lý Bảo trì & Sửa chữa</h2>
             <h3>Ghi nhận nhật ký bảo dưỡng định kỳ, kiểm định và khắc phục sự cố thiết bị y tế</h3>
         </div>
-        <div style="display: flex; gap: 8px;">
+        <div class="action-row">
             <a href="@Url.Action("Upcoming")" class="btn" style="background: rgba(255, 149, 0, 0.12); color: var(--color-warning); font-weight: 600;">
                 ⚠ Sắp đến hạn (@ViewBag.UpcomingCount)
             </a>
@@ -21,13 +21,6 @@
         </div>
     </div>
 </div>
-
-@if (TempData["Success"] != null)
-{
-    <div style="background: rgba(52, 199, 89, 0.12); color: #248a3d; border-radius: var(--radius-sm); padding: 12px 18px; margin-bottom: 20px; font-weight: 500;">
-        ✓ @TempData["Success"]
-    </div>
-}
 
 <div class="grid grid-4" style="margin-bottom: 28px;">
     <div class="stat stat-total">

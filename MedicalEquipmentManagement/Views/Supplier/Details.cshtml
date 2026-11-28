@@ -12,7 +12,7 @@
             <h2>Chi tiết Nhà cung cấp: @Model.Name</h2>
             <h3>Phân loại: @SupplierTypeConst.GetDisplayName(Model.SupplierType)</h3>
         </div>
-        <div style="display: flex; gap: 8px;">
+        <div class="action-row">
             <a href="@Url.Action("Edit", new { id = Model.SupplierId })" class="btn btn-primary">Sửa</a>
             <a href="@Url.Action("Index")" class="btn btn-ghost">Quay lại danh sách</a>
         </div>

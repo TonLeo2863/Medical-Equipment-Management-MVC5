@@ -17,7 +17,7 @@
             <h2>Chi tiết Thiết bị: @Model.AssetCode</h2>
             <h3>Số Serial: <strong>@Model.SerialNumber</strong></h3>
         </div>
-        <div style="display: flex; gap: 8px;">
+        <div class="action-row">
             @if (role == "ADMIN" || role == "MANAGER")
             {
                 <a href="@Url.Action("Edit", new { id = Model.AssetId })" class="btn btn-primary">Sửa thiết bị</a>
@@ -32,7 +32,7 @@
     </div>
 </div>
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 20px;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; margin-bottom: 20px;">
     <!-- Thông tin thiết bị -->
     <div style="background: #ffffff; border: 1px solid var(--color-border); border-radius: 4px; padding: 20px;">
         <h3 style="font-size: 15px; border-bottom: 1px solid var(--color-border); padding-bottom: 8px; margin-bottom: 14px;">
@@ -112,7 +112,7 @@
             }
         </div>
 
-        <div style="margin-top: 12px; display: flex; gap: 8px;">
+        <div style="margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px;">
             <a href="@Url.Action("QrCode", new { id = Model.AssetId })" target="_blank" class="btn btn-ghost">Mở ảnh QR Code</a>
             @if (barcodeSupported)
             {

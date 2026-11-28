@@ -34,7 +34,7 @@
     @using (Html.BeginForm("Delete", "EquipmentModel", new { id = Model.ModelId }, FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-        <div style="display: flex; gap: 8px;">
+        <div class="action-row">
             <button type="submit" class="btn btn-primary" style="background: var(--color-danger); border-color: var(--color-danger);">Xác nhận xóa</button>
             <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy</a>
         </div>

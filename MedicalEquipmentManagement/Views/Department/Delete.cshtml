@@ -1,4 +1,4 @@
-@model MedicalEquipmentManagement.Models.Department
+﻿@model MedicalEquipmentManagement.Models.Department
 
 @{
     ViewBag.Title = "Xác nhận xóa Khoa / Phòng ban";
@@ -45,7 +45,7 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.DepartmentId)
 
-        <div style="display: flex; gap: 12px; justify-content: flex-end;">
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end;">
             <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy bỏ</a>
             @if (deviceCount == 0)
             {

@@ -47,12 +47,12 @@
             @Html.ValidationMessageFor(m => m.Email, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
         </div>
 
-        <div class="field" style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+        <div class="field" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 8px;">
             @Html.CheckBoxFor(m => m.IsActive, new { id = "isActiveCheckbox", style = "width: 18px; height: 18px;" })
             <label for="isActiveCheckbox" style="margin-bottom: 0; cursor: pointer;">Đang hợp tác hoạt động</label>
         </div>
 
-        <div style="display: flex; gap: 12px; margin-top: 32px; justify-content: flex-end;">
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; justify-content: flex-end;">
             <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy bỏ</a>
             <button type="submit" class="btn btn-primary">Lưu đơn vị</button>
         </div>

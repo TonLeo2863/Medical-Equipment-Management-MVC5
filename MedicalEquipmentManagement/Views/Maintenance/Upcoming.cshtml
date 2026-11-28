@@ -1,4 +1,4 @@
-@model IEnumerable<MedicalEquipmentManagement.Models.MaintenanceRecord>
+﻿@model IEnumerable<MedicalEquipmentManagement.Models.MaintenanceRecord>
 
 @{
     ViewBag.Title = "Thiết Bị Sắp Đến Hạn Bảo Trì / Hiệu Chuẩn";
@@ -21,7 +21,7 @@
                 Tự động rà soát và highlight màu đỏ các thiết bị sắp đến hạn trong vòng 15 - 30 ngày
             </h3>
         </div>
-        <div style="display: flex; gap: 10px; align-items: center;">
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
             <a href="@Url.Action("Upcoming", new { days = 15 })" 
                class="btn @(currentDays == 15 ? "btn-primary" : "btn-ghost")" 
                style="@(currentDays == 15 ? "background: #ff3b30; border-color: #ff3b30;" : "color: #ff3b30; border: 1px solid rgba(255, 59, 48, 0.3);")">
@@ -62,7 +62,7 @@
 </div>
 
 <div class="table-card">
-    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border-soft); display: flex; justify-content: space-between; align-items: center;">
+    <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border-soft); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
         <strong style="font-size: 16px;">
             Danh sách thiết bị đến hạn bảo trì & hiệu chuẩn định kỳ (Hiện tại: @today.ToString("dd/MM/yyyy"))
         </strong>

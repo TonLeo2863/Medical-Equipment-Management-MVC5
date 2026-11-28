@@ -7,10 +7,10 @@
 <div class="page-header">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
         <div>
-            <h2>Import danh sách Thiết bị từ file Excel (.xlsx)</h2>
-            <h3>Phần mở rộng Module 2: Nhập nhanh nhiều tài sản thiết bị từ bảng tính Excel</h3>
+            <h2>Nhập thiết bị từ Excel</h2>
+            <p>Dùng tệp .xlsx tối đa 2 MiB và 2.000 dòng dữ liệu.</p>
         </div>
-        <div style="display: flex; gap: 8px;">
+        <div class="actions">
             <a href="@Url.Action("DownloadImportTemplate")" class="btn btn-ghost">Tải file Excel mẫu (.xlsx)</a>
             <a href="@Url.Action("Index")" class="btn btn-ghost">Quay lại danh sách</a>
         </div>
@@ -70,11 +70,11 @@
     </div>
 }
 
-<div class="table-card">
+<div class="table-card lookup-card">
     <div style="padding: 10px 12px; border-bottom: 1px solid var(--color-border-soft); font-weight: 600;">
         Bảng tra cứu Mã Model &amp; Mã Khoa hợp lệ khi điền file Excel
     </div>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; padding: 12px;">
+    <div class="lookup-grid">
         <div>
             <strong>Danh sách Mã Model (Cột 3):</strong>
             <table class="data-table" style="margin-top: 6px;">

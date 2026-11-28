@@ -1,4 +1,4 @@
-@model IEnumerable<MedicalEquipmentManagement.Models.EquipmentAsset>
+﻿@model IEnumerable<MedicalEquipmentManagement.Models.EquipmentAsset>
 
 @{
     ViewBag.Title = "Quản lý Kho & Phân bổ Thiết bị";
@@ -10,7 +10,7 @@
             <h2>Quản lý Kho & Phân bổ Thiết bị</h2>
             <h3>Theo dõi số lượng, vị trí phân bổ và trạng thái từng thiết bị vật lý</h3>
         </div>
-        <div style="display: flex; gap: 8px;">
+        <div class="action-row">
             <a href="@Url.Action("Transfer")" class="btn btn-primary">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 16V4m0 0L3 8m4-4l4 4m6 4v12m0 0l4-4m-4 4l-4-4"/></svg>
                 Điều chuyển máy
@@ -21,20 +21,6 @@
         </div>
     </div>
 </div>
-
-@if (TempData["Success"] != null)
-{
-    <div style="background: rgba(52, 199, 89, 0.12); color: #248a3d; border-radius: var(--radius-sm); padding: 12px 18px; margin-bottom: 20px; font-weight: 500;">
-        ✓ @TempData["Success"]
-    </div>
-}
-
-@if (TempData["Error"] != null)
-{
-    <div class="error">
-        ✕ @TempData["Error"]
-    </div>
-}
 
 <div class="grid grid-4" style="margin-bottom: 28px;">
     <div class="stat stat-total">

@@ -40,7 +40,7 @@
     @using (Html.BeginForm("Delete", "Category", new { id = Model.CategoryId }, FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-        <div style="display: flex; justify-content: flex-end; gap: 12px;">
+        <div style="display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px;">
             <a href="@Url.Action("Index")" class="btn btn-ghost">Hủy bỏ</a>
             <button type="submit" class="btn btn-primary" style="background: var(--color-danger);">Xác nhận xóa</button>
         </div>
