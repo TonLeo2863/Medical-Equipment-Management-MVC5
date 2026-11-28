@@ -17,3 +17,8 @@
 - [Đối chiếu Issues](Docs/PLANNING/REQUIREMENTS_TRACEABILITY.md)
 - [Báo cáo kiểm thử](Docs/QA/FINAL_TEST_REPORT.md) và [ghi chú phát hành](Docs/RELEASE_NOTES.md)
 - [Tiến độ bàn giao](Docs/FINAL_PROGRESS.md) và [changelog](CHANGELOG.md)
+## Nhánh sửa nghiệm thu
+
+Lấy nhánh bằng `git fetch origin refs/heads/fix/rc-acceptance-ui:refs/remotes/origin/fix/rc-acceptance-ui`. Lần đầu dùng `git switch --track origin/fix/rc-acceptance-ui`. Nếu đã có nhánh cục bộ, dùng `git switch fix/rc-acceptance-ui` và `git pull --ff-only` khi worktree sạch. Mở solution, Restore NuGet, build và chạy IIS Express. Nếu BetaTest đã có schema từ nhánh RC, đợt sửa giao diện và tài khoản không cần migration mới.
+
+[Hướng dẫn nghiệm thu](Docs/QA/MANUAL_ACCEPTANCE_GUIDE.md) · [Dữ liệu mẫu](Docs/QA/TestData/README.md) · [Quy chuẩn đóng góp](CONTRIBUTING.md)

@@ -66,3 +66,18 @@ Hai mốc được giữ trên nhánh phát triển. Dùng `git status --short -
 - Lượt hồi quy tích hợp cuối trên ứng dụng `24a0244` exit 0, 207 PASS. Kiểm tra Session timeout của bản sao tạm cũng đạt cả trước hạn và sau 75 giây. Không cần chạy lại migration. [Hồi quy](QA/Logs/final-integration.log) · [Session](QA/Logs/final-session-expiry.log)
 - Đối soát cuối xác nhận đúng SQL Express/BetaTest, 0 transaction người dùng, 0 tài khoản và tài sản fixture còn sót, 0 tiến trình QA/IIS do phiên này khởi chạy. Bốn khóa ngoại workflow vẫn hoạt động và được tin cậy. Số lượng tài khoản hiện hữu, số tài khoản hoạt động và số hash PBKDF2 theo vai trò khớp số liệu khảo sát.
 - Mốc chốt tài liệu bổ sung báo cáo lỗi Markdown/CSV, báo cáo kiểm thử, benchmark và ghi chú phát hành. Sau khi mở lại, kiểm tra `git status --short --branch` và đối chiếu `git ls-remote --heads origin release/final-candidate`. Bước nghiệm thu tiếp theo là xác minh tài khoản QA có sẵn qua kênh riêng, ca ADMIN duy nhất trên fixture được cho phép và các ca NOT RUN trong báo cáo. [Báo cáo QA](QA/FINAL_TEST_REPORT.md)
+
+## Đợt sửa nghiệm thu RC-005–011
+
+- Nhánh `fix/rc-acceptance-ui` tạo từ `release/final-candidate` SHA `793e38690c5467df5cb67b2e3ec13443103a1952`. Worktree ban đầu sạch.
+- Edge WebView2 tái hiện ba lỗi ở mật khẩu có dấu ngoặc góc trên bản RC chạy tách riêng. Sửa binding trong `AccountInputs` và `AccountController`, thêm mật khẩu xác nhận khi tạo trong `UserAdminController`. Các view tài khoản hiển thị lỗi từng trường và nút hiện/ẩn.
+- Shared Layout/Navbar, Site.css và site.js chuyển sang Sidebar, ngăn di động và thông báo TempData tập trung. View Import sửa nhóm nút và bảng tra cứu ở 360 px.
+- Tạo bộ fixture Excel, hai SQL chỉ đọc và hướng dẫn nghiệm thu. Thêm quy chuẩn repo, CODEOWNERS, mẫu PR và workflow Windows. Thay đổi ứng dụng không yêu cầu chỉnh schema hoặc chạy lại migration. Các ca ghi dùng fixture riêng.
+- Nghiệm thu thủ công từ người dùng giữ nguyên 34 PASS, 7 FAIL, 50 NOT RUN; DEV-14 thiếu công cụ. Tiếp nhận kết quả mới qua [biên bản](QA/USER_ACCEPTANCE_REPORT.md).
+
+### Checkpoint bàn giao nhánh sửa nghiệm thu
+
+- Restore, Debug, Release và Razor đạt cục bộ. Hồi quy tích hợp 237 PASS, 0 FAIL. Edge WebView2 đã xác minh ba luồng mật khẩu, quyền theo menu, thao tác bàn phím và 23 URL ở sáu viewport. Lượt chỉnh màu/căn checkbox tiếp theo 16 PASS, 0 FAIL. [Báo cáo](QA/FINAL_TEST_REPORT.md) · [Ảnh](QA/Screenshots/README.md)
+- Không đổi schema. Đã dọn fixture theo khóa riêng. Xác minh 0 fixture tài khoản/tài sản, 0 transaction người dùng và 0 tiến trình QA/IIS do lượt này tạo.
+- Nhóm file ứng dụng gồm AccountController, UserAdminController, AccountInputs, Site.css, site.js và các view. Nhóm kiểm thử gồm Run-FinalSmoke, Verify-Responsive, TestData, log và ảnh. Nhóm quy chuẩn gồm AGENTS/CLAUDE/GEMINI, CONTRIBUTING, tài liệu Docs và .github. Lấy danh sách đầy đủ bằng `git diff --name-status 793e386..HEAD` và các commit bằng `git log --oneline 793e386..HEAD`.
+- Khi tiếp tục, kiểm tra SHA local/remote và trạng thái workflow. Thử lại RC-005–011 bằng [hướng dẫn nghiệm thu](QA/MANUAL_ACCEPTANCE_GUIDE.md). Nhóm giữ 34 PASS, 7 FAIL, 50 NOT RUN cho lần nhận phản hồi hiện có. Điểm 8/10 và kết quả checklist bổ sung chờ người dùng đánh giá. Chưa mở PR, merge hoặc tạo Release.

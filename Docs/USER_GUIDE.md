@@ -27,3 +27,10 @@ Nhập [Postman Collection](QA/Equipment.postman_collection.json). Điền `base
 | 400 | Validation hoặc kiểm tra token thất bại. |
 | 401, 403 | Phiên không hợp lệ hoặc vai trò không có quyền. |
 | 404, 409 | Thiết bị thiếu/đã xóa hoặc phát sinh xung đột nghiệp vụ. |
+## Giao diện và tài khoản trong bản sửa nghiệm thu
+
+Trên máy tính, nút **Menu** thu gọn hoặc mở Sidebar. Trên điện thoại, **Menu** mở ngăn điều hướng và Escape đóng ngăn, trả tiêu điểm về nút. Các nhóm Danh mục, Kỹ thuật và Tài khoản mở ngay trong Sidebar. Bảng rộng cuộn trong vùng bảng.
+
+Khi cấp tài khoản, nhập mật khẩu từ 12–256 ký tự và xác nhận đúng. Nút **Hiện** cho phép kiểm tra ký tự trước khi gửi. Thông báo dưới từng ô giải thích dữ liệu cần sửa. Đặt lại mật khẩu có hộp xác nhận, và sau khi lưu các phiên dùng dấu xác thực cũ sẽ hết hiệu lực.
+
+[Hướng dẫn nghiệm thu từng bước](QA/MANUAL_ACCEPTANCE_GUIDE.md)

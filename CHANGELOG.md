@@ -1,5 +1,11 @@
 # Nhật ký thay đổi
 
+## Sửa nghiệm thu RC
+
+- Sửa RC-005–007 khi MVC nhận mật khẩu chứa ký tự giống HTML. Bổ sung xác nhận mật khẩu, lỗi tiếng Việt theo trường và nút hiện/ẩn.
+- Sửa RC-008–011 với Sidebar, ngăn di động, SVG cho select và thông báo tập trung. Sửa tràn ngang ở trang Import, Điều chuyển và Chi tiết thiết bị trên viewport 360 px.
+- Bổ sung fixture Excel, SQL chỉ đọc, hướng dẫn nghiệm thu, quy chuẩn phát triển và workflow build Windows. Schema giữ nguyên.
+
 ## Nhánh phát hành đang kiểm thử
 
 - Bổ sung quản lý tài khoản, đổi mật khẩu và đăng xuất POST. Tái xác nhận quyền và trạng thái tài khoản từ SQL Server.

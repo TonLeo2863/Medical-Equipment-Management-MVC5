@@ -85,3 +85,9 @@ Các đường dẫn mã nguồn trong bảng được tính từ thư mục `Me
 | Vì sao dùng xóa mềm tài sản? | Để thiết bị rời danh sách hoạt động mà lịch sử và khóa ngoại vẫn có giá trị cho đối chiếu. |
 | Điều gì xảy ra nếu lịch cũ vẫn quá hạn? | Mỗi loại chỉ dùng lần mới nhất của một thiết bị. Tài sản đã thanh lý hoặc xóa mềm không tạo cảnh báo. |
 | Vì sao gửi token trong header API? | Trình duyệt có thể tự gửi Cookie phiên trên yêu cầu ngoài ý muốn. Server xác minh token header với Cookie chống CSRF trước thao tác ghi. |
+
+## Bản sửa nghiệm thu
+
+`AccountInputs.cs` mô tả dữ liệu của Login, tạo tài khoản, đặt lại và đổi mật khẩu. `AllowHtml` chỉ áp dụng cho trường mật khẩu, vì request validation mặc định của MVC vốn chặn chuỗi giống thẻ HTML trước action. Razor dùng `PasswordFor` hoặc `Password`, chỉ hiển thị thông báo validation và giữ các giá trị này ngoài HTML trả về. `PasswordHasher` và `SessionAccount` giữ cơ chế hash và kiểm tra phiên đã xác minh.
+
+`_Layout.cshtml` đọc TempData một lần, dùng nhãn chữ và vai trò ARIA cho thông báo. `_Navbar.cshtml` chứa Sidebar theo vai trò. `site.js` điều khiển trạng thái Sidebar, phím Escape, xác nhận thao tác và nút hiện/ẩn. `Site.css` quy định breakpoint Sidebar, vùng cuộn trong bảng và SVG của select. [Kiến trúc](ARCHITECTURE.md)
