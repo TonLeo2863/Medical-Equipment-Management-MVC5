@@ -18,6 +18,7 @@ $prefix = 'rcqa_' + [Guid]::NewGuid().ToString('N').Substring(0,12)
 $process = $null
 $assetId = $null
 $clients = @{}
+$sampleCodes = New-Object 'System.Collections.Generic.HashSet[string]'
 $cookieJars = @{}
 
 # Tất cả câu ghi đi qua kết nối đã xác minh và chỉ tác động đến fixture của lần chạy này.
@@ -91,15 +92,59 @@ function Invoke-BrowserCheck {
     if ($env:MEDICAL_QA_WEBVIEW_EXECUTABLE) {
         $env:MEDICAL_QA_BROWSER_USER = $prefix + '_ADMIN'
         $env:MEDICAL_QA_BROWSER_PASSWORD = $secret
+        $env:MEDICAL_QA_BROWSER_ASSET_ID = [string]$assetId
         try {
             $browserLog = [IO.Path]::GetTempFileName()
             $browser = Start-Process -FilePath $env:MEDICAL_QA_WEBVIEW_EXECUTABLE -ArgumentList @("http://localhost:$Port", ('"' + $browserLog + '"')) -WindowStyle Hidden -Wait -PassThru
             Get-Content -Encoding UTF8 $browserLog
             if ($browser.ExitCode -ne 0) { throw 'Kiểm thử Edge WebView2 thất bại.' }
         } finally {
-            Remove-Item Env:MEDICAL_QA_BROWSER_USER, Env:MEDICAL_QA_BROWSER_PASSWORD -ErrorAction SilentlyContinue
+            Remove-Item Env:MEDICAL_QA_BROWSER_USER, Env:MEDICAL_QA_BROWSER_PASSWORD, Env:MEDICAL_QA_BROWSER_ASSET_ID -ErrorAction SilentlyContinue
         }
     } else { Write-Output 'NOT RUN Kiểm thử bố cục vì chưa cấp trình duyệt QA.' }
+}
+
+function Test-AcceptanceWorkbooks($client) {
+    # Đổi tiền tố mã/Serial trong bộ nhớ để retest tệp bàn giao mà không đụng dữ liệu thành viên khác.
+    $cases = @(
+        @{File='hop-le.xlsx'; Success=1; Message='Đã nhập vào mẫu'; Package=$true},
+        @{File='trung-ma-tai-san.xlsx'; Success=1; Message='đã tồn tại'; Package=$true},
+        @{File='trung-serial.xlsx'; Success=1; Message='đã tồn tại'; Package=$true},
+        @{File='gia-am.xlsx'; Success=0; Message='Ngày mua, giá mua hoặc trạng thái không hợp lệ'; Package=$true},
+        @{File='sai-model-hoac-khoa.xlsx'; Success=0; Message='RCUI-KHOA-SAI'; Package=$true},
+        @{File='tep-hong.xlsx'; Success=0; Message='Không đọc được file Excel'; Package=$false},
+        @{File='qua-2mb.xlsx'; Success=0; Message='vượt quá 2 MB'; Package=$false}
+    )
+    foreach ($case in $cases) {
+        $codes = @()
+        $bytes = [IO.File]::ReadAllBytes((Join-Path $PSScriptRoot ('TestData/' + $case.File)))
+        if ($case.Package) {
+            $inputStream = [IO.MemoryStream]::new($bytes)
+            $outputStream = [IO.MemoryStream]::new()
+            $sampleBook = [ClosedXML.Excel.XLWorkbook]::new($inputStream)
+            try {
+                $sheet = $sampleBook.Worksheet(1)
+                for ($row = 2; $row -le $sheet.LastRowUsed().RowNumber(); $row++) {
+                    $code = $prefix + '_' + $sheet.Cell($row,1).GetString()
+                    $sheet.Cell($row,1).Value = $code
+                    $sheet.Cell($row,2).Value = $prefix + '_' + $sheet.Cell($row,2).GetString()
+                    [void]$sampleCodes.Add($code)
+                    $codes += $code
+                }
+                $sampleBook.SaveAs($outputStream)
+                $bytes = $outputStream.ToArray()
+            } finally { $sampleBook.Dispose(); $inputStream.Dispose(); $outputStream.Dispose() }
+        }
+        $body = Post-Excel $client $case.File $bytes
+        Assert-Equal "Tệp nghiệm thu $($case.File) báo đúng kết quả" $body.Contains($case.Message) $true
+        if ($case.Package) {
+            $saved = 0
+            foreach ($code in ($codes | Select-Object -Unique)) {
+                $saved += Sql 'SELECT COUNT(*) FROM dbo.EquipmentAssets WHERE AssetCode=@code' @{code=$code}
+            }
+            Assert-Equal "Tệp nghiệm thu $($case.File) lưu đúng số dòng" $saved $case.Success
+        }
+    }
 }
 
 function Assert-MvcWritePermissions {
@@ -351,6 +396,7 @@ try {
     Assert-Equal 'Excel sai định dạng bị từ chối' $invalid.Contains('Không đọc được file Excel') $true
     $oversize = Post-Excel $admin 'qua-lon.xlsx' ([byte[]]::new(2097153))
     Assert-Equal 'Excel vượt 2 MB bị từ chối' $oversize.Contains('File Excel không được vượt quá 2 MB.') $true
+    Test-AcceptanceWorkbooks $admin
 
     if ($env:MEDICAL_QA_BARCODE_DECODER) {
         Add-Type -AssemblyName System.Drawing
@@ -451,7 +497,7 @@ try {
 
     $staffRole = Sql 'SELECT RoleId FROM dbo.Roles WHERE RoleCode=@role' @{role='STAFF'}
     $username = $prefix + '_ACCOUNT'
-    $createAccount = Post-Form $admin '/UserAdmin/Edit' @{Username=$username;FullName='Người dùng kiểm thử';RoleId=$staffRole;IsActive='true';InitialPassword=$secret}
+    $createAccount = Post-Form $admin '/UserAdmin/Edit' @{Username=$username;FullName='Người dùng kiểm thử';RoleId=$staffRole;IsActive='true';InitialPassword=$secret;InitialConfirmation=$secret}
     Assert-Equal 'ADMIN tạo tài khoản' $createAccount.Status 302
     $accountId = Sql 'SELECT UserId FROM dbo.Users WHERE Username=@username' @{username=$username}
     $resetSecret = [Guid]::NewGuid().ToString('N')
@@ -472,6 +518,9 @@ try {
     if ($process -and !$process.HasExited) { $process.Kill(); $process.WaitForExit() }
     foreach ($client in $clients.Values) { $client.Dispose() }
     if ($connection.State -eq 'Open') {
+        foreach ($code in $sampleCodes) {
+            $null = Sql 'DELETE dbo.EquipmentAssets WHERE AssetCode=@code' @{code=$code}
+        }
         foreach ($suffix in @('_API','_XLSX','_XLSX_BAD','_MVC')) {
             $null = Sql 'DELETE dbo.EquipmentAssets WHERE AssetCode=@code' @{code=$prefix + $suffix}
         }
@@ -482,6 +531,7 @@ try {
             $null = Sql 'DELETE dbo.Users WHERE Username=@user' @{user=$prefix + '_' + $role}
         }
         $null = Sql 'DELETE dbo.Users WHERE Username=@user' @{user=$prefix+'_ACCOUNT'}
+        $null = Sql 'DELETE dbo.Users WHERE Username=@user' @{user=$prefix+'_BROWSER'}
         $null = Sql 'DELETE dbo.EquipmentModels WHERE ModelCode=@code' @{code=$prefix+'M'}
         $null = Sql 'DELETE dbo.Suppliers WHERE Name=@name' @{name=$prefix+'_SUPPLIER'}
         $null = Sql 'DELETE dbo.EquipmentCategories WHERE CategoryCode=@code' @{code=$prefix+'C'}

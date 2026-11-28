@@ -1,0 +1,5 @@
+Nhánh nền release/final-candidate, commit 793e386. Edge WebView2 với fixture BetaTest.
+PASS Edge WebView2 hiển thị cả ba biểu đồ với dữ liệu thực
+REPRO RC-005 Mật khẩu chứa dấu ngoặc góc bị chặn khi tạo.
+REPRO RC-006 Request đặt lại bị chặn trước khi cập nhật hash.
+REPRO RC-007 Request đổi mật khẩu bị chặn.
