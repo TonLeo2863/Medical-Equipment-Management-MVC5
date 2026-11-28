@@ -1,0 +1,17 @@
+BENCH SQL truy vấn trực tiếp, kết nối mở sẵn 8ms
+PASS Edge WebView2 hiển thị cả ba biểu đồ với dữ liệu thực
+PASS RC-005/RC-011 Validation tiếng Việt theo từng trường, không hiển thị lại mật khẩu.
+PASS RC-005 Tài khoản mới đăng nhập bằng mật khẩu chứa dấu ngoặc góc.
+PASS RC-006 Đặt lại bằng biểu mẫu và nhận thông báo.
+PASS RC-007 Đổi mật khẩu bằng biểu mẫu và nhận thông báo.
+PASS RC-005–007 Mật khẩu mới đăng nhập được và các mật khẩu cũ bị từ chối.
+PASS Bố cục của 23 đường dẫn ở 360px
+PASS Bố cục của 23 đường dẫn ở 390px
+PASS Bố cục của 23 đường dẫn ở 768px
+PASS Bố cục của 23 đường dẫn ở 1024px
+PASS Bố cục của 23 đường dẫn ở 1280px
+PASS Bố cục của 23 đường dẫn ở 1920px
+PASS RC-008–010 SVG, ô nhập 16px, Sidebar desktop và Menu di động bằng bàn phím.
+PASS Menu trình duyệt theo vai trò MANAGER
+PASS Menu trình duyệt theo vai trò ENGINEER
+PASS Menu trình duyệt theo vai trò STAFF
