@@ -197,7 +197,13 @@ function Invoke-CatalogChecks($admin) {
     $model['ModelName'] = 'Mẫu máy đã cập nhật'
     Assert-Equal 'Sửa EquipmentModel' (Post-Form $admin "/EquipmentModel/Edit/$createdModelId" $model).Status 302
     Assert-Equal 'EquipmentModel cập nhật trong SQL' (Sql 'SELECT Name FROM dbo.EquipmentModels WHERE ModelId=@id' @{id=$createdModelId}) $model.ModelName
-    $null = Post-Form $admin "/Category/Delete/$categoryId" @{}
+    # Dùng danh mục fixture đang có mẫu để kiểm tra banner lỗi thật, kể cả sau khi tải lại.
+    $refusedDelete = Post-Form $admin "/Category/Delete/$categoryId" @{}
+    Assert-Equal 'Chuyển trang sau khi từ chối xóa danh mục' $refusedDelete.Status 302
+    $errorPage = Invoke-Request $admin GET $refusedDelete.Path
+    $errorBanner = '<div class="notice notice-error" role="alert"><strong>Lỗi</strong>'
+    Assert-Equal 'Banner lỗi có nhãn và lý do không thể xóa' ($errorPage.Body.Contains($errorBanner) -and [Net.WebUtility]::HtmlDecode($errorPage.Body).Contains('Không thể xóa danh mục')) $true
+    Assert-Equal 'Banner lỗi chỉ hiển thị một lần sau redirect' (Invoke-Request $admin GET $refusedDelete.Path).Body.Contains($errorBanner) $false
     Assert-Equal 'Category còn mẫu thiết bị không thể xóa' (Sql 'SELECT COUNT(*) FROM dbo.EquipmentCategories WHERE CategoryId=@id' @{id=$categoryId}) 1
     Assert-Equal 'Xóa EquipmentModel' (Post-Form $admin "/EquipmentModel/Delete/$createdModelId" @{}).Status 302
     Assert-Equal 'Xóa Supplier' (Post-Form $admin "/Supplier/Delete/$supplierId" @{}).Status 302

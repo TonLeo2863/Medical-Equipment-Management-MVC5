@@ -13,6 +13,7 @@ using Microsoft.Web.WebView2.WinForms;
 internal static class VerifyResponsive
 {
     private static readonly JavaScriptSerializer Json = new JavaScriptSerializer();
+    private static readonly int[] ViewportWidths = { 360, 390, 768, 1024, 1280, 1366, 1920 };
 
     [STAThread]
     private static int Main(string[] args)
@@ -56,7 +57,7 @@ internal static class VerifyResponsive
         await Resize(browser, 390);
         await Navigate(browser, baseUrl + "/Account/Login");
         await AssertViewport(browser, "Đăng nhập", 390);
-        await Capture(browser, "rc-ui-390-dang-nhap.png");
+        await Capture(browser, "classic-390-dang-nhap.png");
         var user = Json.Serialize(Environment.GetEnvironmentVariable("MEDICAL_QA_BROWSER_USER"));
         var password = Json.Serialize(Environment.GetEnvironmentVariable("MEDICAL_QA_BROWSER_PASSWORD"));
         var loginNavigation = ObserveNavigation(browser);
@@ -88,7 +89,8 @@ internal static class VerifyResponsive
             "/Calibration", "/UserAdmin", "/UserAdmin/Edit", "/Account/ChangePassword", "/Error/AccessDenied",
             "/Equipment/Details/" + fixtureAsset, "/Equipment/Edit/" + fixtureAsset, "/Equipment/Delete/" + fixtureAsset,
             "/WorkOrder/Create", "/Maintenance/Create", "/Calibration/Create" };
-        foreach (var width in new[] { 360, 390, 768, 1024, 1280, 1920 })
+        await browser.CallDevToolsProtocolMethodAsync("Emulation.setFocusEmulationEnabled", "{\"enabled\":true}");
+        foreach (var width in ViewportWidths)
         {
             await Resize(browser, width);
             foreach (var path in routeSet)
@@ -97,35 +99,19 @@ internal static class VerifyResponsive
                 await AssertViewport(browser, path, width);
             }
             Write(log, "PASS Bố cục của " + routeSet.Length + " đường dẫn ở " + width + "px");
+            await Navigate(browser, baseUrl + "/UserAdmin/Edit");
+            await VerifyNavbar(browser, width);
+            Write(log, "PASS Navbar, bốn nhóm, biên dropdown và bàn phím ở " + width + "px");
         }
 
         await Resize(browser, 360);
         await Navigate(browser, baseUrl + "/UserAdmin/Edit");
-        await browser.CallDevToolsProtocolMethodAsync("Emulation.setFocusEmulationEnabled", "{\"enabled\":true}");
-        await browser.ExecuteScriptAsync("document.querySelector('#navToggle').click()");
-        Require(await Check(browser, "document.querySelector('#navToggle').getAttribute('aria-expanded') === 'true'"), "Menu di động chưa mở bằng nút Menu.");
-        await browser.ExecuteScriptAsync("document.querySelectorAll('#appNavigation details').forEach(group => group.open = true)");
-        await Capture(browser, "rc-ui-360-menu.png");
-        await browser.ExecuteScriptAsync("document.querySelector('#navToggle').click()");
-        await browser.ExecuteScriptAsync("document.querySelector('#navToggle').focus()");
-        await Press(browser, "Enter", 13);
-        Require(await Check(browser, "document.querySelector('#navToggle').getAttribute('aria-expanded') === 'true'"), "Menu di động chưa mở bằng Enter.");
-        await browser.ExecuteScriptAsync("document.querySelectorAll('#appNavigation details').forEach(group => group.open = true)");
-        Require(await Check(browser, "document.querySelector('#appNavigation').getBoundingClientRect().right <= innerWidth"), "Menu di động vượt viewport.");
-        await Press(browser, "Escape", 27);
-        Require(await Check(browser, "document.activeElement.id === 'navToggle' && document.activeElement.getAttribute('aria-expanded') === 'false'"), "Escape cần đóng menu và trả tiêu điểm.");
         Require(await Check(browser, "parseFloat(getComputedStyle(document.querySelector('[name=Username]')).fontSize) >= 16 && getComputedStyle(document.querySelector('select')).backgroundImage.includes('svg')"), "Ô nhập hoặc mũi tên SVG chưa đồng nhất.");
-        await Capture(browser, "rc-ui-360-tao-tai-khoan.png");
-        await Resize(browser, 1280);
-        await Navigate(browser, baseUrl + "/UserAdmin/Edit");
-        await Capture(browser, "rc-ui-1280-tao-tai-khoan.png");
-        await browser.ExecuteScriptAsync("document.querySelector('#navToggle').focus()");
-        await Press(browser, "Enter", 13);
-        Require(await Check(browser, "getComputedStyle(document.querySelector('#appNavigation')).display === 'none'"), "Sidebar desktop chưa thu gọn.");
-        await Press(browser, "Enter", 13);
-        Require(await Check(browser, "getComputedStyle(document.querySelector('#appNavigation')).display !== 'none'"), "Sidebar desktop chưa mở lại.");
-        Write(log, "PASS RC-008–010 SVG, ô nhập 16px, Sidebar desktop và Menu di động bằng bàn phím.");
-
+        await Capture(browser, "classic-360-tao-tai-khoan.png");
+        await Resize(browser, 1366);
+        await Navigate(browser, baseUrl + "/");
+        await Capture(browser, "classic-1366-dashboard.png");
+        Write(log, "PASS RC-008–010 SVG, ô nhập 16px, Navbar ngang và Menu thu gọn.");
         var prefix = Environment.GetEnvironmentVariable("MEDICAL_QA_BROWSER_USER");
         prefix = prefix.Substring(0, prefix.Length - 6);
         var fixturePassword = Environment.GetEnvironmentVariable("MEDICAL_QA_BROWSER_PASSWORD");
@@ -135,6 +121,80 @@ internal static class VerifyResponsive
             Require(await Check(browser, "document.querySelector('#appNavigation a[href*=UserAdmin]') === null"), "Vai trò này không được thấy menu quản trị.");
             Require(await Check(browser, "(document.querySelector('#appNavigation a[href*=Calibration]') !== null) === " + (roleCode == "STAFF" ? "false" : "true")), "Menu kỹ thuật sai quyền.");
             Write(log, "PASS Menu trình duyệt theo vai trò " + roleCode);
+        }
+
+        // Kiểm tra riêng giao diện công khai sau khi xóa Cookie của các tài khoản fixture.
+        browser.CookieManager.DeleteAllCookies();
+        foreach (var width in ViewportWidths)
+        {
+            await Resize(browser, width);
+            await Navigate(browser, baseUrl + "/");
+            await AssertViewport(browser, "Trang chủ công khai", width);
+            Require(await Check(browser, "document.querySelectorAll('#appNavigation a').length === 3 && !document.querySelector('#appNavigation details')"), "Menu công khai cần hiển thị Trang chủ, Giới thiệu và Đăng nhập.");
+            await Navigate(browser, baseUrl + "/Account/Login");
+            await AssertViewport(browser, "Đăng nhập", width);
+            if (width == 1280) await Capture(browser, "classic-1280-dang-nhap.png");
+        }
+        Write(log, "PASS Trang chủ công khai và đăng nhập tại bảy viewport.");
+    }
+
+    /// <summary>Kiểm tra Navbar bằng bàn phím ở chiều rộng hiện tại, gồm cả vị trí thật của bảng chọn và liên kết bên trong.</summary>
+    private static async Task VerifyNavbar(CoreWebView2 browser, int width)
+    {
+        var compact = width <= 960;
+        var toggle = "document.getElementById('navToggle')";
+        if (compact)
+        {
+            Require(await Check(browser, toggle + ".offsetWidth > 0 && !document.getElementById('appNavigation').offsetWidth"), "Menu di động phải thu gọn khi vào trang.");
+            await browser.ExecuteScriptAsync(toggle + ".focus()");
+            await Press(browser, "Enter", 13);
+            Require(await Check(browser, toggle + ".getAttribute('aria-expanded') === 'true' && document.activeElement === document.querySelector('#appNavigation a')"), "Enter cần mở Menu và đưa tiêu điểm đến liên kết đầu.");
+        }
+        else
+        {
+            Require(await Check(browser, toggle + @".offsetWidth === 0 && (() => {
+                const items = Array.from(document.getElementById('appNavigation').children);
+                const top = items[0].getBoundingClientRect().top;
+                return items.every(item => Math.abs(item.getBoundingClientRect().top - top) < 2);
+            })()"), "Các mục Navbar desktop phải hiển thị trên cùng một hàng.");
+        }
+
+        var labels = new[] { "Danh mục", "Kho", "Kỹ thuật", "Tài khoản" };
+        foreach (var label in labels)
+        {
+            var group = "Array.from(document.querySelectorAll('#appNavigation details')).find(g => g.querySelector('summary').textContent.trim() === " + Json.Serialize(label) + ")";
+            await browser.ExecuteScriptAsync(group + ".querySelector('summary').focus()");
+            await Press(browser, "Enter", 13);
+            Require(await Check(browser, "(() => { const group = " + group + @";
+                const panel = group.querySelector('.nav-panel');
+                const bounds = panel.getBoundingClientRect();
+                const link = panel.querySelector('a');
+                const target = link.getBoundingClientRect();
+                const hit = document.elementFromPoint(target.left + target.width / 2, target.top + target.height / 2);
+                return group.open && document.querySelectorAll('#appNavigation details[open]').length === 1
+                    && getComputedStyle(group.querySelector('summary'), '::after').backgroundImage.includes('svg')
+                    && bounds.width > 0 && bounds.left >= 0 && bounds.right <= innerWidth
+                    && bounds.top >= 0 && bounds.bottom <= innerHeight && link.contains(hit);
+            })()"), "Bảng chọn bị che hoặc vượt màn hình: " + label + " ở " + width);
+            if (width == 360 && label == "Danh mục") await Capture(browser, "classic-360-menu.png");
+            if (width == 1280 && label == "Kỹ thuật") await Capture(browser, "classic-1280-ky-thuat.png");
+            await browser.ExecuteScriptAsync(group + ".querySelector('.nav-panel a').focus()");
+            await Press(browser, "Escape", 27);
+            Require(await Check(browser, "!(" + group + ").open && document.activeElement === (" + group + ").querySelector('summary')"), "Escape cần đóng nhóm và trả tiêu điểm về nhãn.");
+        }
+        if (compact)
+        {
+            await Press(browser, "Escape", 27);
+            Require(await Check(browser, "document.activeElement === " + toggle + " && " + toggle + ".getAttribute('aria-expanded') === 'false'"), "Escape cần đóng Menu di động và trả tiêu điểm.");
+        }
+        else
+        {
+            // Đổi thẳng từ nhóm đầu sang nhóm cuối rồi nhấp ra ngoài, như khi dùng chuột trên desktop.
+            await browser.ExecuteScriptAsync("document.querySelector('#appNavigation details summary').click()");
+            await browser.ExecuteScriptAsync("document.querySelector('#appNavigation details:last-child summary').click()");
+            Require(await Check(browser, "document.querySelectorAll('#appNavigation details[open]').length === 1 && document.querySelector('#appNavigation details:last-child').open"), "Chuyển nhóm cần đóng dropdown trước đó.");
+            await browser.ExecuteScriptAsync("document.querySelector('main').click()");
+            Require(await Check(browser, "!document.querySelector('#appNavigation details[open]')"), "Nhấp ngoài Navbar cần đóng dropdown.");
         }
     }
 
@@ -229,6 +289,8 @@ internal static class VerifyResponsive
         await Submit(browser, "username", new { username, password });
         Require(await Check(browser, success ? "location.pathname === '/'" : "location.pathname.toLowerCase() === '/account/login'"),
             "Kết quả đăng nhập không đúng kỳ vọng.");
+        if (!success)
+            Require(await Check(browser, "document.querySelector('.validation-summary-errors').innerText.includes('Tên đăng nhập hoặc mật khẩu không đúng') && document.querySelector('[name=password]').value === ''"), "Biểu mẫu cần hiển thị lỗi đăng nhập và xóa giá trị mật khẩu.");
     }
 
     private static async Task Submit(CoreWebView2 browser, string field, object values, string role = null, bool allowError = false)
