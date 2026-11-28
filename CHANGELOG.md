@@ -1,5 +1,11 @@
 # Nhật ký thay đổi
 
+## Navbar cổ điển · fix/rc-classic-ui
+
+- Khôi phục Navbar ngang, nền sáng, màu xanh dương, khung nội dung 1120 px và minh họa đăng nhập theo giao diện `793e386`. Nhóm Danh mục và Kho có nút mở riêng. Thanh điều hướng thu gọn thành nút Menu trên màn hình hẹp.
+- Dropdown neo theo mép phải, có thể mở bằng bàn phím và đóng bằng Escape. Select và nhãn dropdown dùng chung mũi tên SVG cục bộ. Biểu mẫu, thông báo và vùng cuộn bảng kế thừa bản sửa nghiệm thu `dde840f`.
+- Mở rộng kiểm thử Edge WebView2 đến 1366 px và kiểm tra vị trí từng bảng chọn. Workflow Windows chạy cả trên nhánh Navbar. Bản cập nhật giao diện dùng schema hiện có.
+
 ## Sửa nghiệm thu RC
 
 - Sửa RC-005–007 khi MVC nhận mật khẩu chứa ký tự giống HTML. Bổ sung xác nhận mật khẩu, lỗi tiếng Việt theo trường và nút hiện/ẩn.

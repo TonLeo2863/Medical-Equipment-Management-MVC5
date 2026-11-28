@@ -1,6 +1,15 @@
 # Tiến độ phát hành
 
-## Nhánh và mốc Git
+## Checkpoint hiện tại · Navbar cổ điển · 28/11/2026
+
+- Nhánh làm việc `fix/rc-classic-ui`, tạo từ HEAD sạch `dde840fb6e45e6af799a27b4a316375a6f99d1cc` đã đối chiếu trên GitHub. Mốc giao diện tham khảo `793e38690c5467df5cb67b2e3ec13443103a1952`. Commit giao diện mới `23ef0d9`, commit bổ sung nhánh cho CI `3fa9ece`. Lấy SHA bàn giao gồm cả báo cáo bằng `git rev-parse HEAD`.
+- So sánh hai mốc cho thấy khung trang, Navbar, màu và minh họa Login là phần trình bày. Form mật khẩu, model binding, CSRF, điều kiện theo role, TempData và JavaScript xử lý gửi form thuộc bản sửa nghiệm thu. Trang chủ, View Dashboard và script Chart.js đã giống nhau ở hai mốc.
+- Mã ứng dụng sửa trong `Views/Shared/_Layout.cshtml`, `Views/Shared/_Navbar.cshtml`, `Views/Account/Login.cshtml`, `Content/Site.css`, `Scripts/site.js`. CI sửa bộ lọc nhánh trong `.github/workflows/build.yml`. QA sửa `Run-FinalSmoke.ps1`, `Verify-Responsive.cs`, hướng dẫn nghiệm thu, báo cáo, log và ảnh. Cập nhật README, CHANGELOG, kiến trúc, hướng dẫn mã nguồn, người dùng và ghi chú phát hành. Danh sách tệp đầy đủ bằng `git diff --name-status dde840f..HEAD`.
+- Mốc QA `e69efae` lưu bộ kiểm thử và ảnh. Restore 24 gói, build Debug/Release, Razor và IIS/Edge/SQL đạt. Lượt cuối 249 PASS, 0 FAIL, kiểm tra 23 URL nghiệp vụ và hai trang công khai tại bảy chiều rộng. Chú thích điều hướng, responsive và ca kiểm thử mới viết bằng tiếng Việt. [Log](QA/Logs/classic-navbar.log) · [Báo cáo](QA/FINAL_TEST_REPORT.md) · [Ảnh](QA/Screenshots/README.md)
+- BetaTest giữ schema, seed và cấu hình. Đã dọn fixture riêng, số dòng và checksum tổng hợp khớp trên 16 bảng trước/sau, không còn tài khoản/tài sản fixture, transaction người dùng khác hoặc IIS Express của lượt chạy.
+- Khi tiếp tục, đọc mục này, kiểm tra `git status --short --branch`, đối chiếu SHA với `git ls-remote --heads origin refs/heads/fix/rc-classic-ui` và lượt CI cùng SHA. Việc nghiệm thu còn lại là nhận phản hồi về giao diện trên thiết bị thật. Biên bản thủ công gần nhất vẫn là 34 PASS, 7 FAIL và 50 NOT RUN. [Checklist](QA/MANUAL_ACCEPTANCE_GUIDE.md)
+
+## Nhánh và mốc Git của Final Candidate trước đây
 
 - Nhánh `release/final-candidate`, tạo từ HEAD `origin/beta-projects` đã fetch tại `c9ce363d4aae4ec690054c366f798cfa63ee9d24`.
 - Mốc mã nguồn `d94c4eb6d8541ee8ce78dcde654cf6652535f3a6` gồm ứng dụng, migration, chú thích và tài nguyên Chart.js. Commit tài liệu chứa chính checkpoint này đứng sau mốc mã nguồn. Dùng `git rev-parse HEAD` để lấy SHA của commit tài liệu.

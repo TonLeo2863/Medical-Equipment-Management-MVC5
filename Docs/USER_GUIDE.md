@@ -29,7 +29,7 @@ Nhập [Postman Collection](QA/Equipment.postman_collection.json). Điền `base
 | 404, 409 | Thiết bị thiếu/đã xóa hoặc phát sinh xung đột nghiệp vụ. |
 ## Giao diện và tài khoản trong bản sửa nghiệm thu
 
-Trên máy tính, nút **Menu** thu gọn hoặc mở Sidebar. Trên điện thoại, **Menu** mở ngăn điều hướng và Escape đóng ngăn, trả tiêu điểm về nút. Các nhóm Danh mục, Kỹ thuật và Tài khoản mở ngay trong Sidebar. Bảng rộng cuộn trong vùng bảng.
+Trên máy tính, dùng Navbar ngang phía trên. Chọn **Danh mục**, **Kho**, **Kỹ thuật** hoặc **Tài khoản** để mở các chức năng theo vai trò. Trên màn hình hẹp, nút **Menu** mở các liên kết ngay dưới Navbar. Dùng Tab để di chuyển, Enter để mở nhóm và Escape để quay về nhãn nhóm. Nhấn Escape lần nữa để đóng Menu và trở về nút mở. Bảng rộng cuộn trong vùng bảng.
 
 Khi cấp tài khoản, nhập mật khẩu từ 12–256 ký tự và xác nhận đúng. Nút **Hiện** cho phép kiểm tra ký tự trước khi gửi. Thông báo dưới từng ô giải thích dữ liệu cần sửa. Đặt lại mật khẩu có hộp xác nhận, và sau khi lưu các phiên dùng dấu xác thực cũ sẽ hết hiệu lực.
 

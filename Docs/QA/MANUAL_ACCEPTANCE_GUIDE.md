@@ -19,8 +19,8 @@
 | RC-007 | Đổi mật khẩu · STAFF | Tài khoản fixture đang đăng nhập | Thử mật khẩu hiện tại sai, xác nhận sai, sau đó đổi hợp lệ. Đăng xuất và thử cả hai mật khẩu | Hai lỗi hiện đúng trường. Đổi thành công và chỉ mật khẩu mới đăng nhập được. | A |
 | RCA-A02 | Quyền · MANAGER/ENGINEER/STAFF | Mỗi người có phiên riêng | Mở trực tiếp URL Quản lý tài khoản | Trang từ chối hoặc thông báo quyền. FAIL nếu tải được thao tác quản trị. | |
 | RC-008 | Giao diện · ADMIN/MANAGER | Form tạo tài khoản và các bộ lọc tài sản | Mở từng select bằng chuột, Tab và phím mũi tên | Font tiếng Việt và mũi tên SVG nhất quán. Menu lựa chọn còn dùng được bằng phím. | |
-| RC-009 | Điều hướng · Bốn vai trò | Viewport 1024, 1280, 1920 px | Mở tất cả nhóm có quyền, thu gọn và mở lại Sidebar, Tab qua liên kết | Nhóm mở trong Sidebar, vẫn cuộn được. STAFF chỉ thấy liên kết đúng quyền. | |
-| RC-010 | Responsive · ADMIN | Viewport 360, 390, 768, 1024, 1280, 1920 px | Mở Login, Dashboard, bảng tài sản, form Import, chi tiết và phiếu; mở bằng Menu và đóng bằng Escape ở màn hình nhỏ | Không tràn cả trang, bảng cuộn trong vùng riêng, ô nhập mobile ≥16px, tiêu điểm trở về nút Menu. | |
+| RC-009 | Điều hướng · Bốn vai trò | Viewport 1024, 1280, 1366, 1920 px | Dùng Tab và Enter mở từng nhóm có quyền, thử chuyển nhóm, nhấn Escape rồi nhấp ra ngoài | Các mục nằm ngang một hàng. Mỗi lần chỉ mở một nhóm, liên kết cuối ở trong màn hình. STAFF chỉ thấy liên kết đúng quyền. | |
+| RC-010 | Responsive · ADMIN | Viewport 360, 390, 768, 1024, 1280, 1366, 1920 px | Mở Login, Dashboard, bảng tài sản, form Import, chi tiết và phiếu. Với màn hình hẹp, mở Menu, mở một nhóm rồi nhấn Escape hai lần | Bảng cuộn trong vùng riêng, ô nhập mobile ≥16px. Escape trả tiêu điểm về nhãn nhóm rồi về nút Menu. Toàn trang vừa viewport. | |
 | RC-011 | Thông báo · ADMIN/MANAGER | Một tên trùng và một bản ghi fixture hợp lệ | Gửi form sai rồi đúng. Đọc banner sau redirect, tải lại. Thử hủy hộp thoại đặt lại mật khẩu | Có nhãn chữ, nội dung dễ đọc, thông báo chỉ xuất hiện một lần và thao tác hủy giữ trạng thái. | A |
 
 ## Dữ liệu, kho và API

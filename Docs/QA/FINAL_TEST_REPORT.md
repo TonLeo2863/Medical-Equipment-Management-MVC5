@@ -1,5 +1,22 @@
 # Báo cáo kiểm thử nhánh phát hành
 
+## Navbar cổ điển · 28/11/2026
+
+Mã ứng dụng `23ef0d9`, nguồn nghiệp vụ `dde840f`. Windows, VS 2022, IIS Express, Edge WebView2 và SQL Express/BetaTest. Lượt hồi quy cuối thoát với mã 0, **249 dòng PASS, 0 FAIL**. Mốc trước là 237. Lượt này bổ sung chiều rộng 1366 px, kiểm tra từng nhóm Navbar, banner lỗi và hai trang công khai. Mỗi dòng có thể kiểm tra nhiều thao tác. [Log đầy đủ](Logs/classic-navbar.log)
+
+| Phạm vi | Kết quả | Bằng chứng thực thi |
+|---|---|---|
+| NuGet, Debug, Release, Razor | PASS | Restore theo packages.config, tìm đủ 24 gói đúng phiên bản. Hai lệnh MSBuild và aspnet_compiler đều trả mã 0. |
+| Tài khoản, phân quyền | PASS | Đăng nhập bốn vai trò. Edge gửi form tạo tài khoản, đặt lại và đổi mật khẩu đặc biệt. Lỗi sai mật khẩu xuất hiện trên form, mật khẩu cũ bị từ chối. Bộ HTTP kiểm quyền MVC/API, CSRF, logout và thu hồi phiên. |
+| Thông báo | PASS | Edge đọc thông báo thành công sau đặt lại và đổi mật khẩu, kiểm lỗi từng trường và hiện/ẩn mật khẩu. POST xóa danh mục fixture còn mẫu máy cho banner lỗi đúng nhãn ở trang đích và hết sau lần tải lại. |
+| Nghiệp vụ | PASS | CRUD, phân trang, Excel, QR/Barcode giải mã khớp Serial, API, điều chuyển đồng thời và rollback. STAFF báo hỏng, MANAGER phân công, ENGINEER hoàn thành. Kiểm tra bảo trì, hiệu chuẩn và SQL đối chiếu Dashboard. |
+| Navbar, bố cục, biểu đồ | PASS | 23 URL nghiệp vụ cùng trang chủ công khai và Login ở 360, 390, 768, 1024, 1280, 1366, 1920 px. Từng nhóm mở trong viewport, liên kết nhận được tương tác, Escape trả tiêu điểm. Ba biểu đồ Chart.js tải dữ liệu. [Sáu ảnh trình duyệt](Screenshots/README.md) |
+| Dữ liệu sau kiểm thử | PASS | Số dòng và checksum tổng hợp khớp trước/sau trên cả 16 bảng. Còn 10 tài khoản, 32 tài sản. Truy vấn kết thúc trả 0 tài khoản/tài sản fixture và 0 transaction người dùng khác trên BetaTest. |
+
+Điện thoại vật lý và đánh giá thẩm mỹ của người dùng cho bản Navbar là **NOT RUN** trong lượt tự động này. Kết quả thủ công đã nhận vẫn được lưu riêng. GitHub Actions chỉ thực hiện restore, build và Razor trên Windows. Chọn lượt chạy trùng SHA nhánh khi đối chiếu. [Nghiệm thu người dùng](USER_ACCEPTANCE_REPORT.md) · [CI của nhánh](https://github.com/TonLeo2863/Medical-Equipment-Management-MVC5/actions/workflows/build.yml?query=branch%3Afix%2Frc-classic-ui)
+
+## Lịch sử kiểm thử Final Candidate
+
 Ứng dụng `24a0244cc9f67d8419da4ec3015ee0fd181cf7d7`. Môi trường Windows, Visual Studio 2022 MSBuild, .NET Framework 4.8, IIS Express, SQL Express và database `MedicalEquipmentDB_BetaTest`. Các bài ghi dữ liệu dùng fixture tạm. Tài khoản QA có từ trước và dữ liệu ngoài fixture được giữ nguyên.
 
 Lượt hồi quy tích hợp cuối exit 0 với **207 kiểm tra PASS và 0 FAIL**. Đếm theo dòng khẳng định, trong đó phép kiểm quyền GET/POST có thể kiểm hai request trong một dòng. Hai ca tái hiện Beta và hai ca Session timeout chạy riêng, không cộng vào tổng tích hợp. [Log hồi quy tích hợp](Logs/final-integration.log)

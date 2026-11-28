@@ -17,8 +17,8 @@
 - [Đối chiếu Issues](Docs/PLANNING/REQUIREMENTS_TRACEABILITY.md)
 - [Báo cáo kiểm thử](Docs/QA/FINAL_TEST_REPORT.md) và [ghi chú phát hành](Docs/RELEASE_NOTES.md)
 - [Tiến độ bàn giao](Docs/FINAL_PROGRESS.md) và [changelog](CHANGELOG.md)
-## Nhánh sửa nghiệm thu
+## Chạy bản Navbar cổ điển
 
-Lấy nhánh bằng `git fetch origin refs/heads/fix/rc-acceptance-ui:refs/remotes/origin/fix/rc-acceptance-ui`. Lần đầu dùng `git switch --track origin/fix/rc-acceptance-ui`. Nếu đã có nhánh cục bộ, dùng `git switch fix/rc-acceptance-ui` và `git pull --ff-only` khi worktree sạch. Mở solution, Restore NuGet, build và chạy IIS Express. Nếu BetaTest đã có schema từ nhánh RC, đợt sửa giao diện và tài khoản không cần migration mới.
+Lần đầu, chạy `git fetch origin fix/rc-classic-ui` rồi `git switch -c fix/rc-classic-ui FETCH_HEAD`. Nếu đã có nhánh cục bộ, dùng `git switch fix/rc-classic-ui` và `git pull --ff-only origin fix/rc-classic-ui` khi worktree sạch. Các lệnh chỉ rõ nhánh để dùng được cả với bản clone chỉ theo dõi beta-projects. Mở solution, Restore NuGet, build và chạy IIS Express với BetaTest hiện tại. Nhánh kế thừa xử lý tài khoản và nghiệp vụ từ `dde840f`. Cập nhật từ bản đó chỉ cần mã nguồn, bỏ qua bước nâng cấp schema.
 
 [Hướng dẫn nghiệm thu](Docs/QA/MANUAL_ACCEPTANCE_GUIDE.md) · [Dữ liệu mẫu](Docs/QA/TestData/README.md) · [Quy chuẩn đóng góp](CONTRIBUTING.md)
