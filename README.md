@@ -1,22 +1,19 @@
-# 🏥 Hệ Thống Quản Lý Trang Thiết Bị Y Tế (Medical Equipment Management)
+# Quản lý trang thiết bị y tế
 
-Dự án ứng dụng nền tảng web giúp quản lý vòng đời tài sản thiết bị y tế, từ lúc nhập kho, phân bổ cho các phòng ban, theo dõi lịch sử bảo trì, hiệu chuẩn, cho đến khi thanh lý.
+Ứng dụng đồ án môn Lập trình Web theo dõi từng thiết bị vật lý từ nhập kho, phân bổ, điều chuyển, bảo trì, hiệu chuẩn, sửa chữa đến thanh lý. Nền tảng gồm ASP.NET MVC 5, .NET Framework 4.8, Entity Framework 6, Razor, LINQ, SQL Server và ASP.NET Web API 2.
 
-## 🛠 Công Nghệ Sử Dụng
-*   **Framework:** .NET Framework (ASP.NET MVC 5)
-*   **Cơ sở dữ liệu:** SQL Server & Entity Framework 6 (Code First / Database First)
-*   **API:** ASP.NET Web API 2
-*   **Front-end:** HTML5, CSS3, Bootstrap, jQuery
+## Chạy trên Windows
 
-## 👨‍💻 Phân Công Nhiệm Vụ (Team Assignment)
-*   **Lead (Quản lý nền tảng):** Chốt Database, cấu hình project, quản lý Git, duyệt Pull Request và tích hợp hệ thống.
-*   **Thành viên 1:** Module Tài khoản (Đăng nhập, phân quyền) & Giao diện chung (Layout, Navbar).
-*   **Thành viên 2:** Module Quản lý Danh mục & Thiết bị (CRUD EquipmentModel, EquipmentAsset).
-*   **Thành viên 3:** Module Phòng ban & Quản lý Bảo trì (Phiếu công việc, điều chuyển).
-*   **Thành viên 4:** Web API & Thống kê (Dashboard, xuất báo cáo).
+1. Dùng Visual Studio với gói phát triển ASP.NET và .NET Framework 4.8 Developer Pack. Cài IIS Express và SQL Server Express.
+2. Mở `MedicalEquipmentManagement.sln` và Restore NuGet theo `packages.config`. Có thể chạy `MSBuild MedicalEquipmentManagement.sln /t:Restore /p:RestorePackagesConfig=true`.
+3. Dùng database QA đã chuẩn bị `MedicalEquipmentDB_BetaTest` trên `localhost\SQLEXPRESS`. Kiểm tra `MedicalEquipmentConnection` trong `MedicalEquipmentManagement/Web.config`; cấu hình nhánh dùng Windows Authentication.
+4. Sao lưu, xác minh backup và chạy [script nâng cấp workflow](MedicalEquipmentManagement/Database/03_FinalCandidate_Workflow.sql) theo [hướng dẫn schema](Docs/DATABASE/SCHEMA_CHANGES.md). Các script seed Beta có dòng chọn database gốc. Khi dựng lại môi trường, đọc và khóa đích SQL trước khi chạy.
+5. Build solution và khởi động IIS Express. Dùng tài khoản QA do quản trị viên cấp. Mật khẩu thật và thông tin phiên được giữ ngoài repository.
 
-## 🚀 Hướng Dẫn Cài Đặt (Dành cho Team)
+## Tài liệu
 
-**Bước 1: Clone project về máy**
-```bash
-git clone [https://github.com/TonLeo2863/Medical-Equipment-Management-MVC5.git](https://github.com/TonLeo2863/Medical-Equipment-Management-MVC5.git)
+- [Hướng dẫn người dùng và Postman](Docs/USER_GUIDE.md)
+- [Kiến trúc, mã nguồn và câu hỏi bảo vệ](Docs/SOURCE_CODE_GUIDE.md)
+- [Đối chiếu Issues](Docs/PLANNING/REQUIREMENTS_TRACEABILITY.md)
+- [Báo cáo kiểm thử](Docs/QA/FINAL_TEST_REPORT.md) và [ghi chú phát hành](Docs/RELEASE_NOTES.md)
+- [Tiến độ bàn giao](Docs/FINAL_PROGRESS.md) và [changelog](CHANGELOG.md)

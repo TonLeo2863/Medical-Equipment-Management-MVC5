@@ -1,0 +1,177 @@
+{
+  "info": {
+    "name": "Quản lý thiết bị y tế · Web API",
+    "description": "Chạy trên BetaTest. Nhập tên đăng nhập và mật khẩu bằng biến môi trường cục bộ. Postman giữ Cookie phiên và Cookie chống CSRF.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:51123"
+    },
+    {
+      "key": "username",
+      "value": ""
+    },
+    {
+      "key": "password",
+      "value": ""
+    },
+    {
+      "key": "csrfToken",
+      "value": ""
+    },
+    {
+      "key": "assetId",
+      "value": ""
+    },
+    {
+      "key": "modelId",
+      "value": ""
+    },
+    {
+      "key": "prefix",
+      "value": "RC-QA"
+    }
+  ],
+  "item": [
+    {
+      "name": "Lấy biểu mẫu đăng nhập",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/Account/Login"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const match = pm.response.text().match(/name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"/);",
+              "pm.test('Có token chống CSRF', () => pm.expect(match).to.not.equal(null));",
+              "if (match) pm.collectionVariables.set('csrfToken', match[1]);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Đăng nhập",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{baseUrl}}/Account/Login",
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "{{username}}"
+            },
+            {
+              "key": "password",
+              "value": "{{password}}"
+            },
+            {
+              "key": "__RequestVerificationToken",
+              "value": "{{csrfToken}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Lấy token thao tác ghi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/Equipment/Create"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const match = pm.response.text().match(/name=\"__RequestVerificationToken\"[^>]*value=\"([^\"]+)\"/);",
+              "pm.test('Có token chống CSRF', () => pm.expect(match).to.not.equal(null));",
+              "if (match) pm.collectionVariables.set('csrfToken', match[1]);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Danh sách thiết bị",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/equipments"
+      }
+    },
+    {
+      "name": "Chi tiết thiết bị",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/equipments/{{assetId}}"
+      }
+    },
+    {
+      "name": "Tạo thiết bị kiểm thử",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "RequestVerificationToken",
+            "value": "{{csrfToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equipments",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"AssetCode\":\"{{prefix}}\",\"SerialNumber\":\"{{prefix}}-SN\",\"ModelId\":{{modelId}},\"Status\":\"Đang hoạt động\",\"PurchasePrice\":1200}"
+        }
+      }
+    },
+    {
+      "name": "Sửa giá thiết bị kiểm thử",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "RequestVerificationToken",
+            "value": "{{csrfToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equipments/{{assetId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"AssetCode\":\"{{prefix}}\",\"SerialNumber\":\"{{prefix}}-SN\",\"ModelId\":{{modelId}},\"Status\":\"Đang hoạt động\",\"PurchasePrice\":1500}"
+        }
+      }
+    },
+    {
+      "name": "Xóa mềm thiết bị kiểm thử",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "RequestVerificationToken",
+            "value": "{{csrfToken}}"
+          }
+        ],
+        "url": "{{baseUrl}}/api/equipments/{{assetId}}"
+      }
+    }
+  ]
+}
