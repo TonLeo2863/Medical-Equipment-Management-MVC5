@@ -1,0 +1,31 @@
+﻿name: Kiểm tra build Windows
+
+on:
+  push:
+    branches: [fix/rc-acceptance-ui]
+  pull_request:
+    branches: [main, develop, beta-projects, release/final-candidate]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: microsoft/setup-msbuild@v2
+      # packages.config khóa phiên bản thư viện của dự án MVC 5.
+      - name: Khôi phục NuGet
+        run: msbuild MedicalEquipmentManagement.sln /t:Restore /p:RestorePackagesConfig=true
+      - name: Build Debug
+        run: msbuild MedicalEquipmentManagement.sln /p:Configuration=Debug
+      - name: Build Release
+        run: msbuild MedicalEquipmentManagement.sln /p:Configuration=Release
+      # Precompile Razor dùng bộ công cụ .NET Framework trên runner Windows.
+      - name: Kiểm tra Razor
+        shell: pwsh
+        run: |
+          $app = (Resolve-Path MedicalEquipmentManagement).Path
+          & "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\aspnet_compiler.exe" -v / -p $app
+          exit $LASTEXITCODE
