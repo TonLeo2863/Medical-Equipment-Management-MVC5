@@ -1,48 +1,67 @@
-﻿@{
+@{
     var role = (string)ViewData["NavigationRole"];
     var name = Session["FullName"] as string;
     var manage = role == "ADMIN" || role == "MANAGER";
     var technical = manage || role == "ENGINEER";
 }
-<aside id="appNavigation" class="app-navigation">
-    <nav aria-label="Điều hướng chính">
-        <a class="brand" href="@Url.Action("Index", "Home")"><span class="brand-mark" aria-hidden="true">+</span><span>Thiết bị y tế</span></a>
-        @Html.ActionLink("Tổng quan", "Index", "Home")
-        @Html.ActionLink("Thiết bị", "Index", "Equipment")
-        @Html.ActionLink("Phiếu sửa chữa", "Index", "WorkOrder")
-        @* Menu theo vai trò giúp điều hướng. Controller vẫn xác minh quyền ở server. *@
-        @if (manage)
-        {
-            <details open><summary>Danh mục và kho</summary>
-                @Html.ActionLink("Danh mục thiết bị", "Index", "Category")
-                @Html.ActionLink("Nhà cung cấp", "Index", "Supplier")
-                @Html.ActionLink("Mẫu thiết bị", "Index", "EquipmentModel")
-                @Html.ActionLink("Kho và điều chuyển", "Index", "Inventory")
-                @if (role == "ADMIN")
+<header class="navbar">
+    <nav class="navbar-inner container" aria-label="Điều hướng chính">
+        <a class="brand" href="@Url.Action("Index", "Home")"><span class="brand-mark" aria-hidden="true">+</span>Thiết bị y tế</a>
+        <button type="button" id="navToggle" aria-controls="appNavigation" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg> Menu
+        </button>
+        <div id="appNavigation" class="nav-links">
+            @Html.ActionLink(role == null ? "Trang chủ" : "Tổng quan", "Index", "Home")
+            @if (role == null)
+            {
+                @Html.ActionLink("Giới thiệu", "About", "Home")
+                @Html.ActionLink("Đăng nhập", "Login", "Account")
+            }
+            else
+            {
+                @Html.ActionLink("Thiết bị", "Index", "Equipment")
+                @Html.ActionLink("Phiếu sửa chữa", "Index", "WorkOrder")
+                @* Các nhóm chỉ liệt kê đích đến được phép. Controller xác minh lại quyền khi truy cập. *@
+                if (manage)
                 {
-                    @Html.ActionLink("Phòng ban", "Index", "Department")
+                    <details><summary>Danh mục</summary>
+                        <div class="nav-panel">
+                            @Html.ActionLink("Danh mục thiết bị", "Index", "Category")
+                            @Html.ActionLink("Nhà cung cấp", "Index", "Supplier")
+                            @Html.ActionLink("Mẫu thiết bị", "Index", "EquipmentModel")
+                            @if (role == "ADMIN")
+                            {
+                                @Html.ActionLink("Phòng ban", "Index", "Department")
+                            }
+                        </div>
+                    </details>
+                    <details><summary>Kho</summary><div class="nav-panel">@Html.ActionLink("Kho và điều chuyển", "Index", "Inventory")</div></details>
                 }
-            </details>
-        }
-        @if (technical)
-        {
-            <details><summary>Kỹ thuật</summary>
-                @Html.ActionLink("Bảo trì", "Index", "Maintenance")
-                @Html.ActionLink("Hiệu chuẩn", "Index", "Calibration")
-            </details>
-        }
-        <details><summary>Tài khoản</summary>
-            <p class="navigation-account">@name <span>@role</span></p>
-            @if (role == "ADMIN")
-            {
-                @Html.ActionLink("Quản lý tài khoản", "Index", "UserAdmin")
+                if (technical)
+                {
+                    <details><summary>Kỹ thuật</summary>
+                        <div class="nav-panel">
+                            @Html.ActionLink("Bảo trì", "Index", "Maintenance")
+                            @Html.ActionLink("Hiệu chuẩn", "Index", "Calibration")
+                        </div>
+                    </details>
+                }
+                <details><summary>Tài khoản</summary>
+                    <div class="nav-panel">
+                        <p class="navigation-account">@name <span>@role</span></p>
+                        @if (role == "ADMIN")
+                        {
+                            @Html.ActionLink("Quản lý tài khoản", "Index", "UserAdmin")
+                        }
+                        @Html.ActionLink("Đổi mật khẩu", "ChangePassword", "Account")
+                        @using (Html.BeginForm("Logout", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-ghost">Đăng xuất</button>
+                        }
+                    </div>
+                </details>
             }
-            @Html.ActionLink("Đổi mật khẩu", "ChangePassword", "Account")
-            @using (Html.BeginForm("Logout", "Account", FormMethod.Post))
-            {
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-ghost">Đăng xuất</button>
-            }
-        </details>
+        </div>
     </nav>
-</aside>
+</header>

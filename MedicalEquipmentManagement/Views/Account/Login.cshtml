@@ -2,12 +2,20 @@
 @{ ViewBag.Title = "Đăng nhập"; }
 <section class="login-wrap">
     <div class="login-visual">
-        <span class="brand-mark" aria-hidden="true">+</span>
-        <h2>Quản lý thiết bị y tế</h2>
+        @* Minh họa SVG cục bộ của giao diện gốc, trang đăng nhập vẫn dùng được ngoại tuyến. *@
+        <svg class="login-visual-art" viewBox="0 0 260 150" fill="none" stroke="currentColor"
+             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="14" y="14" width="176" height="110" rx="10" />
+            <path d="M28 74h34l9-16 11 34 12-46 10 28 7-12h41M102 124v14M70 138h64" />
+            <path d="M208 30v22a20 20 0 0 1-40 0V30M168 30h-6M208 30h6M188 72v14a16 16 0 0 0 32 0v-6" />
+            <circle cx="220" cy="74" r="7" />
+        </svg>
+        <h2>Cổng quản trị thiết bị y tế</h2>
         <p>Theo dõi tài sản, điều chuyển, sửa chữa và lịch kỹ thuật.</p>
     </div>
     <div class="login-form">
         <h1>Đăng nhập</h1>
+        <p class="login-intro">Dùng tài khoản được cấp bởi quản trị hệ thống.</p>
         @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { novalidate = "novalidate" }))
         {
             @Html.AntiForgeryToken()
@@ -25,7 +33,8 @@
                 </div>
                 @Html.ValidationMessage("password")
             </div>
-            <button class="btn btn-primary" type="submit">Đăng nhập</button>
+            <button class="btn btn-primary btn-block" type="submit">Đăng nhập</button>
         }
+        <p class="login-note">Quên mật khẩu? Liên hệ quản trị viên hệ thống của đơn vị.</p>
     </div>
 </section>

@@ -27,40 +27,54 @@ window.addEventListener("pageshow", () => {
     });
 });
 
-// Đồng bộ nút Menu với trạng thái thật của Sidebar và trả tiêu điểm khi đóng bằng Escape.
-const shell = document.querySelector(".app-authenticated");
+// Navbar ngang dùng details để Enter và Space mở từng nhóm bằng hành vi gốc của trình duyệt.
 const navigation = document.getElementById("appNavigation");
 const navigationToggle = document.getElementById("navToggle");
-if (shell && navigation && navigationToggle) {
-    const smallScreen = matchMedia("(max-width: 900px)");
-    const setNavigation = (open) => {
-        shell.dataset.nav = open ? "open" : "closed";
+if (navigation && navigationToggle) {
+    const navbar = navigation.closest(".navbar");
+    const compact = matchMedia("(max-width: 60rem)");
+    const groups = Array.from(navigation.querySelectorAll("details"));
+    const closeGroups = (except) => groups.forEach(group => {
+        if (group !== except) group.open = false;
+    });
+    const setMenu = (open) => {
         navigationToggle.setAttribute("aria-expanded", String(open));
+        if (!open) closeGroups();
     };
 
-    const current = navigation.querySelector('a[href="' + location.pathname + '"]');
-    if (current) {
-        current.setAttribute("aria-current", "page");
-        const group = current.closest("details");
-        if (group) group.open = true;
-    }
-    setNavigation(!smallScreen.matches);
-    smallScreen.addEventListener("change", () => setNavigation(!smallScreen.matches));
+    navbar.classList.add("has-toggle");
+    const current = Array.from(navigation.querySelectorAll("a")).find(link => link.pathname === location.pathname);
+    if (current) current.setAttribute("aria-current", "page");
+
     navigationToggle.addEventListener("click", () => {
-        const opening = navigationToggle.getAttribute("aria-expanded") !== "true";
-        setNavigation(opening);
-        if (opening && smallScreen.matches) navigation.querySelector("a").focus();
+        const open = navigationToggle.getAttribute("aria-expanded") !== "true";
+        setMenu(open);
+        if (open) navigation.querySelector("a").focus();
     });
-    document.querySelector("[data-nav-close]").addEventListener("click", () => {
-        setNavigation(false);
-        navigationToggle.focus();
+    // Bàn phím cũng kích hoạt click trên summary. Đóng nhóm cũ trước khi trình duyệt mở nhóm mới.
+    groups.forEach(group => {
+        group.querySelector("summary").addEventListener("click", () => closeGroups(group));
     });
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && smallScreen.matches && shell.dataset.nav === "open") {
-            setNavigation(false);
+
+    // Escape đóng nhóm trong cùng trước. Khi đóng Menu di động, đưa tiêu điểm về nút đã mở.
+    navbar.addEventListener("keydown", event => {
+        if (event.key !== "Escape") return;
+        const group = groups.find(item => item.open);
+        if (group) {
+            group.open = false;
+            group.querySelector("summary").focus();
+        } else if (compact.matches && navigationToggle.getAttribute("aria-expanded") === "true") {
+            setMenu(false);
             navigationToggle.focus();
         }
     });
+    document.addEventListener("click", event => {
+        if (!navbar.contains(event.target)) setMenu(false);
+    });
+    navbar.addEventListener("focusout", event => {
+        if (event.relatedTarget && !navbar.contains(event.relatedTarget)) setMenu(false);
+    });
+    compact.addEventListener("change", () => setMenu(false));
 }
 
 // Chỉ thay kiểu hiển thị. Giá trị mật khẩu, tên trường và CSRF giữ nguyên khi gửi.
