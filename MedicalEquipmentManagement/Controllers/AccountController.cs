@@ -52,6 +52,7 @@ namespace MedicalEquipmentManagement.Controllers
                 Session["FullName"] = user.FullName;
                 Session["RoleCode"] = user.Role.RoleCode;
                 Session["Credential"] = PasswordHasher.SessionCredential(user.PasswordHash);
+                SessionAccount.BindLogin(HttpContext);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -66,6 +67,7 @@ namespace MedicalEquipmentManagement.Controllers
         {
             Session.Clear();
             Session.Abandon();
+            SessionAccount.ExpireLogin(HttpContext);
             return RedirectToAction("Login", "Account");
         }
 
@@ -92,6 +94,8 @@ namespace MedicalEquipmentManagement.Controllers
             if (!ModelState.IsValid)
                 return View(input);
             var account = db.Users.Find((int)Session["UserId"]);
+            if (account == null)
+                return HttpNotFound();
             var previousHash = account.PasswordHash;
             if (!PasswordHasher.Verify(input.CurrentPassword, previousHash))
             {

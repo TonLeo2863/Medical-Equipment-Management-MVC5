@@ -21,7 +21,8 @@ namespace MedicalEquipmentManagement.Controllers
                 var role = SessionAccount.GetRole(Session, db);
                 if (role == null)
                 {
-                    Session.Clear();
+                    if (SessionAccount.HasBinding(HttpContext))
+                        Session.Clear();
                     return View();
                 }
                 var userId = (int)Session["UserId"];

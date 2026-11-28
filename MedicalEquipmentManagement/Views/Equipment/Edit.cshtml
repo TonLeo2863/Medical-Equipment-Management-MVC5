@@ -62,7 +62,7 @@
 
         <div class="field">
             @Html.LabelFor(m => m.PurchasePrice)
-            @Html.TextBoxFor(m => m.PurchasePrice, new { type = "number", step = "1000", min = "0", @class = "search-input" })
+            @Html.TextBoxFor(m => m.PurchasePrice, new { type = "number", step = "0.01", min = "0", @class = "search-input" })
             @Html.ValidationMessageFor(m => m.PurchasePrice, "", new { style = "color: var(--color-danger); font-size: 12px;" })
         </div>
 

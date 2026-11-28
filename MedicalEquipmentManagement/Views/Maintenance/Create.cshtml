@@ -1,4 +1,4 @@
-@model MedicalEquipmentManagement.Models.MaintenanceRecord
+﻿@model MedicalEquipmentManagement.Models.MaintenanceRecord
 
 @{
     ViewBag.Title = "Lập Phiếu Bảo Trì / Sửa Chữa Thiết Bị";
@@ -69,7 +69,7 @@
 
         <div class="field">
             @Html.LabelFor(m => m.Cost)
-            @Html.TextBoxFor(m => m.Cost, new { type = "number", min = "0", step = "1000", placeholder = "Ví dụ: 500000 (để trống nếu bảo hành/miễn phí)", @class = "search-input", style = "border-radius: var(--radius-sm);" })
+            @Html.TextBoxFor(m => m.Cost, new { type = "number", min = "0", step = "0.01", placeholder = "Ví dụ: 500000 (để trống nếu bảo hành/miễn phí)", @class = "search-input", style = "border-radius: var(--radius-sm);" })
             @Html.ValidationMessageFor(m => m.Cost, "", new { style = "color: var(--color-danger); font-size: 12px; margin-top: 4px; display: block;" })
         </div>
 

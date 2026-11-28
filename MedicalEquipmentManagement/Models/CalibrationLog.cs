@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,27 +13,27 @@ namespace MedicalEquipmentManagement.Models
         }
 
         [Key]
-        [Display(Name = "Mã kiểm định")]
+        [Display(Name = "Mã hiệu chuẩn")]
         public int CalibrationId { get; set; }
 
         [Required(ErrorMessage = "Vui lòng chọn thiết bị")]
         [Display(Name = "Thiết bị")]
         public int AssetId { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng chọn ngày kiểm định")]
+        [Required(ErrorMessage = "Vui lòng chọn ngày hiệu chuẩn")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Ngày kiểm định")]
+        [Display(Name = "Ngày hiệu chuẩn")]
         public DateTime CalibrationDate { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Hạn kiểm định tiếp theo")]
+        [Display(Name = "Hạn hiệu chuẩn tiếp theo")]
         public DateTime? NextCalibrationDate { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập kết quả")]
         [StringLength(50)]
-        [Display(Name = "Kết quả kiểm định")]
+        [Display(Name = "Kết quả hiệu chuẩn")]
         public string Result { get; set; } // Đạt / Không đạt
 
         [Required(ErrorMessage = "Vui lòng nhập đơn vị hoặc người thực hiện")]

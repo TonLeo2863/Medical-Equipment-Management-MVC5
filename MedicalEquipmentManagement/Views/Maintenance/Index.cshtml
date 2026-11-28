@@ -14,9 +14,10 @@
             <a href="@Url.Action("Upcoming")" class="btn" style="background: rgba(255, 149, 0, 0.12); color: var(--color-warning); font-weight: 600;">
                 ⚠ Sắp đến hạn (@ViewBag.UpcomingCount)
             </a>
-            <a href="@Url.Action("Create")" class="btn btn-primary">
-                + Thêm phiếu bảo trì
-            </a>
+            @if ((string)Session["RoleCode"] != "MANAGER")
+            {
+                <a href="@Url.Action("Create")" class="btn btn-primary">Thêm phiếu bảo trì</a>
+            }
         </div>
     </div>
 </div>

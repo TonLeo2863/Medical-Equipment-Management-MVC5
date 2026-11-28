@@ -21,7 +21,8 @@ namespace MedicalEquipmentManagement.Filters
                 roleCode = SessionAccount.GetRole(session, db);
             if (string.IsNullOrEmpty(roleCode))
             {
-                session?.Clear();
+                if (SessionAccount.HasBinding(filterContext.HttpContext))
+                    session.Clear();
                 filterContext.Result = new RedirectToRouteResult(
                     new RouteValueDictionary(new { controller = "Account", action = "Login" })
                 );

@@ -1,5 +1,5 @@
 ﻿@{
-    var role = Session["RoleCode"] as string;
+    var role = MedicalEquipmentManagement.Helpers.SessionAccount.HasBinding(ViewContext.HttpContext) ? Session["RoleCode"] as string : null;
     var name = Session["FullName"] as string;
     var manage = role == "ADMIN" || role == "MANAGER";
     var technical = manage || role == "ENGINEER";
