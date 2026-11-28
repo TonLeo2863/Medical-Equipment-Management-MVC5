@@ -15,3 +15,5 @@ Nền `origin/beta-projects` tại `c9ce363d4aae4ec690054c366f798cfa63ee9d24`. N
 | 8 | Tài liệu và Git | Traceability, báo cáo QA, hướng dẫn, kế hoạch nhánh và push mốc ổn định. |
 
 Tiến độ thực tế cập nhật trong [FINAL_PROGRESS.md](../FINAL_PROGRESS.md). Kết quả Beta là dữ liệu tham chiếu cho hồi quy.
+
+Mốc triển khai đã có trên nhánh phát hành. Debug, Release, Razor và hồi quy tích hợp 207 ca đã đạt. Các điều kiện cần thêm bằng chứng trước khi công nhận Final Candidate được ghi tại báo cáo QA. [Kết quả kiểm thử](../QA/FINAL_TEST_REPORT.md)

@@ -66,7 +66,7 @@ Các đường dẫn mã nguồn trong bảng được tính từ thư mục `Me
 
 ## Luồng nghiệp vụ và vị trí triển khai
 
-1. Đăng nhập gửi Cookie và token từ `Views/Account/Login.cshtml`. `AccountController` tra người dùng và `PasswordHasher` xác minh PBKDF2. Sau đăng nhập, `SessionAccount` đọc lại vai trò, trạng thái và dấu vết hash để phiên cũ mất hiệu lực khi quyền thay đổi.
+1. Đăng nhập gửi Cookie và token từ `Views/Account/Login.cshtml`. `AccountController` tra người dùng và `PasswordHasher` xác minh PBKDF2. `SessionAccount` yêu cầu Cookie HttpOnly gắn với lần đăng nhập, rồi đọc lại vai trò, trạng thái và dấu vết hash để phiên cũ mất hiệu lực khi quyền thay đổi.
 2. Tạo hay sửa tài sản đi qua `EquipmentAssetViewModel`. `EquipmentPolicy` chia sẻ kiểm tra với API. Tài sản chưa phân bổ có thể được gán lần đầu; tài sản đã phân bổ phải dùng `InventoryController.Transfer`.
 3. Điều chuyển khóa dòng thiết bị trước khi đọc vị trí. Transaction ghi khoa mới, phiếu và giao dịch kho rồi Commit. Khi kiểm tra hoặc lưu thất bại, transaction bị hủy. Mỗi dòng tài sản đại diện một thiết bị.
 4. Báo hỏng dùng Session để xác định người báo. Phiếu tạo với `Guid` và trạng thái chờ. Khi kỹ sư hoàn tất, hệ thống kiểm phiếu khác và kết quả hiệu chuẩn trước khi cập nhật tình trạng tài sản.

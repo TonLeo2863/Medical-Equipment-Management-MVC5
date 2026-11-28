@@ -8,3 +8,12 @@
 | [#4 · Dashboard và Web API](https://github.com/TonLeo2863/Medical-Equipment-Management-MVC5/issues/4) | Dashboard dùng số dự phòng. Web API thiết bị đã có quyền và antiforgery ở Beta. | Dashboard truy vấn EF6, Chart.js cục bộ, KPI theo quyền, báo cáo chi phí, chuẩn hóa thay đổi và Postman. | Số liệu khớp SQL và thay đổi theo dữ liệu, biểu đồ và bộ lọc hoạt động, mã API đúng tình huống. |
 
 Bằng chứng chạy và phần còn thiếu được ghi theo từng ca trong báo cáo QA. Phần mở rộng chưa triển khai gồm Remember me, tự phục hồi mật khẩu, API ghi phiếu từ bên thứ ba và quan hệ trực thuộc Users–Departments.
+
+| Issue | Bằng chứng thực thi |
+|---|---|
+| #1 | Bốn vai trò QA tạm, POST logout, Session hết hạn, đổi mật khẩu và bố cục 390/768/1280 px. Còn ca ADMIN cuối cùng và đăng nhập bằng tài khoản QA có sẵn. |
+| #2 | CRUD danh mục/tài sản, chặn xóa có tham chiếu, đối chiếu phân trang, Excel và giải mã QR/Barcode đúng Serial. |
+| #3 | Điều chuyển cạnh tranh, kiểm tra rollback SQL, STAFF báo hỏng, phân công và hoàn tất, bảo trì và hiệu chuẩn với đối chiếu trạng thái. |
+| #4 | Trình duyệt render ba biểu đồ, đối chiếu số thiết bị và 12 tháng chi phí, kiểm thử mã Web API và token. Postman Desktop chưa chạy. |
+
+[Báo cáo kiểm thử](../QA/FINAL_TEST_REPORT.md)

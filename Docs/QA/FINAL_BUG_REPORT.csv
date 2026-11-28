@@ -1,0 +1,7 @@
+﻿Mã,Mức độ,Phạm vi,Trạng thái,Nguyên nhân,Thay đổi,Bằng chứng
+BETA-004,P2,Đăng nhập,Đã cải thiện và theo dõi cold,Chi phí PBKDF2 managed,Windows CNG giữ nguyên định dạng và tham số,LOGIN_BENCHMARK.md
+BETA-005,P1,Phiếu sửa chữa,Đã tái hiện HTTP 500 trên Beta và retest STAFF trên RC,ReportedBy bị dùng cho người được phân công,Tách tác nhân và lấy người báo từ Session,Logs/final-beta005-reproduction.log
+RC-001,P1,Tài sản và phân quyền,Đã triển khai,Quy tắc MVC và Web API khác nhau,Áp dụng cùng điều kiện xóa mềm và bảo toàn lịch sử,FINAL_TEST_REPORT.md
+RC-002,P2,Đăng xuất,Đã sửa và retest,MVC chuyển tới trang lỗi cho GET Logout,Trả 405 và dùng POST có token,FINAL_TEST_REPORT.md
+RC-003,P2,Kiểm thử Excel,Đã sửa và retest,Phép so dùng HTML thô,Giải mã HTML và kiểm tra SQL,Logs/final-rc-iis.log
+RC-004,P3,Kiểm thử Dashboard và danh mục,Đã sửa harness,Mảng JSON bị lồng và phép so SQL dùng nhầm tên thuộc tính EF,Đọc trực tiếp mảng JSON và sử dụng cột Name,FINAL_TEST_REPORT.md

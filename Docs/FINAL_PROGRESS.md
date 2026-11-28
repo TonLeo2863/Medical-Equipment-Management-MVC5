@@ -1,4 +1,4 @@
-# Tiến độ phát hành · Checkpoint tạm dừng
+# Tiến độ phát hành
 
 ## Nhánh và mốc Git
 
@@ -53,3 +53,16 @@
 ## Trạng thái đồng bộ
 
 Hai mốc được giữ trên nhánh phát triển. Dùng `git status --short --branch` để xem thay đổi chưa commit hoặc chênh lệch upstream, và `git ls-remote --heads origin release/final-candidate` để xác nhận SHA đã push. Trạng thái kiểm tra cuối ghi cùng kết quả lượt QA bên dưới.
+
+## Tiếp tục từ checkpoint đã lưu
+
+- Checkpoint tài liệu `6da93b6` đã push lên `origin/release/final-candidate`. Giữ commit mã nguồn `d94c4eb` làm mốc đối chiếu.
+- Xác minh lại schema BetaTest bằng truy vấn chỉ đọc. `ReporterVerified` và `AssignedToUserId` có mặt, transaction người dùng đang mở bằng 0 tại thời điểm kiểm tra. Hoàn tất dọn đúng 6 tài khoản và 2 tài sản fixture từ tiến trình QA bị ngắt, đối chiếu ID theo log và không có lịch sử liên quan. Các bộ dữ liệu nghiệp vụ và tài khoản QA cũ được giữ nguyên.
+- Bổ sung Cookie gắn với lần đăng nhập, yêu cầu đồng thời Cookie phiên và Cookie HttpOnly khi xác nhận tài khoản, cảnh báo gửi biểu mẫu và rà 113 tệp first-party ở chế độ giải mã UTF-8 nghiêm ngặt. Các regex kiểm tra phổ biến không tìm thấy dấu thay thế hoặc chuỗi mojibake đã biết.
+- Mở rộng `Run-FinalSmoke.ps1` để kiểm tra thứ tự trang, Excel hợp lệ/sai/trùng/quá lớn, API giá âm, điều chuyển đồng thời và rollback, kết quả Dashboard, quyền ghi và CRUD danh mục. Thêm kiểm tra Edge WebView2 trong `Docs/QA/Verify-Responsive.cs`.
+- Tái hiện đầy đủ BETA-005 trên bản Beta `c9ce363` tách riêng trong thư mục tạm. POST WorkOrder/Create bằng STAFF trả HTTP 500 và chuỗi DbUpdateException → UpdateException → SqlException, cột ReportedBy bắt buộc. Đã dừng IIS Beta và thu hồi fixture. [Log](QA/Logs/final-beta005-reproduction.log)
+- Mốc ứng dụng tiếp theo là `24a0244`. Lượt IIS đã có 140 dòng PASS trước khi harness dừng ở phép so tên cột ModelName. Đã sửa harness đối chiếu cột Name và tách lượt danh mục để tiếp tục ca còn thiếu. [Log](QA/Logs/final-rc-iis.log)
+- PASS lượt CRUD danh mục, phòng ban và tài sản MVC. PASS Edge WebView2 với Dashboard/Thiết bị ở 390, 768 và 1280 px, gồm điều hướng di động và biểu đồ có dữ liệu. [Log danh mục](QA/Logs/final-catalog.log) · [Log trình duyệt](QA/Logs/final-responsive.log)
+- Lượt hồi quy tích hợp cuối trên ứng dụng `24a0244` exit 0, 207 PASS. Kiểm tra Session timeout của bản sao tạm cũng đạt cả trước hạn và sau 75 giây. Không cần chạy lại migration. [Hồi quy](QA/Logs/final-integration.log) · [Session](QA/Logs/final-session-expiry.log)
+- Đối soát cuối xác nhận đúng SQL Express/BetaTest, 0 transaction người dùng, 0 tài khoản và tài sản fixture còn sót, 0 tiến trình QA/IIS do phiên này khởi chạy. Bốn khóa ngoại workflow vẫn hoạt động và được tin cậy. Số lượng tài khoản hiện hữu, số tài khoản hoạt động và số hash PBKDF2 theo vai trò khớp số liệu khảo sát.
+- Mốc chốt tài liệu bổ sung báo cáo lỗi Markdown/CSV, báo cáo kiểm thử, benchmark và ghi chú phát hành. Sau khi mở lại, kiểm tra `git status --short --branch` và đối chiếu `git ls-remote --heads origin release/final-candidate`. Bước nghiệm thu tiếp theo là xác minh tài khoản QA có sẵn qua kênh riêng, ca ADMIN duy nhất trên fixture được cho phép và các ca NOT RUN trong báo cáo. [Báo cáo QA](QA/FINAL_TEST_REPORT.md)
