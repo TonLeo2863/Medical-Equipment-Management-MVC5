@@ -43,9 +43,16 @@ namespace MedicalEquipmentManagement.Models
         [Display(Name = "Kết quả xử lý")]
         public string ResultStatus { get; set; }
 
-        [NotMapped]
         [Display(Name = "Mã sự cố (nếu có)")]
         public int? TicketId { get; set; }
+
+        public int? PerformedByUserId { get; set; }
+
+        [ForeignKey("TicketId")]
+        public virtual WorkOrder WorkOrder { get; set; }
+
+        [ForeignKey("PerformedByUserId")]
+        public virtual User PerformedBy { get; set; }
 
         [ForeignKey("AssetId")]
         public virtual EquipmentAsset EquipmentAsset { get; set; }

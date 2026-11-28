@@ -6,11 +6,13 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;
 using MedicalEquipmentManagement.Data;
+using MedicalEquipmentManagement.Helpers;
 using MedicalEquipmentManagement.Models;
 using MedicalEquipmentManagement.ViewModels;
 
 namespace MedicalEquipmentManagement.Api
 {
+    /// <summary>Cung cấp CRUD thiết bị dưới dạng JSON và kiểm tra Session, vai trò và token trên các phương thức ghi.</summary>
     [RoutePrefix("api/equipments")]
     public class EquipmentApiController : ApiController
     {
@@ -57,10 +59,18 @@ namespace MedicalEquipmentManagement.Api
             var denied = CheckAccess(true);
             if (denied != null)
                 return denied;
-            var asset = FindAsset(id);
-            if (asset == null)
-                return NotFound();
-            return SaveAsset(input, asset, false) ?? StatusCode(HttpStatusCode.NoContent);
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                db.LockAsset(id);
+                var asset = FindAsset(id);
+                if (asset == null)
+                    return NotFound();
+                var error = SaveAsset(input, asset, false);
+                if (error != null)
+                    return error;
+                transaction.Commit();
+                return StatusCode(HttpStatusCode.NoContent);
+            }
         }
 
         [HttpDelete, Route("{id:int}")]
@@ -69,15 +79,19 @@ namespace MedicalEquipmentManagement.Api
             var denied = CheckAccess(true);
             if (denied != null)
                 return denied;
-            var asset = FindAsset(id);
-            if (asset == null)
-                return NotFound();
-            if (db.MaintenanceRecords.Any(m => m.AssetId == id))
-                return Conflict();
-
-            asset.IsDeleted = true;
-            db.SaveChanges();
-            return StatusCode(HttpStatusCode.NoContent);
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                db.LockAsset(id);
+                var asset = FindAsset(id);
+                if (asset == null)
+                    return NotFound();
+                if (EquipmentPolicy.RemovalConflict(db, id) != null)
+                    return Conflict();
+                asset.IsDeleted = true;
+                db.SaveChanges();
+                transaction.Commit();
+                return StatusCode(HttpStatusCode.NoContent);
+            }
         }
 
         private EquipmentAsset FindAsset(int id)
@@ -85,19 +99,19 @@ namespace MedicalEquipmentManagement.Api
             return db.EquipmentAssets.FirstOrDefault(a => a.AssetId == id && !a.IsDeleted);
         }
 
+        /// <summary>Áp dụng validation chung với MVC. Xung đột mã định danh hoặc ràng buộc đồng thời trả HTTP 409.</summary>
         private IHttpActionResult SaveAsset(EquipmentAssetViewModel input, EquipmentAsset asset, bool isNew)
         {
             if (input == null || !ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (string.IsNullOrWhiteSpace(input.AssetCode) || string.IsNullOrWhiteSpace(input.SerialNumber)
-                || !AssetStatus.All.Contains(input.Status)
-                || !db.EquipmentModels.Any(m => m.ModelId == input.ModelId && m.IsActive)
-                || (input.DepartmentId.HasValue && !db.Departments.Any(d => d.DepartmentId == input.DepartmentId && d.IsActive)))
-                return BadRequest("Invalid asset fields or references.");
+            var fieldError = EquipmentPolicy.ValidateFields(db, input, isNew ? null : asset);
+            if (fieldError != null)
+                return BadRequest(fieldError);
+            if (!isNew && EquipmentPolicy.ValidateChange(db, input, asset) != null)
+                return Conflict();
 
             input.ApplyToEntity(asset);
-            if (db.EquipmentAssets.Any(a => a.AssetId != asset.AssetId
-                && (a.AssetCode == asset.AssetCode || a.SerialNumber == asset.SerialNumber)))
+            if (EquipmentPolicy.HasDuplicate(db, asset))
                 return Conflict();
             if (isNew)
                 db.EquipmentAssets.Add(asset);
@@ -113,14 +127,15 @@ namespace MedicalEquipmentManagement.Api
             return null;
         }
 
+        /// <summary>Trả HTTP 401 cho phiên không hợp lệ, 403 khi sai quyền và 400 khi yêu cầu ghi thiếu token chống CSRF.</summary>
         private IHttpActionResult CheckAccess(bool write)
         {
             var context = HttpContext.Current;
             var session = context?.Session;
-            if (!(session?["UserId"] is int))
+            var role = SessionAccount.GetRole(session == null ? null : new HttpSessionStateWrapper(session), db);
+            if (role == null)
                 return StatusCode(HttpStatusCode.Unauthorized);
 
-            var role = session["RoleCode"] as string;
             if (role != "ADMIN" && role != "MANAGER"
                 && (write || (role != "STAFF" && role != "ENGINEER")))
                 return StatusCode(HttpStatusCode.Forbidden);
@@ -135,7 +150,7 @@ namespace MedicalEquipmentManagement.Api
             }
             catch (System.Web.Mvc.HttpAntiForgeryException)
             {
-                return BadRequest("Invalid request verification token.");
+                return BadRequest("Token xác minh yêu cầu không hợp lệ.");
             }
         }
 

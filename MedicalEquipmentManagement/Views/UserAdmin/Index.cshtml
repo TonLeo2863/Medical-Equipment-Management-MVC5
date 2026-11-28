@@ -1,0 +1,17 @@
+﻿@model IEnumerable<MedicalEquipmentManagement.Models.User>
+@{ ViewBag.Title = "Quản lý tài khoản"; }
+<h1>@ViewBag.Title</h1>
+@Html.ActionLink("Thêm tài khoản", "Edit", null, new { @class = "btn btn-primary" })
+<div class="table-responsive">
+    <table class="table">
+        <thead><tr><th>Tên đăng nhập</th><th>Họ tên</th><th>Vai trò</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+        <tbody>
+        @foreach (var account in Model)
+        {
+            <tr><td>@account.Username</td><td>@account.FullName</td><td>@account.Role.RoleCode</td>
+                <td>@(account.IsActive ? "Hoạt động" : "Vô hiệu hóa")</td>
+                <td>@Html.ActionLink("Sửa", "Edit", new { id = account.UserId }) · @Html.ActionLink("Đặt lại mật khẩu", "ResetPassword", new { id = account.UserId })</td></tr>
+        }
+        </tbody>
+    </table>
+</div>

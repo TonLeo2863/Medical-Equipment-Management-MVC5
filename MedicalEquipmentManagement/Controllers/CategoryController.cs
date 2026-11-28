@@ -19,7 +19,6 @@ namespace MedicalEquipmentManagement.Controllers
     {
         private readonly MedicalEquipmentContext db = new MedicalEquipmentContext();
 
-        // GET: Category
         public ActionResult Index(string keyword)
         {
             var query = db.EquipmentCategories
@@ -39,7 +38,6 @@ namespace MedicalEquipmentManagement.Controllers
             });
         }
 
-        // GET: Category/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -59,13 +57,11 @@ namespace MedicalEquipmentManagement.Controllers
             return View(category);
         }
 
-        // GET: Category/Create
         public ActionResult Create()
         {
             return View(new EquipmentCategory { IsActive = true });
         }
 
-        // POST: Category/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CategoryCode,Name,IsActive")] EquipmentCategory category)
@@ -99,7 +95,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(category);
         }
 
-        // GET: Category/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -116,7 +111,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(category);
         }
 
-        // POST: Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CategoryId,CategoryCode,Name,IsActive")] EquipmentCategory category)
@@ -160,7 +154,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(category);
         }
 
-        // GET: Category/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -180,7 +173,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(category);
         }
 
-        // POST: Category/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

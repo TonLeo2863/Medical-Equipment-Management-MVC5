@@ -6,15 +6,16 @@ using System.Net;
 using System.Web.Mvc;
 using MedicalEquipmentManagement.Data;
 using MedicalEquipmentManagement.Models;
+using MedicalEquipmentManagement.Helpers;
 
 namespace MedicalEquipmentManagement.Controllers
 {
+    /// <summary>Ghi nhận lịch sử bảo trì, chi phí, người thực hiện và lịch tiếp theo của từng thiết bị.</summary>
     [CustomAuthorize(Roles = "ADMIN,MANAGER,ENGINEER")]
     public class MaintenanceController : Controller
     {
         private readonly MedicalEquipmentContext db = new MedicalEquipmentContext();
 
-        // GET: Maintenance - Danh sách phiếu bảo trì
         public ActionResult Index(string resultStatus, string type, string keyword)
         {
             var query = db.MaintenanceRecords
@@ -51,10 +52,7 @@ namespace MedicalEquipmentManagement.Controllers
             // Đếm thiết bị sắp đến hạn bảo trì trong vòng 30 ngày
             var today = DateTime.Today;
             var upcomingLimit = today.AddDays(30);
-            ViewBag.UpcomingCount = db.MaintenanceRecords
-                .Where(m => m.NextMaintenanceDate.HasValue && m.NextMaintenanceDate.Value <= upcomingLimit)
-                .Select(m => m.AssetId)
-                .Distinct()
+            ViewBag.UpcomingCount = DueMaintenance(upcomingLimit)
                 .Count();
 
             ViewBag.CurrentResult = resultStatus;
@@ -64,10 +62,11 @@ namespace MedicalEquipmentManagement.Controllers
             return View(records);
         }
 
-        // GET: Maintenance/Create
+        [HttpGet, CustomAuthorize(Roles = "ADMIN,ENGINEER")]
         public ActionResult Create(int? assetId)
         {
             var assetList = db.EquipmentAssets
+                .Where(a => !a.IsDeleted && a.Status != AssetStatus.Liquidated)
                 .Include(a => a.EquipmentModel)
                 .Include(a => a.Department)
                 .ToList()
@@ -78,6 +77,7 @@ namespace MedicalEquipmentManagement.Controllers
                 });
 
             ViewBag.AssetId = new SelectList(assetList, "AssetId", "DisplayName", assetId);
+            LoadTickets(null);
 
             var model = new MaintenanceRecord
             {
@@ -95,35 +95,57 @@ namespace MedicalEquipmentManagement.Controllers
             return View(model);
         }
 
-        // POST: Maintenance/Create
+        /// <summary>Lưu bảo trì và đánh giá lại trạng thái tài sản trong cùng transaction. Phiếu liên kết phải thuộc đúng thiết bị.</summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [CustomAuthorize(Roles = "ADMIN,ENGINEER")]
         public ActionResult Create([Bind(Include = "AssetId,MaintenanceType,MaintenanceDate,NextMaintenanceDate,Description,Cost,ResultStatus,TicketId")] MaintenanceRecord record)
         {
+            if (record.MaintenanceDate == DateTime.MinValue || record.MaintenanceDate > DateTime.Today)
+                ModelState.AddModelError(nameof(record.MaintenanceDate), "Ngày thực hiện phải có và không sau hôm nay.");
+            if (record.NextMaintenanceDate < record.MaintenanceDate)
+                ModelState.AddModelError(nameof(record.NextMaintenanceDate), "Ngày kế tiếp không được trước ngày thực hiện.");
+            if (!new[] { "Hoàn thành", "Đang xử lý", "Chờ linh kiện", "Không thể khắc phục" }.Contains(record.ResultStatus))
+                ModelState.AddModelError(nameof(record.ResultStatus), "Vui lòng chọn kết quả hợp lệ.");
             if (ModelState.IsValid)
             {
-                db.MaintenanceRecords.Add(record);
-
-                // Cập nhật trạng thái của thiết bị y tế tương ứng
-                var asset = db.EquipmentAssets.Find(record.AssetId);
-                if (asset != null)
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    if (record.ResultStatus == "Hoàn thành" || record.ResultStatus == "Đạt")
+                    db.LockAsset(record.AssetId);
+                    var asset = db.EquipmentAssets.Find(record.AssetId);
+                    var userId = (int)Session["UserId"];
+                    var isAdmin = (string)Session["RoleCode"] == "ADMIN";
+                    if (asset == null || asset.IsDeleted || asset.Status == AssetStatus.Liquidated)
+                        ModelState.AddModelError(nameof(record.AssetId), "Thiết bị không còn khả dụng.");
+                    else if (record.TicketId.HasValue && !db.WorkOrders.Any(w => w.WorkOrderId == record.TicketId
+                        && w.AssetId == record.AssetId && (w.AssignedToUserId == userId || isAdmin)))
+                        ModelState.AddModelError(nameof(record.TicketId), "Phiếu không thuộc thiết bị hoặc nằm ngoài phạm vi được phép.");
+                    else
                     {
-                        asset.Status = "Đang hoạt động";
-                    }
-                    else if (record.ResultStatus == "Đang xử lý" || record.ResultStatus == "Chờ linh kiện")
-                    {
-                        asset.Status = "Đang bảo trì";
+                        record.MaintenanceDate = record.MaintenanceDate.Date;
+                        record.NextMaintenanceDate = record.NextMaintenanceDate?.Date;
+                        record.PerformedByUserId = userId;
+                        if (!db.MaintenanceRecords.Any(m => m.AssetId == record.AssetId && m.MaintenanceDate > record.MaintenanceDate))
+                        {
+                            if (record.ResultStatus == "Không thể khắc phục")
+                                asset.Status = AssetStatus.Broken;
+                            else if (record.ResultStatus != "Hoàn thành")
+                                asset.Status = AssetStatus.Maintenance;
+                            else if (!EquipmentPolicy.HasOpenOrder(db, asset.AssetId)
+                                && !EquipmentPolicy.HasFailedCalibration(db, asset.AssetId) && !EquipmentPolicy.HasFailedRepair(db, asset.AssetId))
+                                asset.Status = AssetStatus.Active;
+                        }
+                        db.MaintenanceRecords.Add(record);
+                        db.SaveChanges();
+                        transaction.Commit();
+                        TempData["Success"] = "Đã ghi nhận bảo trì.";
+                        return RedirectToAction("Details", new { id = record.MaintenanceId });
                     }
                 }
-
-                db.SaveChanges();
-                TempData["Success"] = "Đã lưu phiếu bảo trì và cập nhật trạng thái thiết bị thành công.";
-                return RedirectToAction("Index");
             }
 
             var assetList = db.EquipmentAssets
+                .Where(a => !a.IsDeleted && a.Status != AssetStatus.Liquidated)
                 .Include(a => a.EquipmentModel)
                 .Include(a => a.Department)
                 .ToList()
@@ -134,10 +156,20 @@ namespace MedicalEquipmentManagement.Controllers
                 });
 
             ViewBag.AssetId = new SelectList(assetList, "AssetId", "DisplayName", record.AssetId);
+            LoadTickets(record.TicketId);
             return View(record);
         }
 
-        // GET: Maintenance/Details/5
+        private void LoadTickets(int? selected)
+        {
+            var userId = (int)Session["UserId"];
+            var isAdmin = (string)Session["RoleCode"] == "ADMIN";
+            var choices = db.WorkOrders.Where(w => isAdmin || w.AssignedToUserId == userId)
+                .OrderByDescending(w => w.CreatedDate)
+                .Select(w => new { w.WorkOrderId, Label = w.EquipmentAsset.AssetCode + " · " + w.TicketCode }).ToList();
+            ViewBag.Tickets = new SelectList(choices, "WorkOrderId", "Label", selected);
+        }
+
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -148,6 +180,8 @@ namespace MedicalEquipmentManagement.Controllers
             var record = db.MaintenanceRecords
                 .Include(m => m.EquipmentAsset.EquipmentModel)
                 .Include(m => m.EquipmentAsset.Department)
+                .Include(m => m.PerformedBy)
+                .Include(m => m.WorkOrder)
                 .FirstOrDefault(m => m.MaintenanceId == id.Value);
 
             if (record == null)
@@ -158,17 +192,15 @@ namespace MedicalEquipmentManagement.Controllers
             return View(record);
         }
 
-        // GET: Maintenance/Upcoming - Lọc thiết bị sắp đến hạn bảo trì (hỗ trợ lọc 15 ngày, 30 ngày)
         public ActionResult Upcoming(int? days)
         {
-            var maxDays = days.HasValue && days.Value > 0 ? days.Value : 30;
+            var maxDays = days == 15 ? 15 : 30;
             var today = DateTime.Today;
             var limitDate = today.AddDays(maxDays);
 
-            var upcomingList = db.MaintenanceRecords
+            var upcomingList = DueMaintenance(limitDate)
                 .Include(m => m.EquipmentAsset.EquipmentModel)
                 .Include(m => m.EquipmentAsset.Department)
-                .Where(m => m.NextMaintenanceDate.HasValue && m.NextMaintenanceDate.Value <= limitDate)
                 .OrderBy(m => m.NextMaintenanceDate)
                 .ToList();
 
@@ -177,7 +209,12 @@ namespace MedicalEquipmentManagement.Controllers
             return View(upcomingList);
         }
 
-        // GET: Maintenance/DeviceHistory/5 - Xem toàn bộ lịch sử bảo trì & điều chuyển của thiết bị
+        private IQueryable<MaintenanceRecord> DueMaintenance(DateTime deadline)
+        {
+            return db.LatestMaintenance().Where(m => m.NextMaintenanceDate.HasValue && m.NextMaintenanceDate <= deadline
+                && !m.EquipmentAsset.IsDeleted && m.EquipmentAsset.Status != AssetStatus.Liquidated);
+        }
+
         public ActionResult DeviceHistory(int id)
         {
             var asset = db.EquipmentAssets
@@ -207,9 +244,15 @@ namespace MedicalEquipmentManagement.Controllers
                 .ToList();
 
             // 3. Lịch sử phiếu báo hỏng
-            ViewBag.WorkOrders = db.WorkOrders
+            var orders = db.WorkOrders
                 .Include(w => w.AssignedUser)
-                .Where(w => w.AssetId == id)
+                .Where(w => w.AssetId == id);
+            if ((string)Session["RoleCode"] == "ENGINEER")
+            {
+                var engineerId = (int)Session["UserId"];
+                orders = orders.Where(w => w.AssignedToUserId == engineerId);
+            }
+            ViewBag.WorkOrders = orders
                 .OrderByDescending(w => w.CreatedDate)
                 .ToList();
 

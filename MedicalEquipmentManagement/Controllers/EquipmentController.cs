@@ -1,10 +1,11 @@
-using MedicalEquipmentManagement.Filters;
+﻿using MedicalEquipmentManagement.Filters;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -32,7 +33,6 @@ namespace MedicalEquipmentManagement.Controllers
         // ============================================================
         // 1. DANH SÁCH THIẾT BỊ: TÌM KIẾM + LỌC (KHOA/TRẠNG THÁI) + PHÂN TRANG
         // ============================================================
-        // GET: Equipment
         public ActionResult Index(string keyword, int? departmentId, string status, string sortBy = "code", string sortDir = "asc", int page = 1)
         {
             const int pageSize = 8;
@@ -123,7 +123,6 @@ namespace MedicalEquipmentManagement.Controllers
         // ============================================================
         // 2. XEM CHI TIẾT THIẾT BỊ + QR CODE / BARCODE + LỊCH SỬ BẢO TRÌ
         // ============================================================
-        // GET: Equipment/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -143,13 +142,25 @@ namespace MedicalEquipmentManagement.Controllers
                 return HttpNotFound();
             }
 
+            var role = (string)Session["RoleCode"];
+            var userId = (int)Session["UserId"];
+            var orders = db.WorkOrders.Where(w => w.AssetId == asset.AssetId);
+            if (role == "STAFF")
+                orders = orders.Where(w => w.ReporterVerified && w.ReportedByUserId == userId);
+            else if (role == "ENGINEER")
+                orders = orders.Where(w => w.AssignedToUserId == userId);
+            ViewBag.WorkOrderHistory = orders.OrderByDescending(w => w.CreatedDate).ToList();
+            ViewBag.CalibrationHistory = db.CalibrationLogs.Where(c => c.AssetId == asset.AssetId)
+                .OrderByDescending(c => c.CalibrationDate).ThenByDescending(c => c.CalibrationId).ToList();
+            ViewBag.TransferHistory = db.AssetTransfers.Include(t => t.FromDepartment).Include(t => t.ToDepartment)
+                .Where(t => t.AssetId == asset.AssetId).OrderByDescending(t => t.TransferDate).ThenByDescending(t => t.TransferId).ToList();
             return View(asset);
         }
 
         // ============================================================
         // 3. THÊM MỚI THIẾT BỊ (BẮT BUỘC DÙNG EquipmentAssetViewModel)
         // ============================================================
-        // GET: Equipment/Create
+        [HttpGet, CustomAuthorize(Roles = "ADMIN,MANAGER")]
         public ActionResult Create(int? modelId, int? departmentId)
         {
             var vm = new EquipmentAssetViewModel
@@ -164,11 +175,13 @@ namespace MedicalEquipmentManagement.Controllers
             return View(vm);
         }
 
-        // POST: Equipment/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [CustomAuthorize(Roles = "ADMIN,MANAGER")]
         public ActionResult Create(EquipmentAssetViewModel vm)
         {
+            vm.AssetId = 0;
+            ValidateAssetFields(vm, null);
             ValidateAssetUniqueness(vm);
 
             if (ModelState.IsValid)
@@ -177,7 +190,11 @@ namespace MedicalEquipmentManagement.Controllers
                 vm.ApplyToEntity(asset);
 
                 db.EquipmentAssets.Add(asset);
-                db.SaveChanges();
+                if (!SaveAsset())
+                {
+                    PopulateFormDropdownLists(vm);
+                    return View(vm);
+                }
 
                 TempData["Success"] = $"Đã thêm thiết bị [{asset.AssetCode}] (Số Serial: {asset.SerialNumber}) thành công.";
                 return RedirectToAction("Index");
@@ -190,7 +207,7 @@ namespace MedicalEquipmentManagement.Controllers
         // ============================================================
         // 4. SỬA THIẾT BỊ (BẮT BUỘC DÙNG EquipmentAssetViewModel)
         // ============================================================
-        // GET: Equipment/Edit/5
+        [HttpGet, CustomAuthorize(Roles = "ADMIN,MANAGER")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -205,32 +222,45 @@ namespace MedicalEquipmentManagement.Controllers
             }
 
             var vm = EquipmentAssetViewModel.FromEntity(asset);
+            ViewBag.FixedDepartment = asset.DepartmentId.HasValue ? asset.Department?.Name : null;
             PopulateFormDropdownLists(vm);
             return View(vm);
         }
 
-        // POST: Equipment/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [CustomAuthorize(Roles = "ADMIN,MANAGER")]
         public ActionResult Edit(EquipmentAssetViewModel vm)
         {
-            ValidateAssetUniqueness(vm);
-
-            if (ModelState.IsValid)
+            using (var transaction = db.Database.BeginTransaction())
             {
+                db.LockAsset(vm.AssetId);
                 var asset = FindActiveAsset(vm.AssetId);
                 if (asset == null)
-                {
                     return HttpNotFound();
+
+                ViewBag.FixedDepartment = asset.DepartmentId.HasValue ? asset.Department?.Name : null;
+                ValidateAssetFields(vm, asset);
+                ValidateAssetUniqueness(vm);
+                var changeError = EquipmentPolicy.ValidateChange(db, vm, asset);
+                if (changeError != null)
+                    ModelState.AddModelError("", changeError);
+                if (ModelState.IsValid)
+                {
+                    vm.ApplyToEntity(asset);
+                    if (SaveAsset())
+                    {
+                        transaction.Commit();
+                        TempData["Success"] = $"Đã cập nhật thiết bị [{asset.AssetCode}].";
+                        return RedirectToAction("Index");
+                    }
                 }
-
-                vm.ApplyToEntity(asset);
-                db.SaveChanges();
-
-                TempData["Success"] = $"Đã cập nhật thiết bị [{asset.AssetCode}] (Số Serial: {asset.SerialNumber}) thành công.";
-                return RedirectToAction("Index");
+                if (asset.DepartmentId.HasValue)
+                {
+                    ModelState.Remove(nameof(vm.DepartmentId));
+                    vm.DepartmentId = asset.DepartmentId;
+                }
             }
-
             PopulateFormDropdownLists(vm);
             return View(vm);
         }
@@ -238,7 +268,7 @@ namespace MedicalEquipmentManagement.Controllers
         // ============================================================
         // 5. XÓA THIẾT BỊ & BẮT LỖI KHÓA NGOẠI LỊCH SỬ BẢO TRÌ THÂN THIỆN
         // ============================================================
-        // GET: Equipment/Delete/5
+        [HttpGet, CustomAuthorize(Roles = "ADMIN,MANAGER")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -260,51 +290,34 @@ namespace MedicalEquipmentManagement.Controllers
             return View(asset);
         }
 
-        // POST: Equipment/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [CustomAuthorize(Roles = "ADMIN,MANAGER")]
         public ActionResult DeleteConfirmed(int id)
         {
-            var asset = db.EquipmentAssets
-                .Include(a => a.EquipmentModel)
-                .Include(a => a.MaintenanceRecords)
-                .FirstOrDefault(a => a.AssetId == id && !a.IsDeleted);
-
-            if (asset == null)
+            using (var transaction = db.Database.BeginTransaction())
             {
-                return HttpNotFound();
-            }
-
-            // Kiểm tra lịch sử bảo trì và bắt lỗi khóa ngoại (Do DB chặn Cascade Delete)
-            int maintenanceCount = asset.MaintenanceRecords != null ? asset.MaintenanceRecords.Count : 0;
-            if (maintenanceCount > 0)
-            {
-                TempData["Error"] =
-                    $"Không thể xóa thiết bị [{asset.AssetCode}] (Số Serial: {asset.SerialNumber}) vì thiết bị đang có {maintenanceCount} lịch sử bảo trì. " +
-                    "Do cơ sở dữ liệu chặn xóa dây chuyền (Cascade Delete), vui lòng chuyển trạng thái thiết bị sang 'Đã thanh lý' thay vì xóa.";
-
-                return RedirectToAction("Index");
-            }
-
-            try
-            {
-                db.EquipmentAssets.Remove(asset);
+                db.LockAsset(id);
+                var asset = FindActiveAsset(id);
+                if (asset == null)
+                    return HttpNotFound();
+                var conflict = EquipmentPolicy.RemovalConflict(db, id);
+                if (conflict != null)
+                {
+                    TempData["Error"] = conflict;
+                    return RedirectToAction("Index");
+                }
+                asset.IsDeleted = true;
                 db.SaveChanges();
-                TempData["Success"] = $"Đã xóa thiết bị [{asset.AssetCode}] (Số Serial: {asset.SerialNumber}) thành công.";
+                transaction.Commit();
+                TempData["Success"] = $"Đã xóa mềm thiết bị [{asset.AssetCode}].";
             }
-            catch (DbUpdateException ex) when (DbErrorHelper.IsForeignKeyViolation(ex))
-            {
-                TempData["Error"] =
-                    $"Không thể xóa thiết bị [{asset.AssetCode}] (Số Serial: {asset.SerialNumber}) vì thiết bị đang có dữ liệu lịch sử bảo trì / vận hành liên kết trong CSDL.";
-            }
-
             return RedirectToAction("Index");
         }
 
         // ============================================================
         // 6. PHẦN MỞ RỘNG: TỰ ĐỘNG SINH QR CODE & BARCODE TỪ SỐ SERIAL
         // ============================================================
-        // GET: Equipment/QrCode/5
         public ActionResult QrCode(int id)
         {
             var asset = FindActiveAsset(id);
@@ -317,7 +330,6 @@ namespace MedicalEquipmentManagement.Controllers
             return File(pngBytes, "image/png");
         }
 
-        // GET: Equipment/Barcode/5
         public ActionResult Barcode(int id)
         {
             var asset = FindActiveAsset(id);
@@ -326,6 +338,8 @@ namespace MedicalEquipmentManagement.Controllers
                 return HttpNotFound();
             }
 
+            if (!BarcodeQrHelper.CanEncodeCode128(asset.SerialNumber))
+                return new HttpStatusCodeResult(422, "Legacy serial cannot be encoded with Code 128 B.");
             byte[] pngBytes = BarcodeQrHelper.GenerateCode128BarcodePng(asset.SerialNumber, asset.AssetCode);
             return File(pngBytes, "image/png");
         }
@@ -333,15 +347,15 @@ namespace MedicalEquipmentManagement.Controllers
         // ============================================================
         // 7. PHẦN MỞ RỘNG: IMPORT DANH SÁCH THIẾT BỊ TỪ FILE EXCEL
         // ============================================================
-        // GET: Equipment/Import
+        [HttpGet, CustomAuthorize(Roles = "ADMIN,MANAGER")]
         public ActionResult Import()
         {
             return View(BuildImportViewModel());
         }
 
-        // POST: Equipment/Import
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [CustomAuthorize(Roles = "ADMIN,MANAGER")]
         public ActionResult Import(HttpPostedFileBase excelFile)
         {
             var vm = BuildImportViewModel();
@@ -352,6 +366,11 @@ namespace MedicalEquipmentManagement.Controllers
                 return View(vm);
             }
 
+            if (excelFile.ContentLength > 2 * 1024 * 1024)
+            {
+                ModelState.AddModelError("", "File Excel không được vượt quá 2 MB.");
+                return View(vm);
+            }
             var extension = Path.GetExtension(excelFile.FileName);
             if (!string.Equals(extension, ".xlsx", StringComparison.OrdinalIgnoreCase))
             {
@@ -362,13 +381,13 @@ namespace MedicalEquipmentManagement.Controllers
             vm.HasProcessed = true;
             vm.FileName = Path.GetFileName(excelFile.FileName);
 
-            var modelLookup = db.EquipmentModels
+            var modelLookup = db.EquipmentModels.Where(m => m.IsActive)
                 .ToList()
                 .GroupBy(m => (m.ModelCode ?? "").Trim().ToUpperInvariant())
                 .Where(g => !string.IsNullOrEmpty(g.Key))
                 .ToDictionary(g => g.Key, g => g.First());
 
-            var deptLookup = db.Departments
+            var deptLookup = db.Departments.Where(d => d.IsActive)
                 .ToList()
                 .GroupBy(d => (d.DepartmentCode ?? "").Trim().ToUpperInvariant())
                 .Where(g => !string.IsNullOrEmpty(g.Key))
@@ -384,6 +403,13 @@ namespace MedicalEquipmentManagement.Controllers
 
             try
             {
+                using (var package = new ZipArchive(excelFile.InputStream, ZipArchiveMode.Read, true))
+                {
+                    if (package.Entries.Count > 300 || package.Entries.Sum(entry => entry.Length) > 24L * 1024 * 1024
+                        || package.GetEntry("xl/workbook.xml") == null)
+                        throw new InvalidDataException();
+                }
+                excelFile.InputStream.Position = 0;
                 using (var workbook = new XLWorkbook(excelFile.InputStream))
                 {
                     var worksheet = workbook.Worksheets.FirstOrDefault();
@@ -394,6 +420,11 @@ namespace MedicalEquipmentManagement.Controllers
                     }
 
                     var lastRow = worksheet.LastRowUsed()?.RowNumber() ?? 1;
+                    if (lastRow > 2001)
+                    {
+                        ModelState.AddModelError("", "File Excel chỉ được chứa tối đa 2.000 dòng dữ liệu.");
+                        return View(vm);
+                    }
                     var assetsToAdd = new List<EquipmentAsset>();
 
                     for (int rowIdx = 2; rowIdx <= lastRow; rowIdx++)
@@ -407,7 +438,7 @@ namespace MedicalEquipmentManagement.Controllers
                         string purchasePriceStr = row.Cell(6).GetString().Trim();
                         string statusStr = row.Cell(7).GetString().Trim();
 
-                        if (string.IsNullOrEmpty(assetCode) && string.IsNullOrEmpty(serialNumber) && string.IsNullOrEmpty(modelCode))
+                        if (row.IsEmpty())
                         {
                             continue;
                         }
@@ -424,10 +455,11 @@ namespace MedicalEquipmentManagement.Controllers
                             Status = string.IsNullOrEmpty(statusStr) ? AssetStatus.Active : statusStr
                         };
 
-                        if (string.IsNullOrEmpty(assetCode) || string.IsNullOrEmpty(serialNumber) || string.IsNullOrEmpty(modelCode))
+                        if (string.IsNullOrEmpty(assetCode) || string.IsNullOrEmpty(serialNumber) || string.IsNullOrEmpty(modelCode)
+                            || assetCode.Length > 50 || serialNumber.Length > 100 || !BarcodeQrHelper.CanEncodeCode128(serialNumber))
                         {
                             rowResult.IsSuccess = false;
-                            rowResult.Message = "Thiếu AssetCode, SerialNumber hoặc ModelCode.";
+                            rowResult.Message = "Kiểm tra mã tài sản (tối đa 50 ký tự), Serial (tối đa 100 ký tự ASCII) và mã mẫu.";
                             vm.RowResults.Add(rowResult);
                             vm.SkippedOrErrorCount++;
                             continue;
@@ -495,13 +527,21 @@ namespace MedicalEquipmentManagement.Controllers
                             purchasePrice = (decimal)row.Cell(6).GetDouble();
                         }
                         else if (!string.IsNullOrEmpty(purchasePriceStr) &&
-                                 decimal.TryParse(purchasePriceStr.Replace(",", ""), NumberStyles.Any, CultureInfo.InvariantCulture, out parsedPrice) &&
-                                 parsedPrice >= 0)
+                                 decimal.TryParse(purchasePriceStr, NumberStyles.Number, CultureInfo.InvariantCulture, out parsedPrice))
                         {
                             purchasePrice = parsedPrice;
                         }
 
-                        string finalStatus = AssetStatus.All.Contains(statusStr) ? statusStr : AssetStatus.Active;
+                        string finalStatus = statusStr.Length == 0 ? AssetStatus.Active : statusStr;
+                        if ((purchaseDateStr.Length != 0 && !purchaseDate.HasValue) || purchaseDate > DateTime.Today
+                            || (purchasePriceStr.Length != 0 && !purchasePrice.HasValue) || purchasePrice < 0
+                            || purchasePrice > 1000000000000m || !AssetStatus.All.Contains(finalStatus))
+                        {
+                            rowResult.Message = "Ngày mua, giá mua hoặc trạng thái không hợp lệ.";
+                            vm.RowResults.Add(rowResult);
+                            vm.SkippedOrErrorCount++;
+                            continue;
+                        }
 
                         assetsToAdd.Add(new EquipmentAsset
                         {
@@ -533,15 +573,30 @@ namespace MedicalEquipmentManagement.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                ModelState.AddModelError("", "Lỗi đọc file Excel: " + ex.Message);
+                System.Diagnostics.Trace.TraceWarning("Không lưu được Excel, loại lỗi {0}.", ex.GetBaseException().GetType().Name);
+                foreach (var row in vm.RowResults.Where(r => r.IsSuccess))
+                {
+                    row.IsSuccess = false;
+                    row.Message = "Giao dịch nhập thất bại, dòng này chưa được lưu.";
+                }
+                vm.SkippedOrErrorCount += vm.ImportedCount;
+                vm.ImportedCount = 0;
+                ModelState.AddModelError("", "Dữ liệu thay đổi khi nhập. Vui lòng kiểm tra mã tài sản, Serial và thử lại.");
+            }
+            catch (Exception ex) when (ex is InvalidDataException || ex is FormatException || ex is IOException
+                || ex is ArgumentException || ex is InvalidOperationException || ex is OverflowException
+                || ex is DocumentFormat.OpenXml.Packaging.OpenXmlPackageException)
+            {
+                vm.HasProcessed = false;
+                ModelState.AddModelError("", "Không đọc được file Excel. Vui lòng dùng mẫu .xlsx của hệ thống.");
             }
 
             return View(vm);
         }
 
-        // GET: Equipment/DownloadImportTemplate
+        [HttpGet, CustomAuthorize(Roles = "ADMIN,MANAGER")]
         public ActionResult DownloadImportTemplate()
         {
             using (var workbook = new XLWorkbook())
@@ -603,6 +658,28 @@ namespace MedicalEquipmentManagement.Controllers
         private EquipmentAsset FindActiveAsset(int id)
         {
             return db.EquipmentAssets.FirstOrDefault(a => a.AssetId == id && !a.IsDeleted);
+        }
+
+        private void ValidateAssetFields(EquipmentAssetViewModel vm, EquipmentAsset current)
+        {
+            var message = EquipmentPolicy.ValidateFields(db, vm, current);
+            if (message != null)
+                ModelState.AddModelError("", message);
+        }
+
+        private bool SaveAsset()
+        {
+            try
+            {
+                db.SaveChanges();
+                return true;
+            }
+            catch (DbUpdateException error) when (error.GetBaseException() is System.Data.SqlClient.SqlException sql
+                && (sql.Number == 2601 || sql.Number == 2627 || sql.Number == 547))
+            {
+                ModelState.AddModelError("", "Mã tài sản, Serial hoặc dữ liệu liên quan đã thay đổi. Vui lòng kiểm tra lại.");
+                return false;
+            }
         }
 
         private void ValidateAssetUniqueness(EquipmentAssetViewModel vm)

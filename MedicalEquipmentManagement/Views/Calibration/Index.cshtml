@@ -1,0 +1,28 @@
+﻿@model IEnumerable<MedicalEquipmentManagement.Models.CalibrationLog>
+@{ ViewBag.Title = "Hiệu chuẩn"; }
+<h1>@ViewBag.Title</h1>
+<div class="actions">
+    @if ((string)Session["RoleCode"] != "MANAGER")
+    {
+        @Html.ActionLink("Ghi nhận hiệu chuẩn", "Create", new { assetId = ViewBag.AssetId }, new { @class = "btn btn-primary" })
+    }
+    @Html.ActionLink("Tất cả", "Index", new { assetId = ViewBag.AssetId }, new { @class = "btn btn-ghost" })
+    @Html.ActionLink("Đến hạn trong 15 ngày", "Index", new { days = 15, assetId = ViewBag.AssetId }, new { @class = "btn btn-ghost" })
+    @Html.ActionLink("Đến hạn trong 30 ngày", "Index", new { days = 30, assetId = ViewBag.AssetId }, new { @class = "btn btn-ghost" })
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <thead><tr><th>Thiết bị</th><th>Ngày hiệu chuẩn</th><th>Hạn tiếp theo</th><th>Người thực hiện</th><th>Chứng nhận</th><th>Kết quả</th></tr></thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.EquipmentAsset.AssetCode</td>
+                <td>@item.CalibrationDate.ToString("dd/MM/yyyy")</td>
+                <td>@(item.NextCalibrationDate?.ToString("dd/MM/yyyy"))</td>
+                <td>@item.PerformedBy</td><td>@item.CertificateNumber</td><td>@item.Result</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

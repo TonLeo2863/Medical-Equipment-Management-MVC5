@@ -36,7 +36,15 @@
 
         <div class="field">
             @Html.LabelFor(m => m.DepartmentId)
-            @Html.DropDownListFor(m => m.DepartmentId, Model.DepartmentList, "-- Kho dự trữ (Chưa phân bổ khoa) --", new { @class = "search-input" })
+            @if (ViewBag.FixedDepartment != null)
+            {
+                @Html.HiddenFor(m => m.DepartmentId)
+                <p>@ViewBag.FixedDepartment · Thay đổi qua phiếu điều chuyển.</p>
+            }
+            else
+            {
+                @Html.DropDownListFor(m => m.DepartmentId, Model.DepartmentList, "Kho dự trữ (chưa phân bổ)", new { @class = "search-input" })
+            }
             @Html.ValidationMessageFor(m => m.DepartmentId, "", new { style = "color: var(--color-danger); font-size: 12px;" })
         </div>
 

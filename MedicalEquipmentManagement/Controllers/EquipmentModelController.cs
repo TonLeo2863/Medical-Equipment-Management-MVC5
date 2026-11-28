@@ -20,7 +20,6 @@ namespace MedicalEquipmentManagement.Controllers
     {
         private readonly MedicalEquipmentContext db = new MedicalEquipmentContext();
 
-        // GET: EquipmentModel
         public ActionResult Index(string keyword, int? categoryId)
         {
             var query = db.EquipmentModels
@@ -63,7 +62,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(vm);
         }
 
-        // GET: EquipmentModel/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -85,7 +83,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(model);
         }
 
-        // GET: EquipmentModel/Create
         public ActionResult Create(int? categoryId)
         {
             var vm = new EquipmentModelFormViewModel
@@ -97,7 +94,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(vm);
         }
 
-        // POST: EquipmentModel/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(EquipmentModelFormViewModel vm)
@@ -133,7 +129,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(vm);
         }
 
-        // GET: EquipmentModel/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -152,7 +147,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(vm);
         }
 
-        // POST: EquipmentModel/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EquipmentModelFormViewModel vm)
@@ -192,7 +186,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(vm);
         }
 
-        // GET: EquipmentModel/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -214,7 +207,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(entity);
         }
 
-        // POST: EquipmentModel/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

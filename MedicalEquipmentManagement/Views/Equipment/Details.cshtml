@@ -1,8 +1,11 @@
 ﻿@model MedicalEquipmentManagement.Models.EquipmentAsset
 @using MedicalEquipmentManagement.Models
+@using MedicalEquipmentManagement.Helpers
 
 @{
     ViewBag.Title = "Chi tiết Thiết bị " + Model.AssetCode;
+    var role = (string)Session["RoleCode"];
+    var barcodeSupported = BarcodeQrHelper.CanEncodeCode128(Model.SerialNumber);
     var maintenances = Model.MaintenanceRecords != null
         ? Model.MaintenanceRecords.OrderByDescending(m => m.MaintenanceDate).ToList()
         : new List<MaintenanceRecord>();
@@ -15,8 +18,15 @@
             <h3>Số Serial: <strong>@Model.SerialNumber</strong></h3>
         </div>
         <div style="display: flex; gap: 8px;">
-            <a href="@Url.Action("Edit", new { id = Model.AssetId })" class="btn btn-primary">Sửa thiết bị</a>
-            <a href="@Url.Action("Delete", new { id = Model.AssetId })" class="btn btn-ghost" style="color: var(--color-danger);">Xóa</a>
+            @if (role == "ADMIN" || role == "MANAGER")
+            {
+                <a href="@Url.Action("Edit", new { id = Model.AssetId })" class="btn btn-primary">Sửa thiết bị</a>
+                <a href="@Url.Action("Delete", new { id = Model.AssetId })" class="btn btn-ghost">Xóa</a>
+            }
+            @if (role != "ENGINEER" && Model.Status != AssetStatus.Liquidated)
+            {
+                @Html.ActionLink("Báo hỏng", "Create", "WorkOrder", new { assetId = Model.AssetId }, new { @class = "btn btn-ghost" })
+            }
             <a href="@Url.Action("Index")" class="btn btn-ghost">Quay lại danh sách</a>
         </div>
     </div>
@@ -87,17 +97,27 @@
                 <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">QR Code (@Model.SerialNumber)</div>
             </div>
 
+            @if (barcodeSupported)
+            {
             <div>
                 <img src="@Url.Action("Barcode", new { id = Model.AssetId })"
                      alt="Barcode @Model.SerialNumber"
                      style="max-width: 280px; height: auto; border: 1px solid var(--color-border); background: #fff; padding: 6px;" />
                 <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 4px;">Barcode Code-128 (@Model.SerialNumber)</div>
             </div>
+            }
+            else
+            {
+                <p>Serial cũ dùng ký tự ngoài bộ Code 128-B. Có thể quét QR để đọc nguyên văn.</p>
+            }
         </div>
 
         <div style="margin-top: 12px; display: flex; gap: 8px;">
             <a href="@Url.Action("QrCode", new { id = Model.AssetId })" target="_blank" class="btn btn-ghost">Mở ảnh QR Code</a>
-            <a href="@Url.Action("Barcode", new { id = Model.AssetId })" target="_blank" class="btn btn-ghost">Mở ảnh Barcode</a>
+            @if (barcodeSupported)
+            {
+                <a href="@Url.Action("Barcode", new { id = Model.AssetId })" target="_blank" class="btn btn-ghost">Mở ảnh Barcode</a>
+            }
         </div>
     </div>
 </div>
@@ -140,3 +160,5 @@
         </tbody>
     </table>
 </div>
+
+@Html.Partial("_History")

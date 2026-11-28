@@ -1,4 +1,4 @@
--- SQL Server 2016+
+-- Tương thích SQL Server từ phiên bản 2016.
 IF DB_ID(N'MedicalEquipmentDB') IS NULL
     CREATE DATABASE MedicalEquipmentDB;
 GO
@@ -237,7 +237,7 @@ CREATE TABLE UsageLogs(
 -- PHẦN 2: DỮ LIỆU MẪU (SAMPLE DATA)
 -- ==========================================
 
--- Preserve existing demo and application data. Serialize concurrent seed executions.
+-- Khóa phần seed để tuần tự hóa các lượt chạy và giữ nguyên dữ liệu đã có.
 SET XACT_ABORT ON;
 BEGIN TRANSACTION;
 DECLARE @SeedLock INT;
@@ -425,7 +425,7 @@ WHERE NOT EXISTS (
       AND existing.LogDate = sample.LogDate
 );
 
--- The sample stock starts at 49 after the historical use of one cable.
+-- Tồn kho mẫu là 49 sau khi một dây cáp đã được sử dụng.
 INSERT INTO dbo.Maintenance_SpareParts (MaintenanceId, PartId, QuantityUsed, Note)
 SELECT m.MaintenanceId, p.PartId, 1, N'Thay cáp SpO2 mới do đứt ngầm'
 FROM (

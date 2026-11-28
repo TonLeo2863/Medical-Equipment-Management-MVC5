@@ -1,112 +1,58 @@
-@{
-    var currentController = ViewContext.RouteData.Values["controller"] as string;
-    var currentAction = ViewContext.RouteData.Values["action"] as string;
-    var loggedInUser = Session["UserName"] as string;
-    var loggedInFullName = Session["FullName"] as string ?? loggedInUser;
-    var userRole = Session["RoleCode"] as string;
+﻿@{
+    var role = Session["RoleCode"] as string;
+    var name = Session["FullName"] as string;
+    var manage = role == "ADMIN" || role == "MANAGER";
+    var technical = manage || role == "ENGINEER";
 }
-<nav class="navbar">
+<nav class="navbar" aria-label="Điều hướng chính">
     <div class="navbar-inner">
-
-        <a class="brand" href="@Url.Action("Index", "Home")">
-            <span class="brand-mark" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-                    <path d="M12 6v12M6 12h12" />
-                </svg>
-            </span>
-            <span class="brand-text">
-                <span class="brand-name">Medical Equipment</span>
-             </span>
-        </a>
-
-        @* Nút mở menu trên màn hình nhỏ *@
-        <label class="nav-toggle-label" for="navToggle" title="Menu">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                <path d="M4 7h16M4 12h16M4 17h16" />
-            </svg>
-        </label>
+        <a class="brand" href="@Url.Action("Index", "Home")"><span class="brand-mark" aria-hidden="true">+</span><span class="brand-name">Thiết bị y tế</span></a>
+        <label class="nav-toggle-label" for="navToggle">Menu</label>
         <input type="checkbox" id="navToggle" class="nav-toggle" />
-
         <ul class="nav-links">
-            <li>
-                <a href="@Url.Action("Index", "Home")"
-                   class="@(currentController == "Home" && currentAction == "Index" ? "is-active" : "")">Trang chủ</a>
-            </li>
-            <li>
-                <a href="@Url.Action("Index", "EquipmentModel")"
-                   class="@(currentController == "EquipmentModel" ? "is-active" : "")">Mẫu thiết bị</a>
-            </li>
-            <li>
-                <a href="@Url.Action("Index", "Category")"
-                   class="@(currentController == "Category" ? "is-active" : "")">Danh mục</a>
-            </li>
-            <li>
-                <a href="@Url.Action("Index", "Supplier")"
-                   class="@(currentController == "Supplier" ? "is-active" : "")">Nhà cung cấp</a>
-            </li>
-            <li>
-                <a href="@Url.Action("About", "Home")"
-                   class="@(currentController == "Home" && currentAction == "About" ? "is-active" : "")">Giới thiệu</a>
-            </li>
-            <li>
-                <a href="@Url.Action("Index", "Equipment")"
-                   class="@(currentController == "Equipment" ? "is-active" : "")">Thiết bị</a>
-            </li>
-            @* Phân quyền hiển thị menu *@
-            @if (userRole == "ADMIN")
+            <li>@Html.ActionLink(role == null ? "Trang chủ" : "Tổng quan", "Index", "Home")</li>
+            @if (role != null)
             {
-                <li>
-                    <a href="@Url.Action("Index", "Department")"
-                       class="@(currentController == "Department" ? "is-active" : "")">Phòng ban</a>
-                </li>
-            }
-
-            @if (userRole == "ADMIN" || userRole == "MANAGER")
-            {
-                <li>
-                    <a href="@Url.Action("Index", "Inventory")"
-                       class="@(currentController == "Inventory" ? "is-active" : "")">Kho & Luân chuyển</a>
-                </li>
-            }
-
-            @if (userRole == "ADMIN" || userRole == "MANAGER" || userRole == "ENGINEER")
-            {
-                <li>
-                    <a href="@Url.Action("Index", "Maintenance")"
-                       class="@(currentController == "Maintenance" ? "is-active" : "")">Bảo trì</a>
-                </li>
-            }
-
-            @if (!string.IsNullOrEmpty(loggedInUser))
-            {
-                <li>
-                    <a href="@Url.Action("Index", "WorkOrder")"
-                       class="@(currentController == "WorkOrder" ? "is-active" : "")">Phiếu sửa chữa</a>
-                </li>
-            }
-
-            @* Hiển thị Đăng nhập / Đăng xuất & Xin chào, FullName (RoleCode) *@
-            @if (string.IsNullOrEmpty(loggedInUser))
-            {
-                <li>
-                    <a href="@Url.Action("Login", "Account")"
-                       class="@(currentController == "Account" ? "is-active" : "")">Đăng nhập</a>
-                </li>
+                <li>@Html.ActionLink("Thiết bị", "Index", "Equipment")</li>
+                <li>@Html.ActionLink("Phiếu sửa chữa", "Index", "WorkOrder")</li>
+                if (manage)
+                {
+                    <li><details class="nav-group"><summary>Danh mục và kho</summary>
+                        @Html.ActionLink("Danh mục thiết bị", "Index", "Category")
+                        @Html.ActionLink("Nhà cung cấp", "Index", "Supplier")
+                        @Html.ActionLink("Mẫu thiết bị", "Index", "EquipmentModel")
+                        @Html.ActionLink("Kho và điều chuyển", "Index", "Inventory")
+                        @if (role == "ADMIN")
+                        {
+                            @Html.ActionLink("Phòng ban", "Index", "Department")
+                        }
+                    </details></li>
+                }
+                if (technical)
+                {
+                    <li><details class="nav-group"><summary>Kỹ thuật</summary>
+                        @Html.ActionLink("Bảo trì", "Index", "Maintenance")
+                        @Html.ActionLink("Hiệu chuẩn", "Index", "Calibration")
+                    </details></li>
+                }
+                <li><details class="nav-group"><summary>@(name ?? role)</summary>
+                    @if (role == "ADMIN")
+                    {
+                        @Html.ActionLink("Quản lý tài khoản", "Index", "UserAdmin")
+                    }
+                    @Html.ActionLink("Đổi mật khẩu", "ChangePassword", "Account")
+                    @using (Html.BeginForm("Logout", "Account", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-ghost">Đăng xuất</button>
+                    }
+                </details></li>
             }
             else
             {
-                <li class="nav-user">
-                    <strong>@loggedInFullName</strong>
-                    @if (!string.IsNullOrEmpty(userRole))
-                    {
-                        <span>(@userRole)</span>
-                    }
-                </li>
-                <li>
-                    <a href="@Url.Action("Logout", "Account")">Đăng xuất</a>
-                </li>
+                <li>@Html.ActionLink("Giới thiệu", "About", "Home")</li>
+                <li>@Html.ActionLink("Đăng nhập", "Login", "Account")</li>
             }
         </ul>
-
     </div>
 </nav>

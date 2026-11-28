@@ -55,6 +55,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
@@ -145,6 +146,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CalibrationController.cs" />
+    <Compile Include="Controllers\UserAdminController.cs" />
+    <Compile Include="ViewModels\AccountInputs.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -153,6 +157,9 @@
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Helpers\BarcodeQrHelper.cs" />
     <Compile Include="Helpers\DbErrorHelper.cs" />
+    <Compile Include="Helpers\EquipmentPolicy.cs" />
+    <Compile Include="Helpers\PasswordHasher.cs" />
+    <Compile Include="Helpers\SessionAccount.cs" />
     <Compile Include="Models\AssetStatus.cs" />
     <Compile Include="ViewModels\EquipmentAssetIndexViewModel.cs" />
     <Compile Include="ViewModels\EquipmentAssetViewModel.cs" />
@@ -161,6 +168,10 @@
     <Compile Include="ViewModels\EquipmentModelIndexViewModel.cs" />
     <Compile Include="ViewModels\KeywordSearchViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Content Include="Scripts\dashboard.js" />
+    <Content Include="Scripts\vendor\chart.umd.min.js" />
+    <Content Include="Scripts\vendor\chart.js.LICENSE.md" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="Controllers\WorkOrderController.cs" />
@@ -241,6 +252,13 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Calibration\Index.cshtml" />
+    <Content Include="Views\Calibration\Create.cshtml" />
+    <Content Include="Database\03_FinalCandidate_Workflow.sql" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\UserAdmin\Index.cshtml" />
+    <Content Include="Views\UserAdmin\Edit.cshtml" />
+    <Content Include="Views\UserAdmin\ResetPassword.cshtml" />
     <Content Include="Views\Equipment\Index.cshtml" />
     <Content Include="Views\Department\Index.cshtml" />
     <Content Include="Views\Department\Create.cshtml" />
@@ -277,6 +295,7 @@
     <Content Include="Views\Equipment\Create.cshtml" />
     <Content Include="Views\Equipment\Edit.cshtml" />
     <Content Include="Views\Equipment\Details.cshtml" />
+    <Content Include="Views\Equipment\_History.cshtml" />
     <Content Include="Views\Equipment\Delete.cshtml" />
     <Content Include="Views\Equipment\Import.cshtml" />
     <Content Include="Views\Shared\_Navbar.cshtml" />

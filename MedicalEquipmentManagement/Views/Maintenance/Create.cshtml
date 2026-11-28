@@ -16,6 +16,11 @@
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
+        <div class="field">
+            @Html.LabelFor(m => m.TicketId, "Phiếu sửa chữa liên kết")
+            @Html.DropDownListFor(m => m.TicketId, (SelectList)ViewBag.Tickets, "Không liên kết", new { @class = "search-input" })
+            @Html.ValidationMessageFor(m => m.TicketId)
+        </div>
         @Html.ValidationSummary(true, "", new { @class = "error" })
 
         <div class="field">

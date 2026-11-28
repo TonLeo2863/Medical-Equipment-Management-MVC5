@@ -1,9 +1,11 @@
 using MedicalEquipmentManagement.Models;
 using System.Data.Entity;
+using System.Linq;
 
 namespace MedicalEquipmentManagement.Data
 
 {
+    /// <summary>Ánh xạ EF6 sang schema SQL có sẵn. Tắt xóa dây chuyền để giữ dữ liệu nghiệp vụ liên quan.</summary>
     public class MedicalEquipmentContext : DbContext
 
     {
@@ -23,6 +25,31 @@ namespace MedicalEquipmentManagement.Data
         public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
         public DbSet<SparePart> SpareParts { get; set; }
         public DbSet<UsageLog> UsageLogs { get; set; }
+
+        /// <summary>Khóa dòng tài sản trong transaction hiện tại để tuần tự hóa cập nhật vị trí và trạng thái nghiệp vụ.</summary>
+        /// <param name="assetId">Khóa chính của tài sản cần khóa trước khi đọc dữ liệu để quyết định cập nhật.</param>
+        public void LockAsset(int assetId)
+        {
+            Database.SqlQuery<int>("SELECT AssetId FROM dbo.EquipmentAssets WITH (UPDLOCK, HOLDLOCK) WHERE AssetId = @p0",
+                assetId).ToList();
+        }
+
+        /// <summary>Truy vấn bản ghi bảo trì mới nhất của từng thiết bị. Mã bản ghi phân định các lần cùng ngày.</summary>
+        public IQueryable<MaintenanceRecord> LatestMaintenance()
+        {
+            return MaintenanceRecords.Where(m => !MaintenanceRecords.Any(n => n.AssetId == m.AssetId
+                && (n.MaintenanceDate > m.MaintenanceDate
+                    || n.MaintenanceDate == m.MaintenanceDate && n.MaintenanceId > m.MaintenanceId)));
+        }
+
+        /// <summary>Truy vấn lần hiệu chuẩn mới nhất để đánh giá hạn và kết quả kỹ thuật hiện hành.</summary>
+        public IQueryable<CalibrationLog> LatestCalibrations()
+        {
+            return CalibrationLogs.Where(c => !CalibrationLogs.Any(n => n.AssetId == c.AssetId
+                && (n.CalibrationDate > c.CalibrationDate
+                    || n.CalibrationDate == c.CalibrationDate && n.CalibrationId > c.CalibrationId)));
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -1,61 +1,57 @@
 using System;
+using System.Data.Entity;
+using System.Diagnostics;
 using MedicalEquipmentManagement.Data;
+using MedicalEquipmentManagement.Helpers;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Web.Mvc;
+using MedicalEquipmentManagement.Filters;
+using MedicalEquipmentManagement.ViewModels;
 namespace MedicalEquipmentManagement.Controllers
 {
+    /// <summary>Xác thực người dùng, quản lý Session và thay đổi mật khẩu cá nhân.</summary>
     public class AccountController : Controller
     {
         private MedicalEquipmentContext db = new MedicalEquipmentContext();
-        private static bool VerifyPassword(string password, string storedHash)
-        {
-            var fields = storedHash?.Split('$');
-            if (fields == null || fields.Length != 3 || fields[0] != "pbkdf2-sha256-v1")
-                return false;
-
-            try
-            {
-                var salt = Convert.FromBase64String(fields[1]);
-                var expected = Convert.FromBase64String(fields[2]);
-                if (salt.Length != 16 || expected.Length != 32)
-                    return false;
-
-                using (var derivation = new Rfc2898DeriveBytes(password, salt, 600000, HashAlgorithmName.SHA256))
-                {
-                    var actual = derivation.GetBytes(expected.Length);
-                    int difference = 0;
-                    for (int i = 0; i < expected.Length; i++)
-                        difference |= expected[i] ^ actual[i];
-                    return difference == 0;
-                }
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
-        }
+        [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
+        /// <summary>Xác minh tài khoản hoạt động rồi tạo Session với vai trò lấy từ SQL Server.</summary>
+        /// <param name="username">Tên đăng nhập từ biểu mẫu có token chống CSRF.</param>
+        /// <param name="password">Mật khẩu nhập, chỉ dùng trong yêu cầu hiện tại.</param>
+        /// <returns>Chuyển đến Dashboard khi xác thực thành công hoặc trả lại biểu mẫu với lỗi chung.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(string username, string password)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrWhiteSpace(username) || username.Length > 50 || string.IsNullOrEmpty(password) || password.Length > 256)
             {
                 ViewBag.Message = "Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.";
                 return View();
             }
 
-            var user = db.Users.FirstOrDefault(u => u.Username == username && u.IsActive);
-            if (user != null && VerifyPassword(password, user.PasswordHash))
+            var timer = Stopwatch.StartNew();
+            db.Database.Initialize(false);
+            var initialization = timer.ElapsedMilliseconds;
+            var user = db.Users.AsNoTracking().Include(u => u.Role)
+                .SingleOrDefault(u => u.Username == username.Trim() && u.IsActive);
+            var query = timer.ElapsedMilliseconds - initialization;
+            var verified = user != null && user.Role != null && PasswordHasher.Verify(password, user.PasswordHash);
+            var derivation = timer.ElapsedMilliseconds - initialization - query;
+            Trace.TraceInformation("Login EF init={0} ms, EF query={1} ms, PBKDF2={2} ms",
+                initialization, query, derivation);
+            if (Request.IsLocal && Environment.GetEnvironmentVariable("MEDICAL_QA_TIMINGS") == "1")
+                Response.AppendHeader("Server-Timing", $"ef_init;dur={initialization}, ef_query;dur={query}, pbkdf2;dur={derivation}");
+            if (verified)
             {
+                Session.Clear();
                 Session["UserId"] = user.UserId;
                 Session["UserName"] = user.Username;
                 Session["FullName"] = user.FullName;
-                Session["RoleCode"] = user.Role != null ? user.Role.RoleCode : "STAFF";
+                Session["RoleCode"] = user.Role.RoleCode;
+                Session["Credential"] = PasswordHasher.SessionCredential(user.PasswordHash);
                 return RedirectToAction("Index", "Home");
             }
 
@@ -63,11 +59,55 @@ namespace MedicalEquipmentManagement.Controllers
             return View();
         }
 
-        // Get: Account/Logout
+        /// <summary>Hủy Session bằng POST có token để trang bên ngoài không thể chủ động đăng xuất người dùng.</summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Logout()
         {
             Session.Clear();
+            Session.Abandon();
             return RedirectToAction("Login", "Account");
+        }
+
+        [HttpGet, ActionName("Logout")]
+        public ActionResult LogoutRequiresPost()
+        {
+            Response.AppendHeader("Allow", "POST");
+            return new HttpStatusCodeResult(405);
+        }
+
+        [HttpGet]
+        [CustomAuthorize]
+        public ActionResult ChangePassword()
+        {
+            return View(new ChangePasswordInput());
+        }
+
+        /// <summary>Xác minh mật khẩu cũ và cập nhật có điều kiện để tránh ghi đè lần đặt lại xảy ra đồng thời.</summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [CustomAuthorize]
+        public ActionResult ChangePassword(ChangePasswordInput input)
+        {
+            if (!ModelState.IsValid)
+                return View(input);
+            var account = db.Users.Find((int)Session["UserId"]);
+            var previousHash = account.PasswordHash;
+            if (!PasswordHasher.Verify(input.CurrentPassword, previousHash))
+            {
+                ModelState.AddModelError(nameof(input.CurrentPassword), "Mật khẩu hiện tại không đúng.");
+                return View(input);
+            }
+
+            var newHash = PasswordHasher.Hash(input.NewPassword);
+            var rows = db.Database.ExecuteSqlCommand(
+                "UPDATE dbo.Users SET PasswordHash = @p0 WHERE UserId = @p1 AND PasswordHash = @p2 AND IsActive = 1",
+                newHash, account.UserId, previousHash);
+            if (rows != 1)
+                return new HttpStatusCodeResult(409);
+            Session["Credential"] = PasswordHasher.SessionCredential(newHash);
+            TempData["Success"] = "Đã đổi mật khẩu.";
+            return RedirectToAction("Index", "Home");
         }
 
         protected override void Dispose(bool disposing)

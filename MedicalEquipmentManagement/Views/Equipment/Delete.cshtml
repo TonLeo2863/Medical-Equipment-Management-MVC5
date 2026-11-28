@@ -7,7 +7,7 @@
 
 <div class="page-header">
     <h2>Xác nhận xóa Thiết bị: @Model.AssetCode</h2>
-    <h3>Kiểm tra ràng buộc dữ liệu lịch sử bảo trì trước khi xóa</h3>
+    <h3>Xóa mềm thiết bị và giữ lịch sử nghiệp vụ</h3>
 </div>
 
 <div style="max-width: 680px; background: #ffffff; border: 1px solid var(--color-border); border-radius: 4px; padding: 24px;">
@@ -16,7 +16,7 @@
         <div class="error">
             <strong>Cảnh báo ràng buộc khóa ngoại (Cascade Delete bị chặn):</strong><br />
             Thiết bị <strong>@Model.AssetCode</strong> (Số Serial: <strong>@Model.SerialNumber</strong>) hiện đang có <strong>@maintCount bản ghi lịch sử bảo trì</strong> trong cơ sở dữ liệu.
-            Nếu bạn nhấn nút Xóa bên dưới, hệ thống sẽ bắt lỗi khóa ngoại và hiển thị thông báo chặn xóa thân thiện.
+            Hãy chuyển sang trạng thái đã thanh lý để giữ hồ sơ thiết bị có bảo trì.
         </div>
     }
     else

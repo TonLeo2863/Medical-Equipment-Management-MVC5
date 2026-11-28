@@ -1,5 +1,11 @@
 @model MedicalEquipmentManagement.Models.MaintenanceRecord
 
+<p>Người thực hiện: @(Model.PerformedBy?.FullName ?? "Chưa xác định (dữ liệu cũ)")</p>
+@if (Model.WorkOrder != null)
+{
+    <p>Phiếu sửa chữa liên kết: @Model.WorkOrder.TicketCode</p>
+}
+
 @{
     ViewBag.Title = "Chi tiết Phiếu Bảo Trì #" + Model.MaintenanceId;
 }
@@ -25,7 +31,6 @@
 </div>
 
 <div class="grid" style="grid-template-columns: 2fr 1fr; gap: 24px;">
-    <!-- Content card -->
     <div style="background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 32px;">
         <h3 style="font-size: 18px; margin-bottom: 20px; border-bottom: 1px solid var(--color-border-soft); padding-bottom: 10px;">
             Nội dung kỹ thuật & Nhật ký xử lý
@@ -81,7 +86,6 @@
         </div>
     </div>
 
-    <!-- Machine & Cost Summary -->
     <div>
         <div style="background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 24px; margin-bottom: 24px;">
             <h3 style="font-size: 16px; margin-bottom: 16px; border-bottom: 1px solid var(--color-border-soft); padding-bottom: 8px;">

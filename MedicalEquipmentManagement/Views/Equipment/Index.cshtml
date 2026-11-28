@@ -10,6 +10,7 @@
 
 @{
     ViewBag.Title = "Danh sách Tài sản Thiết bị";
+    bool canManage = (string)Session["RoleCode"] == "ADMIN" || (string)Session["RoleCode"] == "MANAGER";
     bool hasFilter = !string.IsNullOrWhiteSpace(Model.Keyword)
         || Model.DepartmentId.HasValue
         || !string.IsNullOrWhiteSpace(Model.Status);
@@ -21,10 +22,13 @@
             <h2>Danh sách Tài sản Thiết bị (EquipmentAsset)</h2>
             <h3>Tìm kiếm theo Tên/Số Serial, Lọc theo Khoa/Trạng thái và Phân trang</h3>
         </div>
-        <div style="display: flex; gap: 8px;">
-            <a href="@Url.Action("Import")" class="btn btn-ghost">Import Excel (.xlsx)</a>
-            <a href="@Url.Action("Create")" class="btn btn-primary">+ Thêm thiết bị mới</a>
-        </div>
+        @if (canManage)
+        {
+            <div class="actions">
+                <a href="@Url.Action("Import")" class="btn btn-ghost">Import Excel (.xlsx)</a>
+                <a href="@Url.Action("Create")" class="btn btn-primary">Thêm thiết bị</a>
+            </div>
+        }
     </div>
 </div>
 
@@ -120,8 +124,11 @@
                         </td>
                         <td style="text-align: right; white-space: nowrap;">
                             <a href="@Url.Action("Details", new { id = item.AssetId })" class="btn btn-ghost" style="padding: 4px 8px;">Chi tiết / QR</a>
-                            <a href="@Url.Action("Edit", new { id = item.AssetId })" class="btn btn-ghost" style="padding: 4px 8px;">Sửa</a>
-                            <a href="@Url.Action("Delete", new { id = item.AssetId })" class="btn btn-ghost" style="padding: 4px 8px; color: var(--color-danger);">Xóa</a>
+                            @if (canManage)
+                            {
+                                <a href="@Url.Action("Edit", new { id = item.AssetId })" class="btn btn-ghost">Sửa</a>
+                                <a href="@Url.Action("Delete", new { id = item.AssetId })" class="btn btn-ghost">Xóa</a>
+                            }
                         </td>
                     </tr>
                 }

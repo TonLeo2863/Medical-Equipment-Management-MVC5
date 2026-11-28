@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Text;
 using QRCoder;
 
@@ -40,7 +41,9 @@ namespace MedicalEquipmentManagement.Helpers
         /// </summary>
         public static byte[] GenerateCode128BarcodePng(string serialNumber, string assetCodeLabel = null, int barHeight = 70)
         {
-            var text = string.IsNullOrWhiteSpace(serialNumber) ? "UNKNOWN" : serialNumber.Trim();
+            if (!CanEncodeCode128(serialNumber))
+                throw new ArgumentException("Serial không thuộc tập ký tự của Code 128-B.", nameof(serialNumber));
+            var text = serialNumber;
 
             // Mã hóa chuỗi ASCII sang chuỗi bit đen/trắng chuẩn Code 128-B
             var modules = EncodeCode128B(text);
@@ -87,7 +90,13 @@ namespace MedicalEquipmentManagement.Helpers
             }
         }
 
-        // Bảng mẫu vạch chuẩn ISO/IEC 15417 cho Code 128 (Values 0..106)
+        /// <summary>Kiểm tra khả năng mã hóa đúng Serial bằng bộ ký tự ASCII in được của Code 128-B.</summary>
+        public static bool CanEncodeCode128(string serialNumber)
+        {
+            return !string.IsNullOrWhiteSpace(serialNumber) && serialNumber.All(ch => ch >= 32 && ch <= 126);
+        }
+
+        // Bảng mẫu vạch chuẩn ISO/IEC 15417 cho Code 128, từ giá trị 0 đến 106.
         private static readonly string[] Code128Patterns = new[]
         {
             "11011001100","11001101100","11001100110","10010011000","10010001100","10001001100","10011001000","10011000100",
@@ -118,9 +127,7 @@ namespace MedicalEquipmentManagement.Helpers
 
             foreach (char ch in input)
             {
-                // Chỉ nhận các ký tự ASCII in được (32..126)
-                int ascii = (ch >= 32 && ch <= 126) ? ch : '?';
-                int codeValue = ascii - 32;
+                int codeValue = ch - 32;
                 sb.Append(Code128Patterns[codeValue]);
                 checksum += codeValue * weight;
                 weight++;

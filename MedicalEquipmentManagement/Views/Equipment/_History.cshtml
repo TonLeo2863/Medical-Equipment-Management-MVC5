@@ -1,0 +1,58 @@
+﻿@using MedicalEquipmentManagement.Models
+@{
+    var work = (IEnumerable<WorkOrder>)ViewBag.WorkOrderHistory;
+    var calibration = (IEnumerable<CalibrationLog>)ViewBag.CalibrationHistory;
+    var transfers = (IEnumerable<AssetTransfer>)ViewBag.TransferHistory;
+}
+<section>
+    <h2>Lịch sử sửa chữa</h2>
+    @if (!work.Any())
+    {
+        <p>Chưa có phiếu trong phạm vi được xem.</p>
+    }
+    else
+    {
+        <ul>
+        @foreach (var item in work)
+        {
+            <li>@Html.ActionLink(item.TicketCode, "Details", "WorkOrder", new { id = item.WorkOrderId }, null) · @item.CreatedDate.ToString("dd/MM/yyyy") · @item.Status</li>
+        }
+        </ul>
+    }
+    <h2>Lịch sử hiệu chuẩn</h2>
+    @if (!calibration.Any())
+    {
+        <p>Chưa có hiệu chuẩn.</p>
+    }
+    else
+    {
+        <div class="table-responsive"><table class="table">
+            <thead><tr><th>Ngày</th><th>Đơn vị/người thực hiện</th><th>Chứng nhận</th><th>Kết quả</th><th>Hạn tiếp theo</th></tr></thead>
+            <tbody>
+            @foreach (var item in calibration)
+            {
+                <tr><td>@item.CalibrationDate.ToString("dd/MM/yyyy")</td><td>@item.PerformedBy</td><td>@item.CertificateNumber</td>
+                    <td>@item.Result</td><td>@(item.NextCalibrationDate?.ToString("dd/MM/yyyy"))</td></tr>
+            }
+            </tbody>
+        </table></div>
+    }
+    <h2>Lịch sử điều chuyển</h2>
+    @if (!transfers.Any())
+    {
+        <p>Chưa có điều chuyển.</p>
+    }
+    else
+    {
+        <div class="table-responsive"><table class="table">
+            <thead><tr><th>Ngày chuyển</th><th>Khoa nguồn</th><th>Khoa đích</th><th>Lý do</th></tr></thead>
+            <tbody>
+            @foreach (var item in transfers)
+            {
+                <tr><td>@item.TransferDate.ToString("dd/MM/yyyy")</td><td>@item.FromDepartment.Name</td>
+                    <td>@item.ToDepartment.Name</td><td>@item.Reason</td></tr>
+            }
+            </tbody>
+        </table></div>
+    }
+</section>

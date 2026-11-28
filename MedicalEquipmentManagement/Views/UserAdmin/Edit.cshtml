@@ -1,0 +1,19 @@
+﻿@model MedicalEquipmentManagement.ViewModels.UserAdminInput
+@{ ViewBag.Title = Model.UserId == 0 ? "Thêm tài khoản" : "Sửa tài khoản"; }
+<h1>@ViewBag.Title</h1>
+@using (Html.BeginForm("Edit", "UserAdmin", new { id = Model.UserId }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <div class="field">@Html.LabelFor(m => m.Username) @Html.TextBoxFor(m => m.Username)</div>
+    <div class="field">@Html.LabelFor(m => m.FullName) @Html.TextBoxFor(m => m.FullName)</div>
+    <div class="field">@Html.LabelFor(m => m.Email) @Html.TextBoxFor(m => m.Email, new { type = "email" })</div>
+    <div class="field">@Html.LabelFor(m => m.RoleId) @Html.DropDownListFor(m => m.RoleId, (SelectList)ViewBag.Roles, "Chọn vai trò")</div>
+    <div class="field">@Html.CheckBoxFor(m => m.IsActive) @Html.LabelFor(m => m.IsActive)</div>
+    if (Model.UserId == 0)
+    {
+        <div class="field">@Html.LabelFor(m => m.InitialPassword) @Html.PasswordFor(m => m.InitialPassword, new { autocomplete = "new-password" })</div>
+    }
+    <button class="btn btn-primary" type="submit">Lưu tài khoản</button>
+    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-ghost" })
+}

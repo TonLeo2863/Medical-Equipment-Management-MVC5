@@ -4,18 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MedicalEquipmentManagement.Models
 {
+    /// <summary>Phiếu sửa chữa của một tài sản. Người báo, kỹ sư được giao và người hoàn tất được lưu riêng.</summary>
     [Table("WorkOrders")]
     public class WorkOrder
     {
-        public WorkOrder()
-        {
-            CreatedDate = DateTime.Now;
-            Status = "Chờ xử lý";
-            UrgencyLevel = "Bình thường";
-            TicketCode = "WO-" + DateTime.Now.ToString("yyyyMMddHHmmss");
-            AssignedToUserId = 1;
-        }
-
         [Key]
         [Column("TicketId")]
         [Display(Name = "Mã phiếu sửa chữa")]
@@ -51,8 +43,19 @@ namespace MedicalEquipmentManagement.Models
         public string Status { get; set; } // Chờ xử lý, Đang sửa, Đã xong
 
         [Column("ReportedBy")]
-        [Display(Name = "Kỹ sư / Người báo")]
+        public int ReportedByUserId { get; set; }
+
+        public bool ReporterVerified { get; set; }
+
+        [Display(Name = "Kỹ sư được phân công")]
         public int? AssignedToUserId { get; set; }
+
+        [StringLength(500)]
+        public string Resolution { get; set; }
+
+        public bool? TechnicalPassed { get; set; }
+
+        public int? ResolvedByUserId { get; set; }
 
         [Column("ResolvedDate")]
         [Display(Name = "Ngày xử lý xong")]
@@ -63,5 +66,19 @@ namespace MedicalEquipmentManagement.Models
 
         [ForeignKey("AssignedToUserId")]
         public virtual User AssignedUser { get; set; }
+
+        [ForeignKey("ReportedByUserId")]
+        public virtual User Reporter { get; set; }
+
+        [ForeignKey("ResolvedByUserId")]
+        public virtual User ResolvedBy { get; set; }
+    }
+
+    public static class WorkOrderStatus
+    {
+        public const string Pending = "Chờ xử lý";
+        public const string InProgress = "Đang sửa";
+        public const string Completed = "Đã xong";
+        public const string Cancelled = "Đã hủy";
     }
 }

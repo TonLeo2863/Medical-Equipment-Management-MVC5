@@ -1,4 +1,5 @@
 using MedicalEquipmentManagement.Filters;
+using MedicalEquipmentManagement.Helpers;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -9,12 +10,12 @@ using MedicalEquipmentManagement.Models;
 
 namespace MedicalEquipmentManagement.Controllers
 {
+    /// <summary>Tra cứu vị trí từng tài sản và điều chuyển có nhật ký khoa/phòng và giao dịch kho.</summary>
     [CustomAuthorize(Roles = "ADMIN,MANAGER")]
     public class InventoryController : Controller
     {
         private readonly MedicalEquipmentContext db = new MedicalEquipmentContext();
 
-        // GET: Inventory - Dashboard phân bổ tài sản thiết bị theo Khoa / Phòng ban
         public ActionResult Index(int? departmentId, string status, string keyword)
         {
             var query = db.EquipmentAssets
@@ -56,10 +57,10 @@ namespace MedicalEquipmentManagement.Controllers
             return View(assets);
         }
 
-        // GET: Inventory/Transfer - Điều chuyển thiết bị sang khoa khác
         public ActionResult Transfer(int? assetId, int? fromDepartmentId)
         {
-            var availableAssetsQuery = db.EquipmentAssets.Include(a => a.EquipmentModel).Include(a => a.Department).AsQueryable();
+            var availableAssetsQuery = db.EquipmentAssets.Include(a => a.EquipmentModel).Include(a => a.Department)
+                .Where(a => !a.IsDeleted && a.Status == AssetStatus.Active && a.DepartmentId.HasValue);
 
             if (fromDepartmentId.HasValue)
             {
@@ -73,7 +74,7 @@ namespace MedicalEquipmentManagement.Controllers
             });
 
             ViewBag.AssetId = new SelectList(assetList, "AssetId", "DisplayName", assetId);
-            ViewBag.FromDepartmentList = new SelectList(db.Departments.Where(d => d.IsActive).OrderBy(d => d.Name), "DepartmentId", "Name", fromDepartmentId);
+            ViewBag.FromDepartmentList = new SelectList(db.Departments.OrderBy(d => d.Name), "DepartmentId", "Name", fromDepartmentId);
             ViewBag.ToDepartmentId = new SelectList(db.Departments.Where(d => d.IsActive).OrderBy(d => d.Name), "DepartmentId", "Name");
 
             var model = new AssetTransfer();
@@ -93,7 +94,8 @@ namespace MedicalEquipmentManagement.Controllers
             return View(model);
         }
 
-        // POST: Inventory/Transfer
+        /// <summary>Khóa dòng tài sản trước khi kiểm tra khoa nguồn, sau đó ghi vị trí, phiếu và nhật ký kho trong một transaction. Dispose rollback nếu chưa Commit.</summary>
+        /// <param name="transfer">Tài sản, khoa nguồn, khoa đích và lý do. Người thực hiện lấy từ Session.</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Transfer([Bind(Include = "AssetId,FromDepartmentId,ToDepartmentId,TransferDate,Reason")] AssetTransfer transfer)
@@ -103,6 +105,7 @@ namespace MedicalEquipmentManagement.Controllers
 
             using (var transaction = db.Database.BeginTransaction(System.Data.IsolationLevel.Serializable))
             {
+                db.LockAsset(transfer.AssetId);
                 var asset = db.EquipmentAssets.Include(a => a.EquipmentModel).FirstOrDefault(a => a.AssetId == transfer.AssetId && !a.IsDeleted);
 
                 if (asset == null)
@@ -111,13 +114,13 @@ namespace MedicalEquipmentManagement.Controllers
                 }
                 else
                 {
-                    if (asset.Status == "Đang bảo trì")
+                    if (asset.Status != AssetStatus.Active || EquipmentPolicy.HasOpenOrder(db, asset.AssetId))
                     {
-                        ModelState.AddModelError("", "Thiết bị hiện đang trong quá trình bảo trì/sửa chữa. Không thể điều chuyển lúc này.");
+                        ModelState.AddModelError("", "Chỉ có thể điều chuyển thiết bị đang hoạt động.");
                     }
 
                     if (asset.DepartmentId != transfer.FromDepartmentId)
-                        ModelState.AddModelError("FromDepartmentId", "Khoa ngu?n kh?ng kh?p v?i v? tr? hi?n t?i.");
+                        ModelState.AddModelError("FromDepartmentId", "Khoa nguồn không khớp với vị trí hiện tại.");
 
                     if (asset.DepartmentId == transfer.ToDepartmentId)
                     {
@@ -126,16 +129,12 @@ namespace MedicalEquipmentManagement.Controllers
                 }
 
                 if (!db.Departments.Any(d => d.DepartmentId == transfer.ToDepartmentId && d.IsActive))
-                    ModelState.AddModelError("ToDepartmentId", "Khoa ??ch kh?ng ho?t ??ng ho?c kh?ng t?n t?i.");
+                    ModelState.AddModelError("ToDepartmentId", "Khoa đích không hoạt động hoặc không tồn tại.");
 
                 if (ModelState.IsValid)
                 {
                     // Cập nhật vị trí phòng ban cho thiết bị
                     asset.DepartmentId = transfer.ToDepartmentId;
-                    if (asset.Status == "Chưa phân bổ" || string.IsNullOrEmpty(asset.Status))
-                    {
-                        asset.Status = "Đang hoạt động";
-                    }
 
                     // Ghi nhận lịch sử luân chuyển
                     transfer.TransferDate = DateTime.Now;
@@ -166,20 +165,20 @@ namespace MedicalEquipmentManagement.Controllers
             }
 
             // Reload dropdown khi có lỗi
-            var assetList = db.EquipmentAssets.Include(a => a.EquipmentModel).Include(a => a.Department).ToList().Select(a => new
+            var assetList = db.EquipmentAssets.Include(a => a.EquipmentModel).Include(a => a.Department)
+                .Where(a => !a.IsDeleted && a.Status == AssetStatus.Active && a.DepartmentId.HasValue).ToList().Select(a => new
             {
                 AssetId = a.AssetId,
                 DisplayName = $"[{(string.IsNullOrEmpty(a.AssetCode) ? "AST-" + a.AssetId : a.AssetCode)}] {(a.EquipmentModel != null ? a.EquipmentModel.ModelName : "Thiết bị")} (SN: {a.SerialNumber}) - {(a.Department != null ? a.Department.Name : "Chưa phân bổ")}"
             });
 
             ViewBag.AssetId = new SelectList(assetList, "AssetId", "DisplayName", transfer.AssetId);
-            ViewBag.FromDepartmentList = new SelectList(db.Departments.Where(d => d.IsActive).OrderBy(d => d.Name), "DepartmentId", "Name", transfer.FromDepartmentId);
+            ViewBag.FromDepartmentList = new SelectList(db.Departments.OrderBy(d => d.Name), "DepartmentId", "Name", transfer.FromDepartmentId);
             ViewBag.ToDepartmentId = new SelectList(db.Departments.Where(d => d.IsActive).OrderBy(d => d.Name), "DepartmentId", "Name", transfer.ToDepartmentId);
 
             return View(transfer);
         }
 
-        // GET: Inventory/TransferHistory - Lịch sử điều chuyển
         public ActionResult TransferHistory(int? assetId, int? departmentId)
         {
             var query = db.AssetTransfers

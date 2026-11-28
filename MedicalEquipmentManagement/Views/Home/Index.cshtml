@@ -1,130 +1,73 @@
-@{
-    @* DO NOT CHANGE: _Layout dang dung ViewBag.Title cho the <title> *@
-    ViewBag.Title = "Trang chủ";
+﻿@model MedicalEquipmentManagement.ViewModels.DashboardViewModel
+@{ ViewBag.Title = Model == null ? "Quản lý thiết bị y tế" : "Tổng quan thiết bị"; }
 
-    // Doc so lieu tu ViewBag mot cach an toan. Neu Controller chua gan gia tri
-    // thi bien se la null va giao dien hien "—".
-    object totalEquipment = ViewBag.TotalEquipment;
-    object inUseEquipment = ViewBag.InUseEquipment;
-    object maintenanceEquipment = ViewBag.MaintenanceEquipment;
-    object upcomingMaintenance = ViewBag.UpcomingMaintenance;
-
-    // Nut "Quan ly he thong": neu chua dang nhap thi dua ve trang dang nhap.
-    var isLoggedIn = Session["UserName"] != null;
-    var manageUrl = isLoggedIn ? Url.Action("Index", "Equipment") : Url.Action("Login", "Account");
+@if (Model == null)
+{
+    <section class="page-header">
+        <h1>Quản lý thiết bị y tế</h1>
+        <p>Tra cứu tài sản, theo dõi điều chuyển, bảo trì, hiệu chuẩn và sửa chữa.</p>
+        @Html.ActionLink("Đăng nhập", "Login", "Account", null, new { @class = "btn btn-primary" })
+    </section>
+}
+else
+{
+    <h1>@ViewBag.Title</h1>
+    using (Html.BeginForm("Index", "Home", FormMethod.Get, new { @class = "dashboard-filters" }))
+    {
+        <div class="field">@Html.LabelFor(m => m.DepartmentId, "Khoa/phòng") @Html.DropDownListFor(m => m.DepartmentId, Model.DepartmentOptions, "Tất cả")</div>
+        <div class="field">@Html.LabelFor(m => m.Days, "Thời hạn cảnh báo") @Html.DropDownListFor(m => m.Days, new SelectList(new[] { 15, 30 }))</div>
+        if (Model.ShowCosts)
+        {
+            <div class="field">@Html.LabelFor(m => m.Year, "Năm thống kê chi phí") @Html.TextBoxFor(m => m.Year, new { type = "number", min = 1900, max = 9998 })</div>
+        }
+        <button class="btn btn-primary" type="submit">Áp dụng</button>
+    }
+    <div class="dashboard-grid">
+        <article><span>Tổng thiết bị</span><strong>@Model.TotalAssets</strong></article>
+        @foreach (var state in Model.States)
+        {
+            <article><span>@state.Label</span><strong>@state.Count</strong></article>
+        }
+        <article><span>Phiếu đang mở trong phạm vi</span><strong>@Model.OpenOrders</strong></article>
+        <article><span>Khoa/phòng</span><strong>@Model.DepartmentCount</strong></article>
+        <article><span>Đến hạn bảo trì</span><strong>@Model.MaintenanceDue</strong></article>
+        <article><span>Đến hạn hiệu chuẩn</span><strong>@Model.CalibrationDue</strong></article>
+    </div>
+    <div class="dashboard-charts">
+        <section><h2>Tình trạng thiết bị</h2><div class="chart-panel"><canvas id="asset-states" role="img" aria-label="Tỷ lệ tài sản theo trạng thái"></canvas></div></section>
+        <section><h2>Thiết bị theo khoa/phòng</h2><div class="chart-panel"><canvas id="asset-departments" role="img" aria-label="Số tài sản theo khoa/phòng"></canvas></div></section>
+        @if (Model.ShowCosts)
+        {
+            <section><h2>Chi phí bảo trì năm @Model.Year</h2><p>Tổng cộng @Model.AnnualCost.ToString("N0") VND</p><div class="chart-panel"><canvas id="maintenance-costs" role="img" aria-label="Chi phí bảo trì theo tháng"></canvas></div></section>
+        }
+    </div>
+    <section>
+        <h2>Cảnh báo ưu tiên</h2>
+        @if (!Model.Alerts.Any())
+        {
+            <p>Không có thiết bị đến hạn trong phạm vi đã chọn.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table"><thead><tr><th>Thiết bị</th><th>Loại</th><th>Hạn</th><th>Trạng thái</th></tr></thead>
+                <tbody>
+                @foreach (var alert in Model.Alerts)
+                {
+                    <tr><td>@Html.ActionLink(alert.AssetCode, "Details", "Equipment", new { id = alert.AssetId }, null)</td><td>@alert.Type</td>
+                        <td>@alert.Due.ToString("dd/MM/yyyy")</td><td>@(alert.Due.Date < DateTime.Today ? "Quá hạn" : "Sắp đến hạn")</td></tr>
+                }
+                </tbody></table>
+            </div>
+        }
+    </section>
+    <div id="dashboard-data" hidden data-states="@Json.Encode(Model.States)" data-departments="@Json.Encode(Model.Departments)" data-costs="@Json.Encode(Model.MonthlyCosts)"></div>
 }
 
-<section class="hero">
-    @* Duong nhip tim - chi tiet nhan dien cua linh vuc y te *@
-    <svg class="hero-pulse" viewBox="0 0 320 34" fill="none" stroke="currentColor" stroke-width="2"
-         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M0 17h96l10-11 9 22 12-28 11 34 9-17h173" />
-    </svg>
-
-    <h1>Hệ thống quản lý trang thiết bị y tế</h1>
-    <p>
-        Quản lý thiết bị, kho, tình trạng và bảo trì trong một hệ thống tập trung.
-        Theo dõi nhanh thiết bị đang sử dụng, thiết bị đang bảo trì và lịch bảo trì sắp đến hạn.
-    </p>
-
-    <div class="hero-actions">
-        @* Chi dung Action da ton tai: Equipment/Index va Account/Login *@
-        <a class="btn btn-primary" href="@Url.Action("Index", "Equipment")">Xem thiết bị</a>
-        <a class="btn btn-ghost" href="@manageUrl">Quản lý hệ thống</a>
-    </div>
-</section>
-
-<section class="section">
-    <div class="section-head">
-        <h2>Tổng quan</h2>
-        <span class="section-note">Số liệu hiển thị khi Controller cung cấp dữ liệu</span>
-    </div>
-
-    <div class="grid grid-4">
-        <div class="stat stat-total">
-            <div class="stat-label">Tổng số thiết bị</div>
-            <div class="stat-value">@(totalEquipment ?? "—")</div>
-            <div class="stat-hint">Toàn bộ thiết bị trong hệ thống</div>
-        </div>
-
-        <div class="stat stat-ok">
-            <div class="stat-label">Đang sử dụng</div>
-            <div class="stat-value">@(inUseEquipment ?? "—")</div>
-            <div class="stat-hint">Thiết bị đang hoạt động tại khoa phòng</div>
-        </div>
-
-        <div class="stat stat-warn">
-            <div class="stat-label">Đang bảo trì</div>
-            <div class="stat-value">@(maintenanceEquipment ?? "—")</div>
-            <div class="stat-hint">Thiết bị tạm ngưng để sửa chữa</div>
-        </div>
-
-        <div class="stat stat-alert">
-            <div class="stat-label">Sắp đến hạn bảo trì</div>
-            <div class="stat-value">@(upcomingMaintenance ?? "—")</div>
-            <div class="stat-hint">Cần lên lịch kiểm tra</div>
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <div class="section-head">
-        <h2>Chức năng chính</h2>
-        <a class="section-note" href="@Url.Action("About", "Home")">Giới thiệu hệ thống</a>
-    </div>
-
-    <div class="grid grid-4">
-
-        <div class="feature">
-            <span class="feature-icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="4" width="18" height="14" rx="2" />
-                    <path d="M7 20h10M12 18v2" />
-                    <path d="M6 11h3l1.5-3 2 6 1.5-3h4" />
-                </svg>
-            </span>
-            <h3>Quản lý thiết bị</h3>
-            <p>Danh sách thiết bị theo mã, tên, trạng thái và số lượng; tìm kiếm nhanh theo từ khóa.</p>
-            <a class="feature-link" href="@Url.Action("Index", "Equipment")">Mở danh sách thiết bị</a>
-        </div>
-
-        <div class="feature">
-            <span class="feature-icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-5 9 5v11H3z" />
-                    <path d="M9 20v-6h6v6" />
-                </svg>
-            </span>
-            <h3>Quản lý kho</h3>
-            <p>Theo dõi số lượng tồn, vị trí lưu trữ và luân chuyển thiết bị giữa các khoa phòng.</p>
-            <span class="tag">Đang phát triển</span>
-        </div>
-
-        <div class="feature">
-            <span class="feature-icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14.7 6.3a4 4 0 0 0 5 5L21 12l-9 9-3-3 9-9z" />
-                    <path d="M6 14l-3 3 4 4 3-3" />
-                </svg>
-            </span>
-            <h3>Quản lý bảo trì</h3>
-            <p>Lập lịch bảo trì định kỳ, ghi nhận lịch sử sửa chữa và cảnh báo thiết bị đến hạn.</p>
-            <span class="tag">Đang phát triển</span>
-        </div>
-
-        <div class="feature">
-            <span class="feature-icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 7h11v10H3z" />
-                    <path d="M14 10h4l3 3v4h-7z" />
-                    <circle cx="7" cy="18" r="2" />
-                    <circle cx="17" cy="18" r="2" />
-                </svg>
-            </span>
-            <h3>Quản lý nhà cung cấp</h3>
-            <p>Lưu thông tin nhà cung cấp, hợp đồng mua sắm và bảo hành cho từng thiết bị.</p>
-            <span class="tag">Đang phát triển</span>
-        </div>
-
-    </div>
-</section>
+@section scripts {
+    @if (Model != null)
+    {
+        <script src="@Url.Content("~/Scripts/vendor/chart.umd.min.js")"></script>
+        <script src="@Url.Content("~/Scripts/dashboard.js")"></script>
+    }
+}

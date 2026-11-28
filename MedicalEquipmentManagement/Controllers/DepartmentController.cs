@@ -14,7 +14,6 @@ namespace MedicalEquipmentManagement.Controllers
     {
         private readonly MedicalEquipmentContext db = new MedicalEquipmentContext();
 
-        // GET: Department
         public ActionResult Index(string keyword)
         {
             var query = db.Departments.Include(d => d.EquipmentAssets).AsQueryable();
@@ -30,7 +29,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(departments);
         }
 
-        // GET: Department/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -50,14 +48,12 @@ namespace MedicalEquipmentManagement.Controllers
             return View(department);
         }
 
-        // GET: Department/Create
         public ActionResult Create()
         {
             var model = new Department { IsActive = true };
             return View(model);
         }
 
-        // POST: Department/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "DepartmentCode,Name,Location,IsActive")] Department department)
@@ -80,7 +76,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(department);
         }
 
-        // GET: Department/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -97,7 +92,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(department);
         }
 
-        // POST: Department/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "DepartmentId,DepartmentCode,Name,Location,IsActive")] Department department)
@@ -111,7 +105,13 @@ namespace MedicalEquipmentManagement.Controllers
                     return View(department);
                 }
 
-                db.Entry(department).State = EntityState.Modified;
+                var stored = db.Departments.Find(department.DepartmentId);
+                if (stored == null)
+                    return HttpNotFound();
+                stored.DepartmentCode = department.DepartmentCode.Trim();
+                stored.Name = department.Name.Trim();
+                stored.Location = department.Location?.Trim();
+                stored.IsActive = department.IsActive;
                 db.SaveChanges();
                 TempData["Success"] = $"Cập nhật thông tin khoa/phòng {department.Name} thành công.";
                 return RedirectToAction("Index");
@@ -120,7 +120,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(department);
         }
 
-        // GET: Department/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -140,7 +139,6 @@ namespace MedicalEquipmentManagement.Controllers
             return View(department);
         }
 
-        // POST: Department/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -161,8 +159,22 @@ namespace MedicalEquipmentManagement.Controllers
                 return RedirectToAction("Index");
             }
 
+            if (db.AssetTransfers.Any(t => t.FromDepartmentId == id || t.ToDepartmentId == id)
+                || db.InventoryTransactions.Any(t => t.DepartmentId == id))
+            {
+                TempData["Error"] = "Khoa/phòng có lịch sử kho hoặc điều chuyển. Có thể vô hiệu hóa từ trang Sửa.";
+                return RedirectToAction("Index");
+            }
             db.Departments.Remove(department);
-            db.SaveChanges();
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex) when (MedicalEquipmentManagement.Helpers.DbErrorHelper.IsForeignKeyViolation(ex))
+            {
+                TempData["Error"] = "Khoa/phòng vừa phát sinh dữ liệu liên quan. Vui lòng kiểm tra lại.";
+                return RedirectToAction("Index");
+            }
             TempData["Success"] = $"Đã xóa khoa/phòng {department.Name} thành công.";
             return RedirectToAction("Index");
         }

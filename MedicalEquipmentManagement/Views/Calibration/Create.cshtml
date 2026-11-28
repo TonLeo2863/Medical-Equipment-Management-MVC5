@@ -1,0 +1,16 @@
+﻿@model MedicalEquipmentManagement.Models.CalibrationLog
+@{ ViewBag.Title = "Ghi nhận hiệu chuẩn"; }
+<h1>@ViewBag.Title</h1>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <div class="field">@Html.LabelFor(m => m.AssetId) @Html.DropDownListFor(m => m.AssetId, (SelectList)ViewBag.Assets, "Chọn thiết bị", new { required = "required" })</div>
+    <div class="field">@Html.LabelFor(m => m.CalibrationDate) @Html.TextBoxFor(m => m.CalibrationDate, "{0:yyyy-MM-dd}", new { type = "date", required = "required" })</div>
+    <div class="field">@Html.LabelFor(m => m.NextCalibrationDate) @Html.TextBoxFor(m => m.NextCalibrationDate, "{0:yyyy-MM-dd}", new { type = "date", required = "required" })</div>
+    <div class="field">@Html.LabelFor(m => m.PerformedBy) @Html.TextBoxFor(m => m.PerformedBy, new { maxlength = 150, required = "required" })</div>
+    <div class="field">@Html.LabelFor(m => m.CertificateNumber) @Html.TextBoxFor(m => m.CertificateNumber, new { maxlength = 100 })</div>
+    <div class="field">@Html.LabelFor(m => m.Result) @Html.DropDownListFor(m => m.Result, new SelectList(new[] { "Đạt", "Không đạt" }), "Chọn kết quả")</div>
+    <button class="btn btn-primary" type="submit">Lưu hiệu chuẩn</button>
+    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-ghost" })
+}

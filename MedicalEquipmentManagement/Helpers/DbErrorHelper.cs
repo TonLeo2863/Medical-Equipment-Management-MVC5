@@ -11,7 +11,7 @@ namespace MedicalEquipmentManagement.Helpers
     public static class DbErrorHelper
     {
         /// <summary>
-        /// Mã lỗi SQL Server 547: The DELETE/UPDATE statement conflicted with the REFERENCE constraint.
+        /// Mã lỗi SQL Server 547: Lệnh DELETE hoặc UPDATE vi phạm ràng buộc khóa ngoại.
         /// </summary>
         public const int SqlForeignKeyViolationNumber = 547;
 
